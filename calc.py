@@ -64,3 +64,77 @@ def epi_curve(max, peakedness):
         return gamma_pdf(alpha,beta)
     elif peakedness == 5:
         return MIDAS
+
+    def ageDist(totalPop, popCOM):
+    """
+    Parameters:
+        totalPop = total number of people
+        popCOM = a qualitative assessment of the shape of the population
+                    pyramid; has the following options:
+                        1. Old
+                        2. Middle-Aged
+                        3. Adults
+                        4. Teenagers
+                        5. Children
+                    
+    Output: 
+        ageDist = an array with 5 elements representing the number of people 
+                    in each age class
+    """
+    ageProp = []
+    if popCOM == 1:
+        ageProp = [.1, .1, .1, .1, .6]
+    if popCOM == 2:
+        ageProp = [.1, .1, .1, .6, .1]
+    if popCOM == 3:
+        ageProp = [.1, .1, .6, .1, .1]
+    if popCOM == 4:
+        ageProp = [.1, .6, .1, .1, .1]
+    if popCOM == 5:
+        ageProp = [.6, .1, .1, .1, .1]
+    return totalPop*ageProp
+
+#zero4 = ageSpread[0]
+#five17 = ageSpread[1]
+#eighteen49 = ageSpread[2]
+#fifty64 = ageSpread[3]
+#sixty5plus = ageSpread[4]
+
+def CHR():
+    array = [[0.0125, 0.005, 0.0125, 0.0175, 0.16], #mild
+             [0.05,   0.02,   0.05,   0.07,   0.6]] #severe    
+    return array
+    
+def CCHR():
+    array = [[0.0125, 0.005, 0.0125, 0.0175, 0.16], #mild
+             [0.05,   0.02,  0.05,   0.07,   0.6]] #severe    
+    return array
+
+def totalHosp(ageSpread, attackRate, symp, CHR):
+    symptomatic = []
+    for i in np.arange(0, len(ageSpread)-1, 1):
+        symptomatic.append(ageSpread[i]*attackRate*symp)
+    mild = []
+    severe = []
+    for i in np.arange(0, len(symptomatic)-1, 1):
+        mild.append(symptomatic[i]*CHR[0][i])
+        severe.append(symptomatic[i]*CHR[1][i])
+    return [mild, severe]
+    
+age = ageDist(8*10**6, 3)
+attackRate = 0.6
+symp = 0.5
+print(totalHosp(age, attackRate, symp, [[0.0125, 0.005, 0.0125, 0.0175, 0.16], #mild
+                                        [0.05,   0.02,   0.05,   0.07,   0.6]]))
+
+
+def ICUs(ageSpread, attackRate, symp, CHRage, CCHR):
+    hosp = totalHosp(ageSpread, attackRate, symp, CHR)
+    mild = [a*b for a,b in zip(hosp,CCHR[0])]
+    severe = [a*b for a,b in zip(hosp,CCHR[1])]
+    return [mild, severe]
+        
+def wardCases(ageSpread, attackRate, symp, CHRage, CCHR):
+    hosp = totalHosp(ageSpread, attackRate, symp, CHR)
+    icu = ICUs(ageSpread, attackRate, symp, CHR, CCHR)
+    return [a-b for a,b in zip(hosp, icu)]
