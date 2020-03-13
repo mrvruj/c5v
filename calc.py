@@ -65,6 +65,31 @@ def epi_curve(max, peakedness):
     elif peakedness == 5:
         return MIDAS
 
+def plot_gamma(df):
+    """
+    Takes an input dataframe from epi_curve that contains days and gamma values
+    and returns a plot of the given gamma function. 
+    
+    It also multiplies across the values in the numerical output to display the 
+    scenario hospitalizations plot.
+    
+    Parameters:
+        df: Pandas DataFrame
+        
+    Output:
+        Two plots
+    """
+    
+    mild_ward = df['Gamma_Values'].apply(lambda x: x* ~~~~~~~~~~~~)
+    severe_ward = df['Gamma_Values'].apply(lambda x: x* ~~~~~~~~~~~~)
+    mild_ICU =df['Gamma_Values'].apply(lambda x: x* ~~~~~~~~~~~~)
+    severe_ICU = df['Gamma_Values'].apply(lambda x: x* ~~~~~~~~~~~~)
+    
+    for frame in [mild_ward, severe_ward, mild_ICU, severe_ICU]:
+        frame.plot(kind='line',x='Day',y='Gamma_Values')
+    plt.show()
+    df.plot(kind='line',x='Day',y='Gamma_Values')
+
 def ageDist(totalPop, popCOM):
     """
     Parameters:
