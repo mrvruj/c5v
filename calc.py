@@ -10,6 +10,18 @@ MIDAS = [2.00262E-07,2.01307E-07,1.8657E-07,1.78572E-07,1.76163E-07,1.78642E-07,
 #values of the MIDAS model
 
 def gamma_pdf(a,b):
+    """
+    Takes in the paramters of the gamma probability density function, 
+    shape [alpha (a)] and scale [beta (b)] and returns a list with values 
+    of the pdf for days 0-180. 
+    
+    Parameters:
+        a: alpha
+        b: beta
+        
+    Output:
+        an array with 180 elements representing a gamma pdf for days 1-180
+    """
     df = pd.DataFrame(columns=['Day','Gamma_Values'])
     for day in range(181):
         df = df.append({'Day': int(day), 'Gamma_Values': float(gamma.pdf(day,a,0,b))}, ignore_index=True)
@@ -22,6 +34,22 @@ of the pdf for days 0-180.
 """
 
 def epi_curve(max, peakedness):
+    """
+    Takes the input variables of which day the maximum cases will be [max] and how 
+    peaked the user wants the epidemic curve to be [peakedness] represented as:
+    Flat --------------> 0
+    Not peaked --------> 1
+    A bit peaked ------> 2
+    Very peaked -------> 3
+    Extremely peaked --> 4
+    MIDAS -------------> 5 (280 day model)
+    
+    These two inputs are converted to values of alpha and beta and used as 
+    inputs for the gamma_pdf function. 
+    
+    However, if the user indicated the peakedness as MIDAS, a preinputted 
+    array will be used. 
+    """
     if peakedness != 5:
         alpha_beta = [(7,5),(13,2.5),(21,1.5),(31,1),(68,0.45),(7,10),(13,5),(21,3),(31,2),(68,0.9),(7,15),(13,7.5),(21,4.5),(31,3),(68,1.35)]
         if max == 30:
@@ -35,23 +63,4 @@ def epi_curve(max, peakedness):
         return gamma_pdf(alpha,beta)
     elif peakedness == 5:
         return MIDAS
-        
-        
-"""
-Takes the input variables of which day the maximum cases will be [max] and how 
-peaked the user wants the epidemic curve to be [peakedness] represented as:
-Flat --------------> 0
-Not peaked --------> 1
-A bit peaked ------> 2
-Very peaked -------> 3
-Extremely peaked --> 4
-MIDAS -------------> 5 (280 day model)
-
-These two inputs are converted to values of alpha and beta and used as 
-inputs for the gamma_pdf function. 
-
-However, if the user indicated the peakedness as MIDAS, a preinputted 
-array will be used. 
-
-"""
     
