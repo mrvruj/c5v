@@ -20,18 +20,14 @@ def gamma_pdf(a,b):
         b: beta
         
     Output:
-        an array with 180 elements representing a gamma pdf for days 1-180
+        an 181x2 DataFrame one column for days (0-180) and the other for
+        the values of the gamma pdf for each day
     """
     df = pd.DataFrame(columns=['Day','Gamma_Values'])
     for day in range(181):
         df = df.append({'Day': int(day), 'Gamma_Values': float(gamma.pdf(day,a,0,b))}, ignore_index=True)
     return df
-"""
-Takes in the paramters of the gamma probability density function, 
-shape [alpha (a)] and scale [beta (b)] and returns a list with values 
-of the pdf for days 0-180. 
 
-"""
 
 def epi_curve(max, peakedness):
     """
@@ -45,10 +41,15 @@ def epi_curve(max, peakedness):
     MIDAS -------------> 5 (280 day model)
     
     These two inputs are converted to values of alpha and beta and used as 
-    inputs for the gamma_pdf function. 
+    inputs for the gamma_pdf function.However, if the user indicated the 
+    peakedness as MIDAS, a preinputted array will be used. 
     
-    However, if the user indicated the peakedness as MIDAS, a preinputted 
-    array will be used. 
+    Parameters:
+        max:        day of maximum cases
+        peakedness: user input
+        
+    Output:
+        DataFrame with days and gamma pdf values. 
     """
     if peakedness != 5:
         alpha_beta = [(7,5),(13,2.5),(21,1.5),(31,1),(68,0.45),(7,10),(13,5),(21,3),(31,2),(68,0.9),(7,15),(13,7.5),(21,4.5),(31,3),(68,1.35)]
@@ -63,4 +64,3 @@ def epi_curve(max, peakedness):
         return gamma_pdf(alpha,beta)
     elif peakedness == 5:
         return MIDAS
-    
