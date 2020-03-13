@@ -6,7 +6,6 @@ Created on Thu Mar 12 22:31:59 2020
 """
 
 import tkinter
-import calc as calc
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -47,13 +46,26 @@ class Window:
         self.dayPeak.pack(pady=10)
         self.dayPeak.configure(to=90)
 
-        self.pkN = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), orient='horizontal', label='Peakness')
-        self.pkN.pack(pady=10)
-        self.pkN.configure(to=5)
+        #self.pkN = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), orient='horizontal', label='Peakness')
+        #self.pkN.pack(pady=10)
+        #self.pkN.configure(to=5)
         
-        self.pkN = tkinter.Scale(master=self.root, from_=1, to=self.entry_value.get(), orient='horizontal', label='Day')
-        self.pkN.pack(pady=10)
-        self.pkN.configure(to=180)
+        #text = tkinter.Text(master=self.root)
+        #text.insert(tkinter.INSERT,"Select one of the following for the degree of peakedness:")
+        #text.pack()
+        
+        self.pkN = tkinter.Listbox(master=self.root, selectmode='SINGLE')
+        self.pkN.insert(0,'Flat')
+        self.pkN.insert(1,'Not Peaked')
+        self.pkN.insert(2,'A Bit Peaked')
+        self.pkN.insert(3,'Very Peaked')
+        self.pkN.insert(4,'Extremely Peaked')
+        self.pkN.insert(5,'MIDAS')
+        self.pkN.pack()
+        
+        self.day = tkinter.Scale(master=self.root, from_=1, to=self.entry_value.get(), orient='horizontal', label='Day')
+        self.day.pack(pady=10)
+        self.day.configure(to=180)
         
     def set_value(self):
         self.entry_value.set(self.entry_box.get())
