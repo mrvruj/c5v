@@ -103,63 +103,84 @@ def ageDist(totalPop, popCOM):
                         5. Children
                     
     Output: 
-        ageDist = an array with 5 elements representing the number of people 
+        ageDist = a dataframe with 5 elements representing the number of people 
                     in each age class
     """
-    ageProp = []
+    ad = pd.DataFrame(columns=['Ages','proportions'])
     if popCOM == 1:
-        ageProp = [.1, .1, .1, .1, .6]
-    if popCOM == 2:
-        ageProp = [.1, .1, .1, .6, .1]
-    if popCOM == 3:
-        ageProp = [.1, .1, .6, .1, .1]
-    if popCOM == 4:
-        ageProp = [.1, .6, .1, .1, .1]
-    if popCOM == 5:
-        ageProp = [.6, .1, .1, .1, .1]
-    return totalPop*ageProp
+        ad = ad.append({'Ages': '0 to 4',    'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '5 to 17',   'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '18 to 49',  'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '50 to 64',  'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '65+',       'proportions': .6}, ignore_index=True)
+    elif popCOM == 2:
+        ad = ad.append({'Ages': '0 to 4',    'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '5 to 17',   'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '18 to 49',  'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '50 to 64',  'proportions': .6}, ignore_index=True)
+        ad = ad.append({'Ages': '65+',       'proportions': .1}, ignore_index=True)
+    elif popCOM == 3:
+        ad = ad.append({'Ages': '0 to 4',    'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '5 to 17',   'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '18 to 49',  'proportions': .6}, ignore_index=True)
+        ad = ad.append({'Ages': '50 to 64',  'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '65+',       'proportions': .1}, ignore_index=True)
+    elif popCOM == 4:
+        ad = ad.append({'Ages': '0 to 4',    'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '5 to 17',   'proportions': .6}, ignore_index=True)
+        ad = ad.append({'Ages': '18 to 49',  'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '50 to 64',  'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '65+',       'proportions': .1}, ignore_index=True)
+    elif popCOM == 5:
+        ad = ad.append({'Ages': '0 to 4',    'proportions': .6}, ignore_index=True)
+        ad = ad.append({'Ages': '5 to 17',   'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '18 to 49',  'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '50 to 64',  'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '65+',       'proportions': .1}, ignore_index=True)
 
-#zero4 = ageSpread[0]
-#five17 = ageSpread[1]
-#eighteen49 = ageSpread[2]
-#fifty64 = ageSpread[3]
-#sixty5plus = ageSpread[4]
+    ad['proportions'] = ad['proportions'].apply(lambda x:x*totalPop)
+    return ad
 
-def CHR():
-    array = [[0.0125, 0.005, 0.0125, 0.0175, 0.16], #mild
-             [0.05,   0.02,   0.05,   0.07,   0.6]] #severe    
-    return array
+CHR = pd.DataFrame(columns = ['Ages', 'Mild','Severe'])
+CHR = CHR.append({'Ages': '0 to 4',   'Mild': 0.0125, 'Severe': 0.05}, ignore_index=True)
+CHR = CHR.append({'Ages': '5 to 17',  'Mild': 0.0050, 'Severe': 0.02}, ignore_index=True)
+CHR = CHR.append({'Ages': '18 to 49', 'Mild': 0.0125, 'Severe': 0.05}, ignore_index=True)
+CHR = CHR.append({'Ages': '50 to 64', 'Mild': 0.0175, 'Severe': 0.07}, ignore_index=True)
+CHR = CHR.append({'Ages': '65+',      'Mild': 0.1600, 'Severe': 0.60}, ignore_index=True)
+
+CCHR = pd.DataFrame(columns = ['Mild','Severe'])
+CCHR = CCHR.append({'Ages': '0 to 4',  'Mild': 0.15, 'Severe': 0.15}, ignore_index=True)
+CCHR = CCHR.append({'Ages': '5 to 17', 'Mild': 0.20, 'Severe': 0.20}, ignore_index=True)
+CCHR = CCHR.append({'Ages': '18 to 49','Mild': 0.15, 'Severe': 0.15}, ignore_index=True)
+CCHR = CCHR.append({'Ages': '50 to 64','Mild': 0.20, 'Severe': 0.20}, ignore_index=True)
+CCHR = CCHR.append({'Ages': '65+',     'Mild': 0.15, 'Severe': 0.15}, ignore_index=True)
     
-def CCHR():
-    array = [[0.0125, 0.005, 0.0125, 0.0175, 0.16], #mild
-             [0.05,   0.02,  0.05,   0.07,   0.6]] #severe    
-    return array
-
-def totalHosp(ageSpread, attackRate, symp, CHR):
-    symptomatic = []
-    for i in np.arange(0, len(ageSpread)-1, 1):
-        symptomatic.append(ageSpread[i]*attackRate*symp)
-    mild = []
-    severe = []
-    for i in np.arange(0, len(symptomatic)-1, 1):
-        mild.append(symptomatic[i]*CHR[0][i])
-        severe.append(symptomatic[i]*CHR[1][i])
-    return [mild, severe]
+def totalHosp(attackRate, symp, ad, CHR):
+    tH = CHR
     
-age = ageDist(8*10**6, 3)
-attackRate = 0.6
-symp = 0.5
-print(totalHosp(age, attackRate, symp, [[0.0125, 0.005, 0.0125, 0.0175, 0.16], #mild
-                                        [0.05,   0.02,   0.05,   0.07,   0.6]]))
+    tH['Mild'] = tH['Mild'].apply(lambda x: x*attackRate*symp)
+    tH['Severe'] = tH['Severe'].apply(lambda x: x*attackRate*symp)
+    
+    tH['Mild'] = tH['Mild'] * ad['proportions']
+    tH['Severe'] = tH['Severe'] * ad['proportions']
+    
+    return tH
 
-
-def ICUs(ageSpread, attackRate, symp, CHRage, CCHR):
-    hosp = totalHosp(ageSpread, attackRate, symp, CHR)
-    mild = [a*b for a,b in zip(hosp,CCHR[0])]
-    severe = [a*b for a,b in zip(hosp,CCHR[1])]
-    return [mild, severe]
+def ICUs(attackRate, symp, ad, CHR, CCHR):
+    tH = totalHosp(attackRate, symp, ad, CHR)
+    tICU = pd.DataFrame(columns = ['Ages', 'Mild','Severe'])
+    
+    tICU['Mild'] = tH['Mild'] * CCHR['Mild']
+    tICU['Severe'] = tH['Severe'] * CCHR['Severe']
+    
+    return tICU
         
-def wardCases(ageSpread, attackRate, symp, CHRage, CCHR):
-    hosp = totalHosp(ageSpread, attackRate, symp, CHR)
-    icu = ICUs(ageSpread, attackRate, symp, CHR, CCHR)
-    return [a-b for a,b in zip(hosp, icu)]
+def wardCases(ageSpread, attackRate, symp, CHR, CCHR):
+    tH = totalHosp(attackRate, symp, ad, CHR)
+    tICU = ICUs(attackRate, symp, ad, CHR, CCHR)
+    wards = pd.DataFrame(columns = ['Ages', 'Mild', 'Severe'])
+    
+    wards['Mild'] = tH['Mild'] - tICU['Mild']
+    wards['Severe'] = tH['Severe'] - tICU['Severe']
+    
+    return wards
