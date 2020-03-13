@@ -53,7 +53,3 @@ However, if the user indicated the peakedness as MIDAS, a preinputted
 array will be used. 
 
 """
-    
-
-#################   NORMAL CALCS   #################
-
