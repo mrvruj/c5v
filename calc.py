@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from scipy.stats import gamma
+import pandas as pd
 
 #################   GAMMA CALCS   #################   
 
@@ -9,10 +10,10 @@ MIDAS = [2.00262E-07,2.01307E-07,1.8657E-07,1.78572E-07,1.76163E-07,1.78642E-07,
 #values of the MIDAS model
 
 def gamma_pdf(a,b):
-    output = []
+    df = pd.DataFrame(columns=['Day','Gamma_Values'])
     for day in range(181):
-        output.append(gamma.pdf(day,a,0,b))
-    return output
+        df = df.append({'Day': int(day), 'Gamma_Values': float(gamma.pdf(day,a,0,b))}, ignore_index=True)
+    return df
 """
 Takes in the paramters of the gamma probability density function, 
 shape [alpha (a)] and scale [beta (b)] and returns a list with values 
@@ -53,3 +54,4 @@ However, if the user indicated the peakedness as MIDAS, a preinputted
 array will be used. 
 
 """
+    
