@@ -65,7 +65,7 @@ def epi_curve(max, peakedness):
     elif peakedness == 5:
         return MIDAS
 
-    def ageDist(totalPop, popCOM):
+def ageDist(totalPop, popCOM):
     """
     Parameters:
         totalPop = total number of people
