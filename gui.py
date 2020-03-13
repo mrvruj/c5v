@@ -8,6 +8,10 @@ Created on Thu Mar 12 22:31:59 2020
 import tkinter
 import calc as calc
 
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.widgets import Slider, Button, RadioButtons
+
 class Window:
     def __init__(self):
         self.root = tkinter.Tk()
@@ -15,11 +19,11 @@ class Window:
 
         self.entry_value = tkinter.IntVar()
 
-        self.button = tkinter.Button(master=self.root, text='Run simulation.', command=self.simulate()) #replace this with the simulate function
+        self.button = tkinter.Button(master=self.root, text='Run simulation.', command=self.simulate) #replace this with the simulate function
 
         self.button.pack(pady=10)
 
-        self.pop = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), orient='horizontal', label='Population Center of Mass')
+        self.pop = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), orient='horizontal', label='Population COM')
         self.pop.pack(pady=10)
         self.pop.configure(to=81)
         
@@ -47,11 +51,14 @@ class Window:
         self.pkN.pack(pady=10)
         self.pkN.configure(to=5)
         
+        self.pkN = tkinter.Scale(master=self.root, from_=1, to=self.entry_value.get(), orient='horizontal', label='Day')
+        self.pkN.pack(pady=10)
+        self.pkN.configure(to=180)
         
     def set_value(self):
         self.entry_value.set(self.entry_box.get())
         
-    def simulate():
+    def simulate(test):
         pass
 
 app = Window()
