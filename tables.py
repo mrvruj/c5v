@@ -13,20 +13,6 @@ import matplotlib.pyplot as plt
 import matplotlib
 import calc
 
-attackRate = 0.1
-symp = 0.5
-totalP = 8398748
-ad = calc.ageDist(totalP, 2)
-CHR = calc.CHR()
-CCHR = calc.CCHR()
-eC = calc.epi_curve(30, 2)
-day = 30
-THR = calc.totalHosp(attackRate, symp, ad, CHR)
-ICU = calc.ICUs(attackRate, symp, ad, CHR, CCHR)
-WR = calc.wardCases(attackRate, symp, ad, CHR, CCHR)
-dICU = calc.dailyICU(ICU, eC, day)
-dWard = calc.dailyWard(WR, eC, day)
-
 def makeGT(df, title):
     copy = df.copy()
     dfa = copy.to_numpy()
@@ -98,8 +84,23 @@ def makeGT(df, title):
     
     plt.show()
 
+attackRate = 0.1
+symp = 0.5
+totalP = 8398748
+populationType = 2 #population distribution, just use 2 for now
+ad = calc.ageDist(totalP, populationType)
+CHR = calc.CHR()
+CCHR = calc.CCHR()
+eC = calc.epi_curve(30, 2)
+day = 30
+THR = calc.totalHosp(attackRate, symp, ad, CHR)
+ICU = calc.ICUs(attackRate, symp, ad, CHR, CCHR)
+WR = calc.wardCases(attackRate, symp, ad, CHR, CCHR)
+dICU = calc.dailyICU(ICU, eC, day)
+dWard = calc.dailyWard(WR, eC, day)
+
 makeGT(THR, 'TOTAL Predicted Cases')
 makeGT(ICU, 'TOTAL Critical Care Cases')
 makeGT(WR, 'TOTAL Med/Surg Ward Cases')
-makeGT(dICU, 'DAILY ICU Cases')
-makeGT(dWard, 'DAILY Ward Cases')
+makeGT(dICU, 'DAILY ICU Cases - Day '  + str(day))
+makeGT(dWard, 'DAILY Ward Cases - Day ' + str(day))
