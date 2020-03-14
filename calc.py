@@ -87,8 +87,8 @@ def plot_gamma(df):
     ax2 = df.plot(color = 'DarkBlue', kind='line',x='Day',y='Severe_Ward',ax=ax1)
     ax3 = df.plot(color = 'DarkOrange', kind='line',x='Day',y='Mild_ICU',ax=ax1)
     ax4 = df.plot(color = 'DarkRed', kind='line',x='Day',y='Severe_ICU',ax=ax1)
-    plt.show()
     df.plot(kind='line',x='Day',y='Gamma_Values', title='COVID-19 Hospital-apparent Epidemic Curve')
+    plt.show()
 
 def ageDist(totalPop, popCOM):
     """
