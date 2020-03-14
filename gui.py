@@ -21,13 +21,13 @@ class Window:
 
         self.entry_value = tkinter.IntVar()
 
-        self.button = tkinter.Button(master=self.root, text='Run simulation.', command=self.simulate())
+        self.button = tkinter.Button(master=self.root, text='Run simulation.', command = lambda: self.simulate())
 
         self.button.pack(pady=10)
 
-        self.pop = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), orient='horizontal', label='Population COM')
+        self.pop = tkinter.Scale(master=self.root, from_=1, to=self.entry_value.get(), orient='horizontal', label='Population COM')
         self.pop.pack(pady=10)
-        self.pop.configure(to=81)
+        self.pop.configure(to=5)
         
         self.attack = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), resolution = 5, orient='horizontal', label='Attack Rate')
         self.attack.pack(pady=10)
@@ -58,12 +58,12 @@ class Window:
         #text.pack()
         
         self.pkN = tkinter.Listbox(master=self.root, selectmode='SINGLE')
-        self.pkN.insert(0,'Flat')
-        self.pkN.insert(1,'Not Peaked')
-        self.pkN.insert(2,'A Bit Peaked')
-        self.pkN.insert(3,'Very Peaked')
-        self.pkN.insert(4,'Extremely Peaked')
-        self.pkN.insert(5,'MIDAS')
+        self.pkN.insert(0,'0. Flat')
+        self.pkN.insert(1,'1. Not Peaked')
+        self.pkN.insert(2,'2. A Bit Peaked')
+        self.pkN.insert(3,'3. Very Peaked')
+        self.pkN.insert(4,'4. Extremely Peaked')
+        self.pkN.insert(5,'5. MIDAS')
         self.pkN.pack()
         
         self.day = tkinter.Scale(master=self.root, from_=1, to=self.entry_value.get(), resolution = 5, orient='horizontal', label='Day')
@@ -73,15 +73,15 @@ class Window:
     def set_value(self):
         self.entry_value.set(self.entry_box.get())
         
-    def simulate():
+    def simulate(self):
         attack_rate = self.attack.get()
         percent_symp = self.symp.get()
         percent_hosp = self.hosp.get()
         percent_ICU = self.icu.get()
         dayPeak = self.dayPeak.get()
-        pkN = self.pkN.get()
+        pkN = int(self.pkN.curselection()[0])
         day = self.day.get()
-        
+            
         plot_gamma(epi_curve(dayPeak,pkN))
         """TABLES FUNCTION"""
         
