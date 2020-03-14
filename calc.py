@@ -118,11 +118,11 @@ def ageDist(totalPop, popCOM):
         ad = ad.append({'Ages': '50 to 64',  'proportions': .1}, ignore_index=True)
         ad = ad.append({'Ages': '65+',       'proportions': .6}, ignore_index=True)
     elif popCOM == 2:
-        ad = ad.append({'Ages': '0 to 4',    'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '5 to 17',   'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '18 to 49',  'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '50 to 64',  'proportions': .6}, ignore_index=True)
-        ad = ad.append({'Ages': '65+',       'proportions': .1}, ignore_index=True)
+        ad = ad.append({'Ages': '0 to 4',    'proportions': 535068/8398748}, ignore_index=True)
+        ad = ad.append({'Ages': '5 to 17',   'proportions': 1204188/8398748}, ignore_index=True)
+        ad = ad.append({'Ages': '18 to 49',  'proportions': 3886398/8398748}, ignore_index=True)
+        ad = ad.append({'Ages': '50 to 64',  'proportions': 1527614/8398748}, ignore_index=True)
+        ad = ad.append({'Ages': '65+',       'proportions': 1245480/8398748}, ignore_index=True)
     elif popCOM == 3:
         ad = ad.append({'Ages': '0 to 4',    'proportions': .1}, ignore_index=True)
         ad = ad.append({'Ages': '5 to 17',   'proportions': .1}, ignore_index=True)
@@ -162,10 +162,10 @@ CCHR = CCHR.append({'Ages': '65+',     'Mild': 0.15, 'Severe': 0.15}, ignore_ind
 def totalHosp(attackRate, symp, ad, CHR):
     tH = CHR
     
-    tH['Mild'] = tH['Mild'].apply(lambda x: x*attackRate*symp)
+    tH['Mild'] =   tH['Mild'].apply(lambda x: x*attackRate*symp)
     tH['Severe'] = tH['Severe'].apply(lambda x: x*attackRate*symp)
     
-    tH['Mild'] = tH['Mild'] * ad['proportions']
+    tH['Mild'] =   tH['Mild'] *   ad['proportions']
     tH['Severe'] = tH['Severe'] * ad['proportions']
     
     return tH
@@ -174,7 +174,7 @@ def ICUs(attackRate, symp, ad, CHR, CCHR):
     tH = totalHosp(attackRate, symp, ad, CHR)
     tICU = pd.DataFrame(columns = ['Ages', 'Mild','Severe'])
     
-    tICU['Mild'] = tH['Mild'] * CCHR['Mild']
+    tICU['Mild'] =   tH['Mild']   * CCHR['Mild']
     tICU['Severe'] = tH['Severe'] * CCHR['Severe']
     
     return tICU
@@ -184,7 +184,7 @@ def wardCases(ageSpread, attackRate, symp, CHR, CCHR):
     tICU = ICUs(attackRate, symp, ad, CHR, CCHR)
     wards = pd.DataFrame(columns = ['Ages', 'Mild', 'Severe'])
     
-    wards['Mild'] = tH['Mild'] - tICU['Mild']
+    wards['Mild'] =   tH['Mild'] -   tICU['Mild']
     wards['Severe'] = tH['Severe'] - tICU['Severe']
     
     return wards
