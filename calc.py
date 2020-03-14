@@ -126,11 +126,11 @@ def ageDist(totalPop, popCOM):
         ad = ad.append({'proportions': .1}, ignore_index=True)
         ad = ad.append({'proportions': .1}, ignore_index=True)
     elif popCOM == 4:
-        ad = ad.append({'Ages': '0 to 4',    'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '5 to 17',   'proportions': .6}, ignore_index=True)
-        ad = ad.append({'Ages': '18 to 49',  'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '50 to 64',  'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '65+',       'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .6}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
     elif popCOM == 5:
         ad = ad.append({'proportions': .6}, ignore_index=True)
         ad = ad.append({'proportions': .1}, ignore_index=True)
