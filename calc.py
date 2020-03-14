@@ -190,3 +190,22 @@ def wardCases(attackRate, symp, ad, CHR, CCHR):
     wards['Severe'] = tH['Severe'] - tICU['Severe']
     
     return wards
+
+def dailyWard(df, epi_curve, day):
+    tW = df.copy()
+    dW = pd.DataFrame(columns = ['Mild', 'Severe'])
+    
+    dW['Mild'] = tW['Mild'].apply(lambda x: x*epi_curve[day])
+    dW['Severe'] = tW['Severe'].apply(lambda x: x*epi_curve[day])
+    
+    return dW
+
+def dailyICU(df, epi_curve, day):
+    tW = df.copy()
+    dICU = pd.DataFrame(columns = ['Mild', 'Severe'])
+    
+    dICU['Mild'] = tW['Mild'].apply(lambda x: x*epi_curve[day])
+    dICU['Severe'] = tW['Severe'].apply(lambda x: x*epi_curve[day])
+    
+    return dICU
+    
