@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-import calc
+import calc as calc
 
 def makeGT(df, title):
     copy = df.copy()
@@ -67,12 +67,12 @@ def makeGT(df, title):
         
         
     # Add a table at the bottom of the axes
-    the_table = plt.table(cellText=cell_text,
-                          rowLabels=rows,
-                          rowColours=colors,
-                          colLabels=columns,
-                          cellLoc = 'center',
-                          loc='bottom')
+    plt.table(cellText=cell_text,
+              rowLabels=rows,
+              rowColours=colors,
+              colLabels=columns,
+              cellLoc = 'center',
+              loc='bottom')
     
     # Adjust layout to make room for the table:
     plt.subplots_adjust(left=0.2, bottom=0.2)
@@ -82,7 +82,7 @@ def makeGT(df, title):
     plt.xticks([])
     plt.title(title)
     
-    plt.show()
+    return plt
 
 attackRate = 0.1
 symp = 0.5
@@ -99,8 +99,8 @@ WR = calc.wardCases(attackRate, symp, ad, CHR, CCHR)
 dICU = calc.dailyICU(ICU, eC, day)
 dWard = calc.dailyWard(WR, eC, day)
 
-makeGT(THR, 'TOTAL Predicted Cases')
-makeGT(ICU, 'TOTAL Critical Care Cases')
-makeGT(WR, 'TOTAL Med/Surg Ward Cases')
-makeGT(dICU, 'DAILY ICU Cases - Day '  + str(day))
-makeGT(dWard, 'DAILY Ward Cases - Day ' + str(day))
+pTHR = makeGT(THR, 'TOTAL Predicted Cases').show()
+pICU = makeGT(ICU, 'TOTAL Critical Care Cases').show()
+pWR = makeGT(WR, 'TOTAL Med/Surg Ward Cases').show()
+pdICU = makeGT(dICU, 'DAILY ICU Cases - Day '  + str(day)).show()
+pdWard = makeGT(dWard, 'DAILY Ward Cases - Day ' + str(day)).show()
