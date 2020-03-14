@@ -71,7 +71,8 @@ def plot_gamma(df):
     and returns a plot of the given gamma function. 
     
     It also multiplies across the values in the numerical output to display the 
-    scenario hospitalizations plot.
+    scenario hospitalizations plot and saves these as additional columns to the 
+    existing dataframe, which are all then plotted.
     
     Parameters:
         df: Pandas DataFrame
@@ -80,15 +81,18 @@ def plot_gamma(df):
         Two plots
     """
     
-    mild_ward = df['Gamma_Values'].apply(lambda x: x* ~~~~~~~~~~~~)
-    severe_ward = df['Gamma_Values'].apply(lambda x: x* ~~~~~~~~~~~~)
-    mild_ICU =df['Gamma_Values'].apply(lambda x: x* ~~~~~~~~~~~~)
-    severe_ICU = df['Gamma_Values'].apply(lambda x: x* ~~~~~~~~~~~~)
+    df['Mild_Ward'] = df['Gamma_Values'].apply(lambda x: x*12128)
+    df['Severe_Ward'] = df['Gamma_Values'].apply(lambda x: x*46396)
+    df['Mild_ICU'] =df['Gamma_Values'].apply(lambda x: x*2237)
+    df['Severe_ICU'] = df['Gamma_Values'].apply(lambda x: x*8573)
     
-    for frame in [mild_ward, severe_ward, mild_ICU, severe_ICU]:
-        frame.plot(kind='line',x='Day',y='Gamma_Values')
+    #ax = df.plot()
+    ax1 = df.plot(color = 'DarkGreen',kind='line',x='Day',y='Mild_Ward', title='COVID-19 Scenario Hospitalizations: MILD/SEVERE, WARD/ICU')
+    ax2 = df.plot(color = 'DarkBlue', kind='line',x='Day',y='Severe_Ward',ax=ax1)
+    ax3 = df.plot(color = 'DarkOrange', kind='line',x='Day',y='Mild_ICU',ax=ax1)
+    ax4 = df.plot(color = 'DarkRed', kind='line',x='Day',y='Severe_ICU',ax=ax1)
     plt.show()
-    df.plot(kind='line',x='Day',y='Gamma_Values')
+    df.plot(kind='line',x='Day',y='Gamma_Values', title='COVID-19 Hospital-apparent Epidemic Curve')
 
 def ageDist(totalPop, popCOM):
     """
