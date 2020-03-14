@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from scipy.stats import gamma
+import numpy as np
 import pandas as pd
 
 #################   GAMMA CALCS   #################   
@@ -20,13 +21,12 @@ def gamma_pdf(a,b):
         b: beta
         
     Output:
-        an 181x2 DataFrame one column for days (0-180) and the other for
-        the values of the gamma pdf for each day
+        an array with 180 elements representing a gamma pdf for days 1-180
     """
-    df = pd.DataFrame(columns=['Day','Gamma_Values'])
+    output = []
     for day in range(181):
-        df = df.append({'Day': int(day), 'Gamma_Values': float(gamma.pdf(day,a,0,b))}, ignore_index=True)
-    return df
+        output.append(gamma.pdf(day,a,0,b))
+    return output
 
 
 def epi_curve(max, peakedness):
@@ -41,16 +41,12 @@ def epi_curve(max, peakedness):
     MIDAS -------------> 5 (280 day model)
     
     These two inputs are converted to values of alpha and beta and used as 
-    inputs for the gamma_pdf function.However, if the user indicated the 
-    peakedness as MIDAS, a preinputted array will be used. 
+    inputs for the gamma_pdf function. 
     
-    Parameters:
-        max:        day of maximum cases
-        peakedness: user input
-        
-    Output:
-        DataFrame with days and gamma pdf values. 
+    However, if the user indicated the peakedness as MIDAS, a preinputted 
+    array will be used. 
     """
+    
     if peakedness != 5:
         alpha_beta = [(7,5),(13,2.5),(21,1.5),(31,1),(68,0.45),(7,10),(13,5),(21,3),(31,2),(68,0.9),(7,15),(13,7.5),(21,4.5),(31,3),(68,1.35)]
         if max == 30:
@@ -64,36 +60,7 @@ def epi_curve(max, peakedness):
         return gamma_pdf(alpha,beta)
     elif peakedness == 5:
         return MIDAS
-
-def plot_gamma(df):
-    """
-    Takes an input dataframe from epi_curve that contains days and gamma values
-    and returns a plot of the given gamma function. 
     
-    It also multiplies across the values in the numerical output to display the 
-    scenario hospitalizations plot and saves these as additional columns to the 
-    existing dataframe, which are all then plotted.
-    
-    Parameters:
-        df: Pandas DataFrame
-        
-    Output:
-        Two plots
-    """
-    
-    df['Mild_Ward'] = df['Gamma_Values'].apply(lambda x: x*12128)
-    df['Severe_Ward'] = df['Gamma_Values'].apply(lambda x: x*46396)
-    df['Mild_ICU'] =df['Gamma_Values'].apply(lambda x: x*2237)
-    df['Severe_ICU'] = df['Gamma_Values'].apply(lambda x: x*8573)
-    
-    #ax = df.plot()
-    ax1 = df.plot(color = 'DarkGreen',kind='line',x='Day',y='Mild_Ward', title='COVID-19 Scenario Hospitalizations: MILD/SEVERE, WARD/ICU')
-    ax2 = df.plot(color = 'DarkBlue', kind='line',x='Day',y='Severe_Ward',ax=ax1)
-    ax3 = df.plot(color = 'DarkOrange', kind='line',x='Day',y='Mild_ICU',ax=ax1)
-    ax4 = df.plot(color = 'DarkRed', kind='line',x='Day',y='Severe_ICU',ax=ax1)
-    plt.show()
-    df.plot(kind='line',x='Day',y='Gamma_Values', title='COVID-19 Hospital-apparent Epidemic Curve')
-
 def ageDist(totalPop, popCOM):
     """
     Parameters:
@@ -110,25 +77,25 @@ def ageDist(totalPop, popCOM):
         ageDist = a dataframe with 5 elements representing the number of people 
                     in each age class
     """
-    ad = pd.DataFrame(columns=['Ages','proportions'])
+    ad = pd.DataFrame(columns=['proportions'])
     if popCOM == 1:
-        ad = ad.append({'Ages': '0 to 4',    'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '5 to 17',   'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '18 to 49',  'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '50 to 64',  'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '65+',       'proportions': .6}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .6}, ignore_index=True)
     elif popCOM == 2:
-        ad = ad.append({'Ages': '0 to 4',    'proportions': 535068/8398748}, ignore_index=True)
-        ad = ad.append({'Ages': '5 to 17',   'proportions': 1204188/8398748}, ignore_index=True)
-        ad = ad.append({'Ages': '18 to 49',  'proportions': 3886398/8398748}, ignore_index=True)
-        ad = ad.append({'Ages': '50 to 64',  'proportions': 1527614/8398748}, ignore_index=True)
-        ad = ad.append({'Ages': '65+',       'proportions': 1245480/8398748}, ignore_index=True)
+        ad = ad.append({'proportions': 535068/8398748}, ignore_index=True)
+        ad = ad.append({'proportions': 1204188/8398748}, ignore_index=True)
+        ad = ad.append({'proportions': 3886398/8398748}, ignore_index=True)
+        ad = ad.append({'proportions': 1527614/8398748}, ignore_index=True)
+        ad = ad.append({'proportions': 1245480/8398748}, ignore_index=True)
     elif popCOM == 3:
-        ad = ad.append({'Ages': '0 to 4',    'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '5 to 17',   'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '18 to 49',  'proportions': .6}, ignore_index=True)
-        ad = ad.append({'Ages': '50 to 64',  'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '65+',       'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .6}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
     elif popCOM == 4:
         ad = ad.append({'Ages': '0 to 4',    'proportions': .1}, ignore_index=True)
         ad = ad.append({'Ages': '5 to 17',   'proportions': .6}, ignore_index=True)
@@ -136,31 +103,37 @@ def ageDist(totalPop, popCOM):
         ad = ad.append({'Ages': '50 to 64',  'proportions': .1}, ignore_index=True)
         ad = ad.append({'Ages': '65+',       'proportions': .1}, ignore_index=True)
     elif popCOM == 5:
-        ad = ad.append({'Ages': '0 to 4',    'proportions': .6}, ignore_index=True)
-        ad = ad.append({'Ages': '5 to 17',   'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '18 to 49',  'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '50 to 64',  'proportions': .1}, ignore_index=True)
-        ad = ad.append({'Ages': '65+',       'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .6}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
 
     ad['proportions'] = ad['proportions'].apply(lambda x:x*totalPop)
     return ad
 
-CHR = pd.DataFrame(columns = ['Ages', 'Mild','Severe'])
-CHR = CHR.append({'Ages': '0 to 4',   'Mild': 0.0125, 'Severe': 0.05}, ignore_index=True)
-CHR = CHR.append({'Ages': '5 to 17',  'Mild': 0.0050, 'Severe': 0.02}, ignore_index=True)
-CHR = CHR.append({'Ages': '18 to 49', 'Mild': 0.0125, 'Severe': 0.05}, ignore_index=True)
-CHR = CHR.append({'Ages': '50 to 64', 'Mild': 0.0175, 'Severe': 0.07}, ignore_index=True)
-CHR = CHR.append({'Ages': '65+',      'Mild': 0.1600, 'Severe': 0.60}, ignore_index=True)
+def CHR():
+    CHR = pd.DataFrame(columns = ['Mild','Severe'])
+    CHR = CHR.append({'Mild': 0.0125, 'Severe': 0.05}, ignore_index=True)
+    CHR = CHR.append({'Mild': 0.0050, 'Severe': 0.02}, ignore_index=True)
+    CHR = CHR.append({'Mild': 0.0125, 'Severe': 0.05}, ignore_index=True)
+    CHR = CHR.append({'Mild': 0.0175, 'Severe': 0.07}, ignore_index=True)
+    CHR = CHR.append({'Mild': 0.1600, 'Severe': 0.60}, ignore_index=True)
+    
+    return CHR
 
-CCHR = pd.DataFrame(columns = ['Mild','Severe'])
-CCHR = CCHR.append({'Ages': '0 to 4',  'Mild': 0.15, 'Severe': 0.15}, ignore_index=True)
-CCHR = CCHR.append({'Ages': '5 to 17', 'Mild': 0.20, 'Severe': 0.20}, ignore_index=True)
-CCHR = CCHR.append({'Ages': '18 to 49','Mild': 0.15, 'Severe': 0.15}, ignore_index=True)
-CCHR = CCHR.append({'Ages': '50 to 64','Mild': 0.20, 'Severe': 0.20}, ignore_index=True)
-CCHR = CCHR.append({'Ages': '65+',     'Mild': 0.15, 'Severe': 0.15}, ignore_index=True)
+def CCHR():
+    CCHR = pd.DataFrame(columns = ['Mild','Severe'])
+    CCHR = CCHR.append({'Mild': 0.15, 'Severe': 0.15}, ignore_index=True)
+    CCHR = CCHR.append({'Mild': 0.20, 'Severe': 0.20}, ignore_index=True)
+    CCHR = CCHR.append({'Mild': 0.15, 'Severe': 0.15}, ignore_index=True)
+    CCHR = CCHR.append({'Mild': 0.20, 'Severe': 0.20}, ignore_index=True)
+    CCHR = CCHR.append({'Mild': 0.15, 'Severe': 0.15}, ignore_index=True)
+    
+    return CCHR
     
 def totalHosp(attackRate, symp, ad, CHR):
-    tH = CHR
+    tH = CHR.copy()
     
     tH['Mild'] =   tH['Mild'].apply(lambda x: x*attackRate*symp)
     tH['Severe'] = tH['Severe'].apply(lambda x: x*attackRate*symp)
@@ -172,17 +145,17 @@ def totalHosp(attackRate, symp, ad, CHR):
 
 def ICUs(attackRate, symp, ad, CHR, CCHR):
     tH = totalHosp(attackRate, symp, ad, CHR)
-    tICU = pd.DataFrame(columns = ['Ages', 'Mild','Severe'])
+    tICU = pd.DataFrame(columns = ['Mild','Severe'])
     
     tICU['Mild'] =   tH['Mild']   * CCHR['Mild']
     tICU['Severe'] = tH['Severe'] * CCHR['Severe']
     
     return tICU
         
-def wardCases(ageSpread, attackRate, symp, CHR, CCHR):
+def wardCases(attackRate, symp, ad, CHR, CCHR):
     tH = totalHosp(attackRate, symp, ad, CHR)
     tICU = ICUs(attackRate, symp, ad, CHR, CCHR)
-    wards = pd.DataFrame(columns = ['Ages', 'Mild', 'Severe'])
+    wards = pd.DataFrame(columns = ['Mild', 'Severe'])
     
     wards['Mild'] =   tH['Mild'] -   tICU['Mild']
     wards['Severe'] = tH['Severe'] - tICU['Severe']
