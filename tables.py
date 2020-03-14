@@ -18,9 +18,6 @@ totalP = 8 * 10**6
 attackRate = 0.6
 symp = 0.5
 
-ageSpread = calc.ageDist(totalP, 3)
-totalHosp = calc.totalHosp(ageSpread, attackRate, symp, CHR)
-
 
 zero4m = 334
 zero4s = 1338
