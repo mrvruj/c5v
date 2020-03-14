@@ -10,6 +10,9 @@ import tkinter
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button, RadioButtons
+from calc import *
+#from tables import *
+
 
 class Window:
     def __init__(self):
@@ -18,7 +21,7 @@ class Window:
 
         self.entry_value = tkinter.IntVar()
 
-        self.button = tkinter.Button(master=self.root, text='Run simulation.', command=self.simulate) #replace this with the simulate function
+        self.button = tkinter.Button(master=self.root, text='Run simulation.', command=self.simulate())
 
         self.button.pack(pady=10)
 
@@ -26,19 +29,19 @@ class Window:
         self.pop.pack(pady=10)
         self.pop.configure(to=81)
         
-        self.attack = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), orient='horizontal', label='Attack Rate')
+        self.attack = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), resolution = 5, orient='horizontal', label='Attack Rate')
         self.attack.pack(pady=10)
         self.attack.configure(to=100)
         
-        self.symp = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), orient='horizontal', label='%Symptomatic')
+        self.symp = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), resolution = 5, orient='horizontal', label='%Symptomatic')
         self.symp.pack(pady=10)
         self.symp.configure(to=100)
         
-        self.hosp = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), orient='horizontal', label='%Hospitalized')
+        self.hosp = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), resolution = 5, orient='horizontal', label='%Hospitalized')
         self.hosp.pack(pady=10)
         self.hosp.configure(to=100)
         
-        self.icu = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), orient='horizontal', label='%ICU')
+        self.icu = tkinter.Scale(master=self.root, from_=0, to=self.entry_value.get(), resolution = 5, orient='horizontal', label='%ICU')
         self.icu.pack(pady=10)
         self.icu.configure(to=100)
         
@@ -63,15 +66,25 @@ class Window:
         self.pkN.insert(5,'MIDAS')
         self.pkN.pack()
         
-        self.day = tkinter.Scale(master=self.root, from_=1, to=self.entry_value.get(), orient='horizontal', label='Day')
+        self.day = tkinter.Scale(master=self.root, from_=1, to=self.entry_value.get(), resolution = 5, orient='horizontal', label='Day')
         self.day.pack(pady=10)
         self.day.configure(to=180)
         
     def set_value(self):
         self.entry_value.set(self.entry_box.get())
         
-    def simulate(test):
-        pass
+    def simulate():
+        attack_rate = self.attack.get()
+        percent_symp = self.symp.get()
+        percent_hosp = self.hosp.get()
+        percent_ICU = self.icu.get()
+        dayPeak = self.dayPeak.get()
+        pkN = self.pkN.get()
+        day = self.day.get()
+        
+        plot_gamma(epi_curve(dayPeak,pkN))
+        """TABLES FUNCTION"""
+        
 
 app = Window()
 app.root.mainloop()
