@@ -19,9 +19,13 @@ totalP = 8398748
 ad = calc.ageDist(totalP, 2)
 CHR = calc.CHR()
 CCHR = calc.CCHR()
+eC = calc.epi_curve(30, 2)
+day = 30
 THR = calc.totalHosp(attackRate, symp, ad, CHR)
 ICU = calc.ICUs(attackRate, symp, ad, CHR, CCHR)
 WR = calc.wardCases(attackRate, symp, ad, CHR, CCHR)
+dICU = calc.dailyICU(ICU, eC, day)
+dWard = calc.dailyWard(WR, eC, day)
 
 def makeGT(df, title):
     copy = df.copy()
@@ -97,3 +101,5 @@ def makeGT(df, title):
 makeGT(THR, 'TOTAL Predicted Cases')
 makeGT(ICU, 'TOTAL Critical Care Cases')
 makeGT(WR, 'TOTAL Med/Surg Ward Cases')
+makeGT(dICU, 'DAILY ICU Cases')
+makeGT(dWard, 'DAILY Ward Cases')
