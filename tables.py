@@ -84,23 +84,3 @@ def makeGT(df, title):
     
     return plt
 
-attackRate = 0.1
-symp = 0.5
-totalP = 8398748
-populationType = 2 #population distribution, just use 2 for now
-ad = calc.ageDist(totalP, populationType)
-CHR = calc.CHR()
-CCHR = calc.CCHR()
-eC = calc.epi_curve(30, 2)
-day = 30
-THR = calc.totalHosp(attackRate, symp, ad, CHR)
-numICU = calc.totalICUs(attackRate, symp, ad, CHR, CCHR)
-WR = calc.totalWardCases(attackRate, symp, ad, CHR, CCHR)
-dICU = calc.dailyICU(numICU, eC, day)
-dWard = calc.dailyWard(WR, eC, day)
-
-pTHR = makeGT(THR, 'TOTAL Predicted Cases').show()
-pICU = makeGT(numICU, 'TOTAL Critical Care Cases').show()
-pWR = makeGT(WR, 'TOTAL Med/Surg Ward Cases').show()
-pdICU = makeGT(dICU, 'DAILY ICU Cases - Day '  + str(day)).show()
-pdWard = makeGT(dWard, 'DAILY Ward Cases - Day ' + str(day)).show()
