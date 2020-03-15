@@ -258,6 +258,7 @@ def simulate():
     pdICU = tables.makeGT(dICU, 'DAILY ICU Cases - Day '  + str(dayOf)).show()
     pdWard = tables.makeGT(dWard, 'DAILY Ward Cases - Day ' + str(dayOf)).show()
 
+
 button = tk.Button(app, text='Calculate', command=simulate)
 button.grid(row=21, column=1)
 #button.place(anchor=tk.CENTER)
