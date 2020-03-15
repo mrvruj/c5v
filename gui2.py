@@ -162,7 +162,7 @@ day = tk.Scale(app, from_=1, to=entry_value.get(), orient='horizontal', label='D
 day.configure(to=180)
 day.grid(row=18, column=0)
 
-button = tk.Button(app, text='Run simulation.', command=calc.epi_curve(30, 2))
+button = tk.Button(app, text='Run simulation.', command=calc.simulate())
 button.grid(row=18, column=1)
 #button.place(anchor=tk.CENTER)
 
