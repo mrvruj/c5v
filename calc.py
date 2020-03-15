@@ -88,12 +88,12 @@ def plot_gamma(df):
     df['Mild_ICU'] =df['Gamma_Values'].apply(lambda x: x*2237)
     df['Severe_ICU'] = df['Gamma_Values'].apply(lambda x: x*8573)
     
-    #ax = df.plot()
-    ax1 = df.plot(color = 'DarkGreen',kind='line',x='Day',y='Mild_Ward', title='COVID-19 Scenario Hospitalizations: MILD/SEVERE, WARD/ICU')
-    ax2 = df.plot(color = 'DarkBlue', kind='line',x='Day',y='Severe_Ward',ax=ax1)
-    ax3 = df.plot(color = 'DarkOrange', kind='line',x='Day',y='Mild_ICU',ax=ax1)
-    ax4 = df.plot(color = 'DarkRed', kind='line',x='Day',y='Severe_ICU',ax=ax1)
-    df.plot(kind='line',x='Day',y='Gamma_Values', title='COVID-19 Hospital-apparent Epidemic Curve')
+    fig, axes = plt.subplots(nrows=1,ncols=2)
+    df.plot(color = 'DarkGreen',kind='line',x='Day',y='Mild_Ward', title='COVID-19 Scenario Hospitalizations: MILD/SEVERE, WARD/ICU', ax=axes[0])
+    df.plot(color = 'DarkBlue', kind='line',x='Day',y='Severe_Ward',ax=axes[0])
+    df.plot(color = 'DarkOrange', kind='line',x='Day',y='Mild_ICU',ax=axes[0])
+    df.plot(color = 'DarkRed', kind='line',x='Day',y='Severe_ICU',ax=axes[0])
+    df.plot(kind='line',x='Day',y='Gamma_Values', title='COVID-19 Hospital-apparent Epidemic Curve', ax=axes[1])
     plt.show()
 
 def ageDist(totalPop, popCOM):
