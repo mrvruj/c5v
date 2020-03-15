@@ -10,7 +10,7 @@ import tkinter
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button, RadioButtons
-from calc import calc
+import calc as calc
 from tables import *
 #from tables import *
 
@@ -82,22 +82,21 @@ class Window:
         dayPeak = self.dayPeak.get()
         pkN = int(self.pkN.curselection()[0])
         day = self.day.get()
-        totalP = 
-        populationType = 
+        totalP = 8398748
+        populationType = 2
         
+        eC = calc.epi_curve(dayPeak,pkN)
         ad = calc.ageDist(totalP, populationType)
         CHR = calc.CHR()
         CCHR = calc.CCHR()
         THR = calc.totalHosp(attackRate, symp, ad, CHR)
         numICU = calc.totalICUs(attackRate, symp, ad, CHR, CCHR)
         WR = calc.totalWardCases(attackRate, symp, ad, CHR, CCHR)
-        dICU = calc.dailyICU(ICU, eC, day)
+        dICU = calc.dailyICU(numICU, eC, day)
         dWard = calc.dailyWard(WR, eC, day)
         
-        eC = calc.epi_curve(dayPeak,pkN)
         
-        
-        plot_gamma(eC)
+        calc.plot_gamma(eC)
         pTHR = makeGT(THR, 'TOTAL Predicted Cases').show()
         pICU = makeGT(numICU, 'TOTAL Critical Care Cases').show()
         pWR = makeGT(WR, 'TOTAL Med/Surg Ward Cases').show()
@@ -112,3 +111,4 @@ app = Window()
 app.root.mainloop()
 
 #print(results)
+
