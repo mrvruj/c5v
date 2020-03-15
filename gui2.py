@@ -210,9 +210,9 @@ CCHR4s=tk.StringVar(None)
 CCHR4s=tk.Entry(app,textvariable=CCHR4s,width=15) #severe 65+
 CCHR4s.grid(row=17,column=2)
 
-dayPeak = tk.Scale(app, from_=30, to=entry_value.get(), resolution=30, orient='horizontal', label='Day of Peak')
+dayPeak = tk.Scale(app, from_=30, to=entry_value.get(), resolution=30, orient='horizontal', label='Day of Peak', )
 dayPeak.configure(to=90)
-dayPeak.grid(row=18, column=0)
+dayPeak.grid(row=19, column=0)
 
 labelpkN=tk.StringVar()
 labelpkN.set("Peakedness")
@@ -230,10 +230,10 @@ pkN.grid(row=19, column=1)
         
 day = tk.Scale(app, from_=1, to=entry_value.get(), orient='horizontal', label='Day')
 day.configure(to=180)
-day.grid(row=20, column=0)
+day.grid(row=20, column=1)
 
 button = tk.Button(app, text='Calculate')
-button.grid(row=20, column=1)
+button.grid(row=21, column=1)
 #button.place(anchor=tk.CENTER)
 
 app.mainloop()
