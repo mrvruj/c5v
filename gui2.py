@@ -232,8 +232,38 @@ day = tk.Scale(app, from_=1, to=entry_value.get(), orient='horizontal', label='D
 day.configure(to=180)
 day.grid(row=20, column=1)
 
-button = tk.Button(app, text='Calculate')
-button.grid(row=21, column=1)
-#button.place(anchor=tk.CENTER)
+def simulate():
+    attackRate = attack.get() / 100
+    symp = symp.get() / 100
+    dayPeak = dayPeak.get()
+    pkN = int(pkN.curselection()[0])
+    day = day.get()
+    totalP = popS.get()
+    populationType = popD.get()
+    
+    eC = calc.epi_curve(dayPeak,pkN)
+    ad = calc.ageDist(totalP, populationType)
+    CHR1 = calc.CHR()
+    CCHR1 = calc.CCHR()
+    THR = calc.totalHosp(attackRate, symp, ad, CHR1)
+    numICU = calc.totalICUs(attackRate, symp, ad, CHR1, CCHR1)
+    WR = calc.totalWardCases(attackRate, symp, ad, CHR1, CCHR1)
+    dICU = calc.dailyICU(numICU, eC, day)
+    dWard = calc.dailyWard(WR, eC, day)
+    
+    
+    calc.plot_gamma(eC)
+    pTHR = tables.makeGT(THR, 'TOTAL Predicted Cases').show()
+    pICU = tables.makeGT(numICU, 'TOTAL Critical Care Cases').show()
+    pWR = tables.makeGT(WR, 'TOTAL Med/Surg Ward Cases').show()
+    pdICU = tables.makeGT(dICU, 'DAILY ICU Cases - Day '  + str(day)).show()
+    pdWard = tables.makeGT(dWard, 'DAILY Ward Cases - Day ' + str(day)).show()
 
+
+
+button = tk.Button(app, text='Calculate', command=simulate)
+button.grid(row=20, column=1)
+#button.place(anchor=tk.CENTER)
+    
+    
 app.mainloop()
