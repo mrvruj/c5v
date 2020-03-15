@@ -10,7 +10,8 @@ import tkinter
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button, RadioButtons
-from calc import *
+from calc import calc
+from tables import *
 #from tables import *
 
 
@@ -74,16 +75,37 @@ class Window:
         self.entry_value.set(self.entry_box.get())
         
     def simulate(self):
-        attack_rate = self.attack.get()
-        percent_symp = self.symp.get()
-        percent_hosp = self.hosp.get()
-        percent_ICU = self.icu.get()
+        attackRate = self.attack.get() / 100
+        symp = self.symp.get() / 100
+        hosp = self.hosp.get() / 100
+        ICU = self.icu.get() / 100
         dayPeak = self.dayPeak.get()
         pkN = int(self.pkN.curselection()[0])
         day = self.day.get()
-            
-        plot_gamma(epi_curve(dayPeak,pkN))
-        """TABLES FUNCTION"""
+        totalP = 
+        populationType = 
+        
+        ad = calc.ageDist(totalP, populationType)
+        CHR = calc.CHR()
+        CCHR = calc.CCHR()
+        THR = calc.totalHosp(attackRate, symp, ad, CHR)
+        numICU = calc.totalICUs(attackRate, symp, ad, CHR, CCHR)
+        WR = calc.totalWardCases(attackRate, symp, ad, CHR, CCHR)
+        dICU = calc.dailyICU(ICU, eC, day)
+        dWard = calc.dailyWard(WR, eC, day)
+        
+        eC = calc.epi_curve(dayPeak,pkN)
+        
+        
+        plot_gamma(eC)
+        pTHR = makeGT(THR, 'TOTAL Predicted Cases').show()
+        pICU = makeGT(numICU, 'TOTAL Critical Care Cases').show()
+        pWR = makeGT(WR, 'TOTAL Med/Surg Ward Cases').show()
+        pdICU = makeGT(dICU, 'DAILY ICU Cases - Day '  + str(day)).show()
+        pdWard = makeGT(dWard, 'DAILY Ward Cases - Day ' + str(day)).show()
+        
+        
+        
         
 
 app = Window()
