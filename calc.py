@@ -4,6 +4,7 @@
 from scipy.stats import gamma
 import numpy as np
 import pandas as pd
+import gui2
 
 #################   GAMMA CALCS   #################   
 
@@ -214,33 +215,29 @@ def dailyICU(df, epi_curve, day):
     
     return dICU
 
-
-
-    def simulate(self):
-        attackRate = self.attack.get() / 100
-        symp = self.symp.get() / 100
-        hosp = self.hosp.get() / 100
-        ICU = self.icu.get() / 100
-        dayPeak = self.dayPeak.get()
-        pkN = int(self.pkN.curselection()[0])
-        day = self.day.get()
-        totalP = 8398748
-        populationType = 2
-        
-        eC = calc.epi_curve(dayPeak,pkN)
-        ad = calc.ageDist(totalP, populationType)
-        CHR = calc.CHR()
-        CCHR = calc.CCHR()
-        THR = calc.totalHosp(attackRate, symp, ad, CHR)
-        numICU = calc.totalICUs(attackRate, symp, ad, CHR, CCHR)
-        WR = calc.totalWardCases(attackRate, symp, ad, CHR, CCHR)
-        dICU = calc.dailyICU(numICU, eC, day)
-        dWard = calc.dailyWard(WR, eC, day)
-        
-        
-        calc.plot_gamma(eC)
-        pTHR = makeGT(THR, 'TOTAL Predicted Cases').show()
-        pICU = makeGT(numICU, 'TOTAL Critical Care Cases').show()
-        pWR = makeGT(WR, 'TOTAL Med/Surg Ward Cases').show()
-        pdICU = makeGT(dICU, 'DAILY ICU Cases - Day '  + str(day)).show()
-        pdWard = makeGT(dWard, 'DAILY Ward Cases - Day ' + str(day)).show()
+def simulate():
+    attackRate = gui2.attack.get() / 100
+    symp = gui2.symp.get() / 100
+    dayPeak = gui2.dayPeak.get()
+    pkN = int(gui2.pkN.curselection()[0])
+    day = gui2.day.get()
+    totalP = 8398748
+    populationType = 2
+    
+    eC = epi_curve(dayPeak,pkN)
+    ad = ageDist(totalP, populationType)
+    CHR1 = CHR()
+    CCHR1 = CCHR()
+    THR = totalHosp(attackRate, symp, ad, CHR1)
+    numICU = totalICUs(attackRate, symp, ad, CHR1, CCHR1)
+    WR = totalWardCases(attackRate, symp, ad, CHR1, CCHR1)
+    dICU = dailyICU(numICU, eC, day)
+    dWard = dailyWard(WR, eC, day)
+    
+    
+    plot_gamma(eC)
+    pTHR = makeGT(THR, 'TOTAL Predicted Cases').show()
+    pICU = makeGT(numICU, 'TOTAL Critical Care Cases').show()
+    pWR = makeGT(WR, 'TOTAL Med/Surg Ward Cases').show()
+    pdICU = makeGT(dICU, 'DAILY ICU Cases - Day '  + str(day)).show()
+    pdWard = makeGT(dWard, 'DAILY Ward Cases - Day ' + str(day)).show()
