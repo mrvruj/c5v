@@ -108,11 +108,11 @@ def ageDist(totalPop, popCOM):
     """
     ad = pd.DataFrame(columns=['proportions'])
     if popCOM == 1:
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
         ad = ad.append({'proportions': .6}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
     elif popCOM == 2:
         ad = ad.append({'proportions': 535068/8398748}, ignore_index=True)
         ad = ad.append({'proportions': 1204188/8398748}, ignore_index=True)
@@ -127,16 +127,16 @@ def ageDist(totalPop, popCOM):
         ad = ad.append({'proportions': .1}, ignore_index=True)
     elif popCOM == 4:
         ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
         ad = ad.append({'proportions': .6}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
         ad = ad.append({'proportions': .1}, ignore_index=True)
     elif popCOM == 5:
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
         ad = ad.append({'proportions': .6}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
 
     ad['proportions'] = ad['proportions'].apply(lambda x:x*totalPop)
     return ad
@@ -172,7 +172,7 @@ def totalHosp(attackRate, symp, ad, CHR):
     
     return tH
 
-def ICUs(attackRate, symp, ad, CHR, CCHR):
+def totalICUs(attackRate, symp, ad, CHR, CCHR):
     tH = totalHosp(attackRate, symp, ad, CHR)
     tICU = pd.DataFrame(columns = ['Mild','Severe'])
     
@@ -181,9 +181,9 @@ def ICUs(attackRate, symp, ad, CHR, CCHR):
     
     return tICU
         
-def wardCases(attackRate, symp, ad, CHR, CCHR):
+def totalWardCases(attackRate, symp, ad, CHR, CCHR):
     tH = totalHosp(attackRate, symp, ad, CHR)
-    tICU = ICUs(attackRate, symp, ad, CHR, CCHR)
+    tICU = totalICUs(attackRate, symp, ad, CHR, CCHR)
     wards = pd.DataFrame(columns = ['Mild', 'Severe'])
     
     wards['Mild'] =   tH['Mild'] -   tICU['Mild']
@@ -208,4 +208,3 @@ def dailyICU(df, epi_curve, day):
     dICU['Severe'] = tW['Severe'].apply(lambda x: x*epi_curve[day])
     
     return dICU
-    
