@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Mar 15 08:34:15 2020
-
 @author: Vruj
 """
 import tkinter as tk
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button, RadioButtons
-import calc
-import tables
+import calc as calc
+import tables as tables
 
 app = tk.Tk()
 entry_value = tk.IntVar()
@@ -239,10 +238,10 @@ def simulate():
     dayOfPeak = dayPeak.get()
     peakedness = int(pkN.curselection()[0])
     dayOf = day.get()
-    totalP = popS.get()
-    populationType = popD.get()
+    totalP = int(popS.get())
+    populationType = int(popD.curselection()[0])
     
-    eC = calc.epi_curve(dayPeak,peakedness)
+    eC = calc.epi_curve(dayOfPeak,peakedness)
     ad = calc.ageDist(totalP, populationType)
     CHR1 = calc.CHR()
     CCHR1 = calc.CCHR()
@@ -256,8 +255,8 @@ def simulate():
     pTHR = tables.makeGT(THR, 'TOTAL Predicted Cases').show()
     pICU = tables.makeGT(numICU, 'TOTAL Critical Care Cases').show()
     pWR = tables.makeGT(WR, 'TOTAL Med/Surg Ward Cases').show()
-    pdICU = tables.makeGT(dICU, 'DAILY ICU Cases - Day '  + str(day)).show()
-    pdWard = tables.makeGT(dWard, 'DAILY Ward Cases - Day ' + str(day)).show()
+    pdICU = tables.makeGT(dICU, 'DAILY ICU Cases - Day '  + str(dayOf)).show()
+    pdWard = tables.makeGT(dWard, 'DAILY Ward Cases - Day ' + str(dayOf)).show()
 
 button = tk.Button(app, text='Calculate', command=simulate)
 button.grid(row=21, column=1)
