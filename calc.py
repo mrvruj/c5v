@@ -4,7 +4,7 @@
 from scipy.stats import gamma
 import numpy as np
 import pandas as pd
-import gui2
+import matplotlib.pyplot as plt
 
 #################   GAMMA CALCS   #################   
 
@@ -201,8 +201,8 @@ def dailyWard(df, epi_curve, day):
     tW = df.copy()
     dW = pd.DataFrame(columns = ['Mild', 'Severe'])
     
-    dW['Mild'] = tW['Mild'].apply(lambda x: x*epi_curve[day])
-    dW['Severe'] = tW['Severe'].apply(lambda x: x*epi_curve[day])
+    dW['Mild'] = tW['Mild'].apply(lambda x: x*epi_curve.loc[day][1])
+    dW['Severe'] = tW['Severe'].apply(lambda x: x*epi_curve.loc[day][1])
     
     return dW
 
@@ -210,7 +210,8 @@ def dailyICU(df, epi_curve, day):
     tW = df.copy()
     dICU = pd.DataFrame(columns = ['Mild', 'Severe'])
     
-    dICU['Mild'] = tW['Mild'].apply(lambda x: x*epi_curve[day])
-    dICU['Severe'] = tW['Severe'].apply(lambda x: x*epi_curve[day])
+    dICU['Mild'] = tW['Mild'].apply(lambda x: x*epi_curve.loc[day][1])
+    dICU['Severe'] = tW['Severe'].apply(lambda x: x*epi_curve.loc[day][1])
     
     return dICU
+
