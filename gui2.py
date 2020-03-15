@@ -8,7 +8,8 @@ import tkinter as tk
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button, RadioButtons
-import calc as calc
+import calc
+import tables
 
 app = tk.Tk()
 entry_value = tk.IntVar()
@@ -241,7 +242,7 @@ def simulate():
     totalP = popS.get()
     populationType = popD.get()
     
-    eC = calc.epi_curve(dayPeak,pkN)
+    eC = calc.epi_curve(dayPeak,peakedness)
     ad = calc.ageDist(totalP, populationType)
     CHR1 = calc.CHR()
     CCHR1 = calc.CCHR()
