@@ -27,7 +27,7 @@ labelText.set("Choose population distribution: ")
 labelpopD=tk.Label(app, textvariable=labelText, height=4)
 labelpopD.grid(row=2,column=0)
 
-popD = tk.Listbox(app, selectmode='SINGLE', height=5, width=25) #resize box later
+popD = tk.Listbox(app, height=5, width=25, exportselection=0) #resize box later
 popD.insert(1,'Young (Niger)')
 popD.insert(2,'Young adults (xx)')
 popD.insert(3,'Adults (xx)')
@@ -219,7 +219,7 @@ labelpkN.set("Peakedness")
 labelpkN=tk.Label(app, textvariable=labelpkN, height=1)
 labelpkN.grid(row=18,column=1)
 
-pkN = tk.Listbox(app, selectmode='SINGLE', height=6, width=17)
+pkN = tk.Listbox(app, height=6, width=17, exportselection=0)
 pkN.insert(0,'Flat')
 pkN.insert(1,'Not Peaked')
 pkN.insert(2,'A Bit Peaked')
@@ -234,10 +234,10 @@ day.grid(row=20, column=1)
 
 def simulate():
     attackRate = attack.get() / 100
-    symp = symp.get() / 100
-    dayPeak = dayPeak.get()
-    pkN = int(pkN.curselection()[0])
-    day = day.get()
+    symptomatic = symp.get() / 100
+    dayOfPeak = dayPeak.get()
+    peakedness = int(pkN.curselection()[0])
+    dayOf = day.get()
     totalP = popS.get()
     populationType = popD.get()
     
@@ -245,12 +245,11 @@ def simulate():
     ad = calc.ageDist(totalP, populationType)
     CHR1 = calc.CHR()
     CCHR1 = calc.CCHR()
-    THR = calc.totalHosp(attackRate, symp, ad, CHR1)
-    numICU = calc.totalICUs(attackRate, symp, ad, CHR1, CCHR1)
-    WR = calc.totalWardCases(attackRate, symp, ad, CHR1, CCHR1)
-    dICU = calc.dailyICU(numICU, eC, day)
-    dWard = calc.dailyWard(WR, eC, day)
-    
+    THR = calc.totalHosp(attackRate, symptomatic, ad, CHR1)
+    numICU = calc.totalICUs(attackRate, symptomatic, ad, CHR1, CCHR1)
+    WR = calc.totalWardCases(attackRate, symptomatic, ad, CHR1, CCHR1)
+    dICU = calc.dailyICU(numICU, eC, dayOf)
+    dWard = calc.dailyWard(WR, eC, dayOf)
     
     calc.plot_gamma(eC)
     pTHR = tables.makeGT(THR, 'TOTAL Predicted Cases').show()
@@ -259,11 +258,10 @@ def simulate():
     pdICU = tables.makeGT(dICU, 'DAILY ICU Cases - Day '  + str(day)).show()
     pdWard = tables.makeGT(dWard, 'DAILY Ward Cases - Day ' + str(day)).show()
 
-
-
 button = tk.Button(app, text='Calculate', command=simulate)
-button.grid(row=20, column=1)
+button.grid(row=21, column=1)
 #button.place(anchor=tk.CENTER)
-    
-    
+
+#app.grid(padx=20, pady=20)
+
 app.mainloop()
