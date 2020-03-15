@@ -94,8 +94,8 @@ CCHR = calc.CCHR()
 eC = calc.epi_curve(30, 2)
 day = 30
 THR = calc.totalHosp(attackRate, symp, ad, CHR)
-ICU = calc.ICUs(attackRate, symp, ad, CHR, CCHR)
-WR = calc.wardCases(attackRate, symp, ad, CHR, CCHR)
+ICU = calc.totalICUs(attackRate, symp, ad, CHR, CCHR)
+WR = calc.totalWardCases(attackRate, symp, ad, CHR, CCHR)
 dICU = calc.dailyICU(ICU, eC, day)
 dWard = calc.dailyWard(WR, eC, day)
 
