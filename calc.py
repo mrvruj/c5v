@@ -214,30 +214,3 @@ def dailyICU(df, epi_curve, day):
     dICU['Severe'] = tW['Severe'].apply(lambda x: x*epi_curve[day])
     
     return dICU
-
-def simulate():
-    attackRate = gui2.attack.get() / 100
-    symp = gui2.symp.get() / 100
-    dayPeak = gui2.dayPeak.get()
-    pkN = int(gui2.pkN.curselection()[0])
-    day = gui2.day.get()
-    totalP = 8398748
-    populationType = 2
-    
-    eC = epi_curve(dayPeak,pkN)
-    ad = ageDist(totalP, populationType)
-    CHR1 = CHR()
-    CCHR1 = CCHR()
-    THR = totalHosp(attackRate, symp, ad, CHR1)
-    numICU = totalICUs(attackRate, symp, ad, CHR1, CCHR1)
-    WR = totalWardCases(attackRate, symp, ad, CHR1, CCHR1)
-    dICU = dailyICU(numICU, eC, day)
-    dWard = dailyWard(WR, eC, day)
-    
-    
-    plot_gamma(eC)
-    pTHR = makeGT(THR, 'TOTAL Predicted Cases').show()
-    pICU = makeGT(numICU, 'TOTAL Critical Care Cases').show()
-    pWR = makeGT(WR, 'TOTAL Med/Surg Ward Cases').show()
-    pdICU = makeGT(dICU, 'DAILY ICU Cases - Day '  + str(day)).show()
-    pdWard = makeGT(dWard, 'DAILY Ward Cases - Day ' + str(day)).show()
