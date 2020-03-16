@@ -137,36 +137,36 @@ def ageDist(totalPop, popCOM):
                     in each age class
     """
     ad = pd.DataFrame(columns=['proportions'])
-    if popCOM == 1:
+    if popCOM == 0:
         ad = ad.append({'proportions': .6}, ignore_index=True)
         ad = ad.append({'proportions': .1}, ignore_index=True)
         ad = ad.append({'proportions': .1}, ignore_index=True)
         ad = ad.append({'proportions': .1}, ignore_index=True)
         ad = ad.append({'proportions': .1}, ignore_index=True)
+    elif popCOM == 1:
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .6}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
     elif popCOM == 2:
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .6}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': .1}, ignore_index=True)
+    elif popCOM == 3:
         ad = ad.append({'proportions': 535068/8398748}, ignore_index=True)
         ad = ad.append({'proportions': 1204188/8398748}, ignore_index=True)
         ad = ad.append({'proportions': 3886398/8398748}, ignore_index=True)
         ad = ad.append({'proportions': 1527614/8398748}, ignore_index=True)
         ad = ad.append({'proportions': 1245480/8398748}, ignore_index=True)
-    elif popCOM == 3:
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .6}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
     elif popCOM == 4:
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .6}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-    elif popCOM == 5:
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .6}, ignore_index=True)
+        ad = ad.append({'proportions': 4700/126131}, ignore_index=True)
+        ad = ad.append({'proportions': 13375.5/126131}, ignore_index=True)
+        ad = ad.append({'proportions': 48348.5/126131}, ignore_index=True)
+        ad = ad.append({'proportions': 23780/126131}, ignore_index=True)
+        ad = ad.append({'proportions': 35868/126131}, ignore_index=True)
 
     ad['proportions'] = ad['proportions'].apply(lambda x:x*totalPop)
     return ad
