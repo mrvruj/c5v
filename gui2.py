@@ -28,14 +28,13 @@ labelText.set("Choose population distribution: ")
 labelpopD=tk.Label(app, textvariable=labelText, height=4)
 labelpopD.grid(row=2,column=0)
 
-popD = tk.Listbox(app, height=5, width=25, exportselection=0) #resize box later
-popD.insert(0,'Young (Niger)')
-popD.insert(1,'Young adults (xx)')
-popD.insert(2,'Adults (xx)')
-popD.insert(3,'Middle-Aged (New York)')
-popD.insert(4,'Old (Japan)')
+popD = tk.Listbox(app, height=4, width=25, exportselection=0) #resize box later
+popD.insert(0,'Young (Mali)')
+popD.insert(1,'Young adults (Bangladesh)')
+popD.insert(2,'Middle-Aged (New York)')
+popD.insert(3,'Old (Japan)')
 popD.grid(row=2, column=1) # how do i center on this row?
-popD.select_set(3)
+popD.select_set(2)
 
 attack = tk.Scale(app, from_=0, to=entry_value.get(), orient='horizontal', label='Attack Rate')
 attack.configure(to=100)
