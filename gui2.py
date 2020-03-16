@@ -126,7 +126,7 @@ CHR3s=tk.StringVar(app, "7.00")
 CHR3s=tk.Entry(app,textvariable=CHR3s,width=15) #severe 50-64
 CHR3s.grid(row=10,column=2, padx=(0, 15))
 
-CHR4s=tk.StringVar(app, "65.00")
+CHR4s=tk.StringVar(app, "60.00")
 CHR4s=tk.Entry(app,textvariable=CHR4s,width=15) #severe 65+
 CHR4s.grid(row=11,column=2, padx=(0, 15))
 
