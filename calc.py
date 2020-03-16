@@ -138,11 +138,11 @@ def ageDist(totalPop, popCOM):
     """
     ad = pd.DataFrame(columns=['proportions'])
     if popCOM == 0:
-        ad = ad.append({'proportions': .6}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
+        ad = ad.append({'proportions': 2623385/14528662}, ignore_index=True)
+        ad = ad.append({'proportions': 4899900/14528662}, ignore_index=True)
+        ad = ad.append({'proportions': 5352915/14528662}, ignore_index=True)
+        ad = ad.append({'proportions': 915501/14528662}, ignore_index=True)
+        ad = ad.append({'proportions': 461451/14528662}, ignore_index=True)
     elif popCOM == 1:
         ad = ad.append({'proportions': .1}, ignore_index=True)
         ad = ad.append({'proportions': .6}, ignore_index=True)
