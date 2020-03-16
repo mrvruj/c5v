@@ -45,6 +45,8 @@ def makeGT(df, title):
     rows = ['0 to 4', '5 to 17', '18 to 49', '50 to 64', '65+']
     if sumSev<10000:
         values = np.arange(0, sumSev + 1000, 1000)
+    elif sumSev>100000:
+        values = np.arange(0, sumSev+10000, 10000)
     else:
         values = np.arange(0, sumSev + 5000, 5000)
     value_increment = 1
@@ -83,4 +85,3 @@ def makeGT(df, title):
     plt.title(title)
     
     return plt
-
