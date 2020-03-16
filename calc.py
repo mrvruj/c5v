@@ -137,31 +137,25 @@ def ageDist(totalPop, popCOM):
                     in each age class
     """
     ad = pd.DataFrame(columns=['proportions'])
-    if popCOM == 0:
+    if popCOM == 0: #Mali
         ad = ad.append({'proportions': 2623385/14528662}, ignore_index=True)
         ad = ad.append({'proportions': 4899900/14528662}, ignore_index=True)
         ad = ad.append({'proportions': 5352915/14528662}, ignore_index=True)
         ad = ad.append({'proportions': 915501/14528662}, ignore_index=True)
         ad = ad.append({'proportions': 461451/14528662}, ignore_index=True)
-    elif popCOM == 1:
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .6}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-    elif popCOM == 2:
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .6}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-        ad = ad.append({'proportions': .1}, ignore_index=True)
-    elif popCOM == 3:
+    elif popCOM == 1: #Bangladesh
+        ad = ad.append({'proportions': 15061970/144043697}, ignore_index=True)
+        ad = ad.append({'proportions': 41250789/144043697}, ignore_index=True)
+        ad = ad.append({'proportions': 67908170/144043697}, ignore_index=True)
+        ad = ad.append({'proportions': 12987282/144043697}, ignore_index=True)
+        ad = ad.append({'proportions': 6410315/144043697}, ignore_index=True)
+    elif popCOM == 2: #New York
         ad = ad.append({'proportions': 535068/8398748}, ignore_index=True)
         ad = ad.append({'proportions': 1204188/8398748}, ignore_index=True)
         ad = ad.append({'proportions': 3886398/8398748}, ignore_index=True)
         ad = ad.append({'proportions': 1527614/8398748}, ignore_index=True)
         ad = ad.append({'proportions': 1245480/8398748}, ignore_index=True)
-    elif popCOM == 4:
+    elif popCOM == 3: #Japan
         ad = ad.append({'proportions': 4700/126131}, ignore_index=True)
         ad = ad.append({'proportions': 13375.5/126131}, ignore_index=True)
         ad = ad.append({'proportions': 48348.5/126131}, ignore_index=True)
@@ -239,4 +233,3 @@ def dailyICU(df, epi_curve, day):
     dICU['Severe'] = tW['Severe'].apply(lambda x: x*epi_curve.loc[day][1])
     
     return dICU
-
