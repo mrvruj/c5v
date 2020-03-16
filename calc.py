@@ -67,7 +67,7 @@ def epi_curve(max, peakedness):
     elif peakedness == 5:
         return MIDAS
 
-def plot_gamma(df):
+def plot_gamma(df, mW, sW, mICU, sICU):
     """
     Takes an input dataframe from epi_curve that contains days and gamma values
     and returns a plot of the given gamma function. 
@@ -95,6 +95,30 @@ def plot_gamma(df):
     df.plot(color = 'DarkRed', kind='line',x='Day',y='Severe_ICU',ax=axes[0])
     df.plot(kind='line',x='Day',y='Gamma_Values', title='COVID-19 Hospital-apparent Epidemic Curve', ax=axes[1])
     plt.show()
+
+def getMaxes(df):
+    copy = df.copy()
+    dfa = copy.to_numpy()
+    
+    zero4m = dfa[0][0]
+    zero4s = dfa[0][1]
+    
+    five17m = dfa[1][0]
+    five17s = dfa[1][1]
+    
+    eighteen49m = dfa[2][0]
+    eighteen49s = dfa[2][1]
+    
+    fifty64m = dfa[3][0]
+    fifty64s = dfa[3][1]
+    
+    sixty5plusm = dfa[4][0]
+    sixty5pluss = dfa[4][1]
+    
+    sumSev = zero4s + five17s + eighteen49s + fifty64s + sixty5pluss
+    sumMild = zero4m + five17m + eighteen49m + fifty64m + sixty5plusm
+    
+    return (sumMild, sumSev)
 
 def ageDist(totalPop, popCOM):
     """
@@ -147,23 +171,24 @@ def ageDist(totalPop, popCOM):
     ad['proportions'] = ad['proportions'].apply(lambda x:x*totalPop)
     return ad
 
-def CHR():
+def CHR(m0, s0, m1, s1, m2, s2, m3, s3, m4, s4):
     CHR = pd.DataFrame(columns = ['Mild','Severe'])
-    CHR = CHR.append({'Mild': 0.0125, 'Severe': 0.05}, ignore_index=True)
-    CHR = CHR.append({'Mild': 0.0050, 'Severe': 0.02}, ignore_index=True)
-    CHR = CHR.append({'Mild': 0.0125, 'Severe': 0.05}, ignore_index=True)
-    CHR = CHR.append({'Mild': 0.0175, 'Severe': 0.07}, ignore_index=True)
-    CHR = CHR.append({'Mild': 0.1600, 'Severe': 0.60}, ignore_index=True)
+    CHR = pd.DataFrame(columns = ['Mild','Severe'])
+    CHR = CHR.append({'Mild': float(m0)/100, 'Severe': float(s0)/100}, ignore_index=True)
+    CHR = CHR.append({'Mild': float(m1)/100, 'Severe': float(s1)/100}, ignore_index=True)
+    CHR = CHR.append({'Mild': float(m2)/100, 'Severe': float(s2)/100}, ignore_index=True)
+    CHR = CHR.append({'Mild': float(m3)/100, 'Severe': float(s3)/100}, ignore_index=True)
+    CHR = CHR.append({'Mild': float(m4)/100, 'Severe': float(s4)/100}, ignore_index=True)
     
     return CHR
 
-def CCHR():
+def CCHR(m0, s0, m1, s1, m2, s2, m3, s3, m4, s4):
     CCHR = pd.DataFrame(columns = ['Mild','Severe'])
-    CCHR = CCHR.append({'Mild': 0.15, 'Severe': 0.15}, ignore_index=True)
-    CCHR = CCHR.append({'Mild': 0.20, 'Severe': 0.20}, ignore_index=True)
-    CCHR = CCHR.append({'Mild': 0.15, 'Severe': 0.15}, ignore_index=True)
-    CCHR = CCHR.append({'Mild': 0.20, 'Severe': 0.20}, ignore_index=True)
-    CCHR = CCHR.append({'Mild': 0.15, 'Severe': 0.15}, ignore_index=True)
+    CCHR = CCHR.append({'Mild': float(m0)/100, 'Severe': float(s0)/100}, ignore_index=True)
+    CCHR = CCHR.append({'Mild': float(m1)/100, 'Severe': float(s1)/100}, ignore_index=True)
+    CCHR = CCHR.append({'Mild': float(m2)/100, 'Severe': float(s2)/100}, ignore_index=True)
+    CCHR = CCHR.append({'Mild': float(m3)/100, 'Severe': float(s3)/100}, ignore_index=True)
+    CCHR = CCHR.append({'Mild': float(m4)/100, 'Severe': float(s4)/100}, ignore_index=True)
     
     return CCHR
     
