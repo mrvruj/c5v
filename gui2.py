@@ -19,7 +19,7 @@ labelpopS=tk.Label(app, textvariable=labelpop, height=4)
 labelpopS.grid(row=1,column=0)
 
 popS=tk.StringVar()
-popS.set("8236000")
+popS.set("8398478")
 popSize=tk.Entry(app,textvariable=popS,width=15)
 popSize.grid(row=1,column=1)
         
@@ -29,18 +29,18 @@ labelpopD=tk.Label(app, textvariable=labelText, height=4)
 labelpopD.grid(row=2,column=0)
 
 popD = tk.Listbox(app, height=5, width=25, exportselection=0) #resize box later
-popD.insert(1,'Young (Niger)')
-popD.insert(2,'Young adults (xx)')
-popD.insert(3,'Adults (xx)')
-popD.insert(4,'Middle-Aged (New York)')
-popD.insert(5,'Old (Japan)')
+popD.insert(0,'Young (Niger)')
+popD.insert(1,'Young adults (xx)')
+popD.insert(2,'Adults (xx)')
+popD.insert(3,'Middle-Aged (New York)')
+popD.insert(4,'Old (Japan)')
 popD.grid(row=2, column=1) # how do i center on this row?
 popD.select_set(3)
 
 attack = tk.Scale(app, from_=0, to=entry_value.get(), orient='horizontal', label='Attack Rate')
 attack.configure(to=100)
 attack.grid(row=3, column = 1)
-attack.set(25)
+attack.set(30)
 
 symp = tk.Scale(app, from_=0, to=entry_value.get(), orient='horizontal', label='%Symptomatic')
 symp.configure(to=100)
@@ -168,7 +168,6 @@ labelCCHR1.grid(row=15,column=0)
 CCHR1m=tk.StringVar(app, "20.00")
 CCHR1m=tk.Entry(app,textvariable=CCHR1m,width=15) #mild 5-17
 CCHR1m.grid(row=15,column=1)
-
 
 CCHR1s=tk.StringVar(app, "20.00")
 CCHR1s=tk.Entry(app,textvariable=CCHR1s,width=15) #severe 5-17
