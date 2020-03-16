@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button, RadioButtons
 import calc as calc
 import tables as tables
+import os
 
 app = tk.Tk()
 entry_value = tk.IntVar()
@@ -251,6 +252,7 @@ def simulate():
     dICU = calc.dailyICU(numICU, eC, dayOf)
     dWard = calc.dailyWard(WR, eC, dayOf)
     
+    #os.mkdir('Outputs_attackRate('+str(attackRate)+')_symptomatic('+str(symptomatic)+')_peakDay('+str(dayOfPeak)+')_peakedness('+str(peakedness)+')day('+str(dayOf)+')_population('+str(totalP)')+_populationType('+str(populationType)')')
     calc.plot_gamma(eC)
     pTHR = tables.makeGT(THR, 'TOTAL Predicted Cases').show()
     pICU = tables.makeGT(numICU, 'TOTAL Critical Care Cases').show()
