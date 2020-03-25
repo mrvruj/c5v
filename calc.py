@@ -5,6 +5,7 @@ from scipy.stats import gamma
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import pyqtgraph as pg
 
 #################   GAMMA CALCS   #################   
 
@@ -83,18 +84,36 @@ def plot_gamma(df, mW, sW, mICU, sICU):
         Two plots
     """
     
-    df['Mild_Ward'] = df['Gamma_Values'].apply(lambda x: x*12128)
-    df['Severe_Ward'] = df['Gamma_Values'].apply(lambda x: x*46396)
-    df['Mild_ICU'] =df['Gamma_Values'].apply(lambda x: x*2237)
-    df['Severe_ICU'] = df['Gamma_Values'].apply(lambda x: x*8573)
+    df['Mild_Ward'] = df['Gamma_Values'].apply(lambda x: x*mW)
+    df['Severe_Ward'] = df['Gamma_Values'].apply(lambda x: x*sW)
+    df['Mild_ICU'] =df['Gamma_Values'].apply(lambda x: x*mICU)
+    df['Severe_ICU'] = df['Gamma_Values'].apply(lambda x: x*sICU)
     
-    fig, axes = plt.subplots(nrows=1,ncols=2)
-    df.plot(color = 'DarkGreen',kind='line',x='Day',y='Mild_Ward', title='COVID-19 Scenario Hospitalizations: MILD/SEVERE, WARD/ICU', ax=axes[0])
-    df.plot(color = 'DarkBlue', kind='line',x='Day',y='Severe_Ward',ax=axes[0])
-    df.plot(color = 'DarkOrange', kind='line',x='Day',y='Mild_ICU',ax=axes[0])
-    df.plot(color = 'DarkRed', kind='line',x='Day',y='Severe_ICU',ax=axes[0])
-    df.plot(kind='line',x='Day',y='Gamma_Values', title='COVID-19 Hospital-apparent Epidemic Curve', ax=axes[1])
-    plt.show()
+#    fig, axes = plt.subplots(nrows=1,ncols=2)
+#    df.plot(color = 'DarkGreen',kind='line',x='Day',y='Mild_Ward', title='COVID-19 Scenario Hospitalizations: MILD/SEVERE, WARD/ICU', ax=axes[0])
+#    df.plot(color = 'DarkBlue', kind='line',x='Day',y='Severe_Ward',ax=axes[0])
+#    df.plot(color = 'DarkOrange', kind='line',x='Day',y='Mild_ICU',ax=axes[0])
+#    df.plot(color = 'DarkRed', kind='line',x='Day',y='Severe_ICU',ax=axes[0])
+#    df.plot(kind='line',x='Day',y='Gamma_Values', title='COVID-19 Hospital-apparent Epidemic Curve', ax=axes[1])
+#    plt.show()
+    
+    plt1 = pg.plot(title='Possible COVID-19 Hospital-Apparent Epidemic Curves')
+    plt1.showGrid(x=True,y=True)
+    plt1.setLabel('left','Percentage of Total Hospitalizations by Day of Outbreak')
+    plt1.setLabel('bottom','Day')
+    plt1.plot(df['Day'],df['Gamma_Values'], pen=pg.mkPen('r',width=5))
+
+    plt2 = pg.plot(title='COVID-19 Scenario Hospitalizations: MILD/SEVERE, WARD/ICU')
+    plt2.showGrid(x=True,y=True)
+    plt2.addLegend(size=None,offset=-50)
+    plt2.setLabel('left','Daily Admissions')
+    plt2.setLabel('bottom','Day')
+    plt2.plot(df['Day'],df['Mild_Ward'],pen=pg.mkPen('g',width=5), name='Mild Ward')
+    plt2.plot(df['Day'],df['Severe_Ward'],pen=pg.mkPen('b',width=5), name='Severe Ward')
+    plt2.plot(df['Day'],df['Mild_ICU'],pen=pg.mkPen('y',width=5), name='Mild ICU')
+    plt2.plot(df['Day'],df['Severe_ICU'],pen=pg.mkPen('r',width=5), name='Severe ICU')
+
+    pg.QtGui.QApplication.exec_()
 
 def getMaxes(df):
     copy = df.copy()
