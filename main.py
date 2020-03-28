@@ -1,7 +1,7 @@
 #############################################################################
 #Vruj Patel & Lior Shtayer
 #############################################################################
-
+#pylint: disable=no-name-in-module
 from PyQt5.QtCore import QDateTime, Qt, QTimer
 from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComboBox, QDateTimeEdit,
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
