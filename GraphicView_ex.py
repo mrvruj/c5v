@@ -1,3 +1,5 @@
+#pylint: disable=no-name-in-module
+#pylint: disable=import-error
 from pyqtgraph.Qt import QtGui, QtCore
 import pyqtgraph as pg
 import numpy as np

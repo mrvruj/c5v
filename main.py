@@ -59,8 +59,8 @@ class c4(QDialog):
         self.topLeftGroupBox = QGroupBox("Population Parameters")
         
         totalPop = QSpinBox(self.topLeftGroupBox)
-        totalPop.setGroupSeparatorShown(True);
-        totalPop.setRange(0, 100000000000);
+        totalPop.setGroupSeparatorShown(True)
+        totalPop.setRange(0, 100000000000)
         totalPop.setValue(8398748)
         tPopLabel = QLabel("&Total Population:")
         tPopLabel.setBuddy(totalPop)
@@ -215,15 +215,15 @@ class c4(QDialog):
         self.bottomLeftTabWidget.addTab(tab4, "Capacitated Inputs")
         self.bottomLeftTabWidget.addTab(tab5, "No Vents")
         
-    def chrDefaults():
+    def chrDefaults(self):
         pass
-    def cchfDefaults():
+    def cchfDefaults(self):
         pass
-    def bedDefaults():
+    def bedDefaults(self):
         pass
-    def ventDefaults():
+    def ventDefaults(self):
         pass
-    def LOSdefaults():
+    def LOSdefaults(self):
         pass
 
 """

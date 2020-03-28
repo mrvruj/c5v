@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+#pylint: disable=no-name-in-module
+#pylint: disable=import-error
 from scipy.stats import gamma
 #import numpy as np
 import pandas as pd
