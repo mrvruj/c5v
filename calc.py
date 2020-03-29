@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 #pylint: disable=no-name-in-module
-#pylint: disable=import-error
 from scipy.stats import gamma
 #import numpy as np
 import pandas as pd
@@ -249,9 +249,6 @@ def plot(df):
     ## Add 2 plots into the first row (automatic position)
     p1 = l.addPlot(title="Possible COVID-19 Hospital-Apparent Epidemic Curves")
     p2 = l.addPlot(title="COVID-19 Scenario Hospitalizations: MILD/SEVERE, WARD/ICU")
-    
-    
-    
     
     p1.showGrid(x=True,y=True)
     p1.setLabel('left','Percentage of Total Hospitalizations by Day of Outbreak')

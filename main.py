@@ -60,7 +60,7 @@ class c4(QDialog):
         
         totalPop = QSpinBox(self.topLeftGroupBox)
         totalPop.setGroupSeparatorShown(True)
-        totalPop.setRange(0, 100000000000)
+        totalPop.setRange(0, 1000000000)
         totalPop.setValue(8398748)
         tPopLabel = QLabel("&Total Population:")
         tPopLabel.setBuddy(totalPop)

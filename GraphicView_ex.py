@@ -32,7 +32,6 @@ p2 = l.addPlot(title="Plot 2")
 #vb.addItem(img)
 #vb.autoRange()
 
-
 ## Add a sub-layout into the second row (automatic position)
 ## The added item should avoid the first column, which is already filled
 l.nextRow()
