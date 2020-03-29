@@ -1,11 +1,9 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 #pylint: disable=no-name-in-module
-from scipy.stats import gamma
+
 #import numpy as np
-import pandas as pd
 #import matplotlib.pyplot as plt
+import pandas as pd
+from scipy.stats import gamma
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtGui, QtCore
 
