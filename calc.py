@@ -264,6 +264,3 @@ def plot(df):
     
     
     return QtGui.QApplication.instance().exec_()
-
-    test
-    
