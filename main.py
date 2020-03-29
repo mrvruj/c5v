@@ -9,7 +9,6 @@ from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComb
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, QTabWidget, QTextEdit,
         QVBoxLayout, QWidget)
 
-
 class c4(QDialog):
     def __init__(self, parent=None):
         super(c4, self).__init__(parent)
@@ -37,7 +36,6 @@ class c4(QDialog):
         topLayout.addWidget(printButton)
         topLayout.addWidget(runCalc) #make these into objects called by addWidget()
         #topLayout.addWidget(self.useStylePaletteCheckBox)
-        
 
         mainLayout = QGridLayout()
         mainLayout.addLayout(topLayout, 0, 0, 1, 2)
@@ -54,8 +52,6 @@ class c4(QDialog):
         self.setWindowTitle("c4: Cornell COVID-19 Caseload Calculator")
         QApplication.setStyle(QStyleFactory.create('Fusion'))
         QApplication.setPalette(QApplication.style().standardPalette())
-
-
 
     def createTopLeftGroupBox(self):
         self.topLeftGroupBox = QGroupBox("Population Parameters")
@@ -236,7 +232,6 @@ class c4(QDialog):
         CHR.setItem(4,1, QTableWidgetItem("43.5"))
         CHR.setItem(5,1, QTableWidgetItem("58.7"))
         CHR.setItem(6,1, QTableWidgetItem("70.3"))
-    
     def cchfDefaults(self, CCHF):
         CCHF.setItem(0,0, QTableWidgetItem("0"))
         CCHF.setItem(1,0, QTableWidgetItem("2.0"))
@@ -269,7 +264,6 @@ class c4(QDialog):
         vent.setItem(1,1, QTableWidgetItem("10"))
         vent.setItem(2,1, QTableWidgetItem("0.95"))
         vent.setItem(3,1, QTableWidgetItem("0.5"))
-
     def LOSDefaults(self, LOS):
         LOS.setItem(0,0, QTableWidgetItem("3"))
         LOS.setItem(1,0, QTableWidgetItem("7"))
@@ -287,7 +281,6 @@ class c4(QDialog):
         LOS.setItem(1,3, QTableWidgetItem("150"))
         LOS.setItem(2,3, QTableWidgetItem("100"))
         LOS.setItem(3,3, QTableWidgetItem("100"))
-        
     def setDefaults(self, CHR, CCHF, bed, vent, LOS):
         self.chrDefaults(CHR)
         self.cchfDefaults(CCHF)
