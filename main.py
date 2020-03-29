@@ -104,6 +104,7 @@ class c4(QDialog):
 
     def createTopRightGroupBox(self):
         self.topRightGroupBox = QGroupBox("Output Parameters")
+        #TODO: add switch for mild/severe
         
         peaked = QComboBox()
         peaked.addItems(('A-type: Broad', 'B-type: Somewhat Broad', 'C-type: A Bit Peaked', 'D-type: Very Peaked', 'E-type: Extremely Peaked'))
@@ -141,7 +142,6 @@ class c4(QDialog):
     def createBottomLeftTabWidget(self):
         self.bottomLeftTabWidget = QTabWidget()
         #there will be a policy here to resize all columns to fit (one liner)
-        ##TODO: add mild vs severe switch
         
         tab1 = QWidget()
         CHR = QTableWidget(7, 2)
@@ -212,11 +212,7 @@ class c4(QDialog):
         noVent.setHorizontalHeaderLabels(("Mild", "Severe"))
         noVent.setVerticalHeaderLabels(("Survivor Minimum LOS", "Survivor Maximum LOS", "Mortality Ratio (%)", "LOS Adjustment (%)"))
 
-        self.chrDefaults(CHR)
-        self.cchfDefaults(CCHF)
-        self.bedDefaults(capInputs)
-        self.ventDefaults(noVent)
-        self.LOSDefaults(LOS)
+        self.setDefaults(CHR, CCHF, capInputs, noVent, LOS)
 
         self.bottomLeftTabWidget.addTab(tab1, "CHR")
         self.bottomLeftTabWidget.addTab(tab2, "CCHF")
@@ -291,6 +287,13 @@ class c4(QDialog):
         LOS.setItem(1,3, QTableWidgetItem("150"))
         LOS.setItem(2,3, QTableWidgetItem("100"))
         LOS.setItem(3,3, QTableWidgetItem("100"))
+        
+    def setDefaults(self, CHR, CCHF, bed, vent, LOS):
+        self.chrDefaults(CHR)
+        self.cchfDefaults(CCHF)
+        self.bedDefaults(bed)
+        self.ventDefaults(vent)
+        self.LOSDefaults(LOS)
 
 """
     def createBottomRightGroupBox(self):
