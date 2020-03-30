@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComb
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, QTabWidget, QTextEdit,
         QVBoxLayout, QWidget)
 import pandas as pd
+import calc
 
 class c4(QDialog):
     def __init__(self, parent=None):
@@ -25,7 +26,7 @@ class c4(QDialog):
         advancedCheck.toggled.connect(self.bottomLeftTabWidget.setEnabled)
         
         runCalc = QPushButton("Calculate")
-        runCalc.clicked.connect(self.calc)
+        runCalc.clicked.connect(self.test)
         printButton = QPushButton("Print")
         defaultButton = QPushButton("Default")
         instructions = QPushButton("Instructions")
@@ -352,7 +353,7 @@ class c4(QDialog):
     def getDayOutput(self): #returns an int
         return self.topRightGroupBox.children()[0].value()
 
-    def calc(self):
+    def test(self):
         print(self.getCHR()) #CHR
         print(self.getCCHF()) #CCHF
         print(self.getLOS()) #LOS
@@ -365,6 +366,36 @@ class c4(QDialog):
         print(self.getShapeCurve()) #should be an index
         print(self.getDayMax()) #should be an int
         print(self.getDayOutput()) #should be an int
+    
+    def calc(self):
+        #get GUI parameters
+        attackRate = self.getInfectionRate()
+        symptomatic = self.getSymptomatic()
+        dayOfPeak = self.getDayMax()
+        peakedness = self.getShapeCurve
+        dayOf = self.getDayOutput()
+        totalP = self.getPop()
+        populationType = self.getPopDist()
+        CHR = self.getCHR()
+        CCHF = self.getCCHF()
+        
+        ad = calc.ageDist(totalP, populationType) #age distribution based on inputs
+        THR = calc.totalHosp(attackRate, symptomatic, ad, CHR) #total hospitalizations (by age)
+        numICU = calc.totalICUs(attackRate, symptomatic, ad, CHR, CCHF) #total ICU cases (by age)
+        WR = calc.totalWardCases(attackRate, symptomatic, ad, CHR, CCHF) #total ward cases (by age)
+        eC = calc.epi_curve(dayOfPeak,peakedness) #curve that tells us how total cases are distributed in time
+        dICU = calc.dailyICU(numICU, eC, dayOf) #daily ICU cases (by age)
+        dWard = calc.dailyWard(WR, eC, dayOf) #daily ward cases (by age)
+        
+        totalWard = calc.getMaxes(WR) #sum total of all ward cases (mild AND severe scenarios)
+        totalICU = calc.getMaxes(numICU) #sum total of all ICU cases
+        
+        mW = totalWard[0] #sum total of all ward cases in the mild scenario
+        sW = totalWard[1] #sum total of all ward cases in the severe scenario
+        mildICU = totalICU[0] #sum total of all ICU cases in the mild scenario
+        sevICU = totalICU[1] #sum total of all ICu cases in the severe scenario
+
+        #TODO: plots go here
         
 if __name__ == '__main__':
 
