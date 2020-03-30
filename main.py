@@ -25,6 +25,7 @@ class c4(QDialog):
         advancedCheck.toggled.connect(self.bottomLeftTabWidget.setEnabled)
         
         runCalc = QPushButton("Calculate")
+        runCalc.clicked.connect(self.calc)
         printButton = QPushButton("Print")
         defaultButton = QPushButton("Default")
         instructions = QPushButton("Instructions")
@@ -154,7 +155,7 @@ class c4(QDialog):
         tab2 = QWidget()
         CCHF = QTableWidget(7, 2)
         CCHFLabel = QLabel("Critical Care Hospitalization Fraction (%)")
-        CCHFLabel.setBuddy(CHR)
+        CCHFLabel.setBuddy(CCHF)
         CCHFDefault = QPushButton("Default")
         tab2grid = QGridLayout()
         tab2grid.setContentsMargins(5, 5, 5, 5)
@@ -168,7 +169,7 @@ class c4(QDialog):
         tab3 = QWidget()
         LOS = QTableWidget(4, 4)
         LOSLabel = QLabel("Enter min/max length of stay, %mortality, and change in LOS for patients who die.")
-        LOSLabel.setBuddy(CHR)
+        LOSLabel.setBuddy(LOS)
         LOSDefault = QPushButton("Default")
         tab3grid = QGridLayout()
         tab3grid.setContentsMargins(5, 5, 5, 5)
@@ -248,22 +249,6 @@ class c4(QDialog):
         CCHF.setItem(4,1, QTableWidgetItem("18.8"))
         CCHF.setItem(5,1, QTableWidgetItem("31.0"))
         CCHF.setItem(6,1, QTableWidgetItem("29.0"))
-    def bedDefaults(self, bed):
-        bed.setItem(0, 0, QTableWidgetItem("20,000"))
-        bed.setItem(0, 1, QTableWidgetItem("1,800"))
-        bed.setItem(0, 2, QTableWidgetItem("1,000"))
-        bed.setItem(0, 3, QTableWidgetItem("1.25"))
-        bed.setItem(0, 4, QTableWidgetItem("1,250"))
-    def ventDefaults(self, vent):
-        vent.setItem(0,0, QTableWidgetItem("2"))
-        vent.setItem(1,0, QTableWidgetItem("10"))
-        vent.setItem(2,0, QTableWidgetItem("95"))
-        vent.setItem(3,0, QTableWidgetItem("5"))
-        
-        vent.setItem(0,1, QTableWidgetItem("2"))
-        vent.setItem(1,1, QTableWidgetItem("10"))
-        vent.setItem(2,1, QTableWidgetItem("0.95"))
-        vent.setItem(3,1, QTableWidgetItem("0.5"))
     def LOSDefaults(self, LOS):
         LOS.setItem(0,0, QTableWidgetItem("3"))
         LOS.setItem(1,0, QTableWidgetItem("7"))
@@ -280,7 +265,23 @@ class c4(QDialog):
         LOS.setItem(0,3, QTableWidgetItem("150"))
         LOS.setItem(1,3, QTableWidgetItem("150"))
         LOS.setItem(2,3, QTableWidgetItem("100"))
-        LOS.setItem(3,3, QTableWidgetItem("100"))
+        LOS.setItem(3,3, QTableWidgetItem("100"))      
+    def bedDefaults(self, bed):
+        bed.setItem(0, 0, QTableWidgetItem("20000"))
+        bed.setItem(0, 1, QTableWidgetItem("1800"))
+        bed.setItem(0, 2, QTableWidgetItem("1000"))
+        bed.setItem(0, 3, QTableWidgetItem("1.25"))
+        bed.setItem(0, 4, QTableWidgetItem("1250"))
+    def ventDefaults(self, vent):
+        vent.setItem(0,0, QTableWidgetItem("2"))
+        vent.setItem(1,0, QTableWidgetItem("10"))
+        vent.setItem(2,0, QTableWidgetItem("95"))
+        vent.setItem(3,0, QTableWidgetItem("5"))
+        
+        vent.setItem(0,1, QTableWidgetItem("2"))
+        vent.setItem(1,1, QTableWidgetItem("10"))
+        vent.setItem(2,1, QTableWidgetItem("0.95"))
+        vent.setItem(3,1, QTableWidgetItem("0.5"))
     def setDefaults(self, CHR, CCHF, bed, vent, LOS):
         self.chrDefaults(CHR)
         self.cchfDefaults(CCHF)
@@ -290,35 +291,35 @@ class c4(QDialog):
 
     def getRatios(self, CHR): #Use this for CHR and CCHF
         df = pd.DataFrame(columns = ["Mild", "Severe"])
-        df = df.append({'Mild': float(CHR.item(0,0)), 'Severe': float(CHR.item(0,1))}, ignore_index=True) #0-19
-        df = df.append({'Mild': float(CHR.item(1,0)), 'Severe': float(CHR.item(1,1))}, ignore_index=True) #20-44
-        df = df.append({'Mild': float(CHR.item(2,0)), 'Severe': float(CHR.item(2,1))}, ignore_index=True) #45-54
-        df = df.append({'Mild': float(CHR.item(3,0)), 'Severe': float(CHR.item(3,1))}, ignore_index=True) #55-64
-        df = df.append({'Mild': float(CHR.item(4,0)), 'Severe': float(CHR.item(4,1))}, ignore_index=True) #65-74
-        df = df.append({'Mild': float(CHR.item(5,0)), 'Severe': float(CHR.item(5,1))}, ignore_index=True) #75-84
-        df = df.append({'Mild': float(CHR.item(6,0)), 'Severe': float(CHR.item(6,1))}, ignore_index=True) #85+
+        df = df.append({'Mild': float(CHR.item(0,0).text())/100, 'Severe': float(CHR.item(0,1).text())/100}, ignore_index=True) #0-19
+        df = df.append({'Mild': float(CHR.item(1,0).text())/100, 'Severe': float(CHR.item(1,1).text())/100}, ignore_index=True) #20-44
+        df = df.append({'Mild': float(CHR.item(2,0).text())/100, 'Severe': float(CHR.item(2,1).text())/100}, ignore_index=True) #45-54
+        df = df.append({'Mild': float(CHR.item(3,0).text())/100, 'Severe': float(CHR.item(3,1).text())/100}, ignore_index=True) #55-64
+        df = df.append({'Mild': float(CHR.item(4,0).text())/100, 'Severe': float(CHR.item(4,1).text())/100}, ignore_index=True) #65-74
+        df = df.append({'Mild': float(CHR.item(5,0).text())/100, 'Severe': float(CHR.item(5,1).text())/100}, ignore_index=True) #75-84
+        df = df.append({'Mild': float(CHR.item(6,0).text())/100, 'Severe': float(CHR.item(6,1).text())/100}, ignore_index=True) #85+
         return df
     def getLOS(self, LOS): 
         df = pd.DataFrame(columns = ['Minimum LOS', 'Maximum LOS', 'Mortality Ratio', 'LOS Adjustment'])
-        df = df.append({'Minimum LOS': float(LOS.item(0,0)), 'Maximum LOS': float(LOS.item(0,1)), 'Mortality Ratio': float(LOS.item(1,2)), 'LOS Adjustment': float(LOS.item(0,3))}, ignore_index=True) #adult ward beds
-        df = df.append({'Minimum LOS': float(LOS.item(1,0)), 'Maximum LOS': float(LOS.item(1,1)), 'Mortality Ratio': float(LOS.item(2,2)), 'LOS Adjustment': float(LOS.item(1,3))}, ignore_index=True) #adult icu beds
-        df = df.append({'Minimum LOS': float(LOS.item(2,0)), 'Maximum LOS': float(LOS.item(2,1)), 'Mortality Ratio': float(LOS.item(3,2)), 'LOS Adjustment': float(LOS.item(2,3))}, ignore_index=True) #ped ward beds
-        df = df.append({'Minimum LOS': float(LOS.item(3,0)), 'Maximum LOS': float(LOS.item(3,1)), 'Mortality Ratio': float(LOS.item(4,2)), 'LOS Adjustment': float(LOS.item(3,3))}, ignore_index=True) #ped icu beds
+        df = df.append({'Minimum LOS': float(LOS.item(0,0).text()), 'Maximum LOS': float(LOS.item(0,1).text()), 'Mortality Ratio': float(LOS.item(0,2).text()), 'LOS Adjustment': float(LOS.item(0,3).text())}, ignore_index=True) #adult ward beds
+        df = df.append({'Minimum LOS': float(LOS.item(1,0).text()), 'Maximum LOS': float(LOS.item(1,1).text()), 'Mortality Ratio': float(LOS.item(1,2).text()), 'LOS Adjustment': float(LOS.item(1,3).text())}, ignore_index=True) #adult icu beds
+        df = df.append({'Minimum LOS': float(LOS.item(2,0).text()), 'Maximum LOS': float(LOS.item(2,1).text()), 'Mortality Ratio': float(LOS.item(2,2).text()), 'LOS Adjustment': float(LOS.item(2,3).text())}, ignore_index=True) #ped ward beds
+        df = df.append({'Minimum LOS': float(LOS.item(3,0).text()), 'Maximum LOS': float(LOS.item(3,1).text()), 'Mortality Ratio': float(LOS.item(3,2).text()), 'LOS Adjustment': float(LOS.item(3,3).text())}, ignore_index=True) #ped icu beds
         return df
-    def getVents(self, vents):
+    def getBeds(self, beds):
         df = pd.DataFrame(columns = ['Available Ward Beds', 'Available ICU Beds', 'Available Ventilators', 'Patients per Ventilator', 'Effective Ventilator Supply'])
-        df = df.append({'Available Ward Beds': float(vents.item(0,0)), 
-                        'Available ICU Beds': float(vents.item(0,1)), 
-                        'Available Ventilators': float(vents.item(0,2)), 
-                        'Patients per Ventilator': float(vents.item(0,3)), 
-                        'Effective Ventilator Supply': float(vents.item(0,4))}, ignore_index=True)
+        df = df.append({'Available Ward Beds': float(beds.item(0,0).text()), 
+                        'Available ICU Beds': float(beds.item(0,1).text()), 
+                        'Available Ventilators': float(beds.item(0,2).text()), 
+                        'Patients per Ventilator': float(beds.item(0,3).text()), 
+                        'Effective Ventilator Supply': float(beds.item(0,4).text())}, ignore_index=True)
         return df
     def getNoVents(self, noVents):
         df = pd.DataFrame(columns = ['Mild', 'Severe'])
-        df = df.append({'Mild': float(noVents.item(0,0)), 'Severe': float(noVents.item(1,1))}, ignore_index=True) #Survivor Minimum LOS
-        df = df.append({'Mild': float(noVents.item(1,0)), 'Severe': float(noVents.item(2,1))}, ignore_index=True) #Survivor Maximum LOS
-        df = df.append({'Mild': float(noVents.item(2,0)), 'Severe': float(noVents.item(3,1))}, ignore_index=True) #Mortality Ratio (%)
-        df = df.append({'Mild': float(noVents.item(3,0)), 'Severe': float(noVents.item(4,1))}, ignore_index=True) #LOS Adjustment (%)
+        df = df.append({'Mild': float(noVents.item(0,0).text()), 'Severe': float(noVents.item(0,1).text())}, ignore_index=True) #Survivor Minimum LOS
+        df = df.append({'Mild': float(noVents.item(1,0).text()), 'Severe': float(noVents.item(1,1).text())}, ignore_index=True) #Survivor Maximum LOS
+        df = df.append({'Mild': float(noVents.item(2,0).text()), 'Severe': float(noVents.item(2,1).text())}, ignore_index=True) #Mortality Ratio (%)
+        df = df.append({'Mild': float(noVents.item(3,0).text()), 'Severe': float(noVents.item(3,1).text())}, ignore_index=True) #LOS Adjustment (%)
         return df
     
     def getInfectionRate(self, infRate): #returns a percentage
@@ -336,6 +337,13 @@ class c4(QDialog):
     def getDayOutput(self, dayOutput): #returns an int
         return int(dayOutput.Value())
 
+    def calc(self):
+        print(self.getRatios(self.bottomLeftTabWidget.widget(0).children()[3])) #CHR
+        print(self.getRatios(self.bottomLeftTabWidget.widget(1).children()[3])) #CCHF
+        print(self.getLOS(self.bottomLeftTabWidget.widget(2).children()[3])) #LOS
+        print(self.getBeds(self.bottomLeftTabWidget.widget(3).children()[3])) #beds
+        print(self.getNoVents(self.bottomLeftTabWidget.widget(4).children()[3])) #noVents
+    
 if __name__ == '__main__':
 
     import sys

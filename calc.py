@@ -139,6 +139,7 @@ def ageDist(totalPop, popCOM): #TODO: fix these
     ad['proportions'] = ad['proportions'].apply(lambda x:x*totalPop)
     return ad
 
+"""
 def CHR(m0, s0, m1, s1, m2, s2, m3, s3, m4, s4, m5, s5, m6, s6):
     CHR = pd.DataFrame(columns = ['Mild','Severe'])
     CHR = CHR.append({'Mild': float(m0)/100, 'Severe': float(s0)/100}, ignore_index=True)
@@ -162,6 +163,7 @@ def CCHR(m0, s0, m1, s1, m2, s2, m3, s3, m4, s4, m5, s5, m6, s6):
     CCHR = CCHR.append({'Mild': float(m6)/100, 'Severe': float(s6)/100}, ignore_index=True)
     
     return CCHR
+"""
     
 def totalHosp(attackRate, symp, ad, CHR):
     tH = CHR.copy()
