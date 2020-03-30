@@ -19,7 +19,6 @@ class c4(QDialog):
         self.createTopLeftGroupBox()
         self.createTopRightGroupBox()
         self.createBottomLeftTabWidget()
-        #self.createBottomRightGroupBox()
 
         advancedCheck = QCheckBox("Advanced Options")
         advancedCheck.setChecked(True)
@@ -36,14 +35,12 @@ class c4(QDialog):
         topLayout.addWidget(defaultButton)
         topLayout.addWidget(printButton)
         topLayout.addWidget(runCalc) #make these into objects called by addWidget()
-        #topLayout.addWidget(self.useStylePaletteCheckBox)
 
         mainLayout = QGridLayout()
         mainLayout.addLayout(topLayout, 0, 0, 1, 2)
         mainLayout.addWidget(self.topLeftGroupBox, 1, 0)
         mainLayout.addWidget(self.topRightGroupBox, 1, 1)
         mainLayout.addWidget(self.bottomLeftTabWidget, 2, 0, 1, 2)
-        #mainLayout.addWidget(self.bottomRightGroupBox, 2, 1)
         mainLayout.setRowStretch(1, 1)
         mainLayout.setRowStretch(2, 1)
         mainLayout.setColumnStretch(0, 1)
@@ -338,51 +335,6 @@ class c4(QDialog):
         return int(peakDay.currentText())
     def getDayOutput(self, dayOutput): #returns an int
         return int(dayOutput.Value())
-        
-"""
-    def createBottomRightGroupBox(self):
-        self.bottomRightGroupBox = QGroupBox("Group 3")
-        self.bottomRightGroupBox.setCheckable(True)
-        self.bottomRightGroupBox.setChecked(True)
-
-        lineEdit = QLineEdit('s3cRe7')
-        lineEdit.setEchoMode(QLineEdit.Password)
-
-        spinBox = QSpinBox(self.bottomRightGroupBox)
-        spinBox.setValue(50)
-
-        dateTimeEdit = QDateTimeEdit(self.bottomRightGroupBox)
-        dateTimeEdit.setDateTime(QDateTime.currentDateTime())
-
-        slider = QSlider(Qt.Horizontal, self.bottomRightGroupBox)
-        slider.setValue(40)
-
-        scrollBar = QScrollBar(Qt.Horizontal, self.bottomRightGroupBox)
-        scrollBar.setValue(60)
-
-        dial = QDial(self.bottomRightGroupBox)
-        dial.setValue(30)
-        dial.setNotchesVisible(True)
-
-        layout = QGridLayout()
-        layout.addWidget(lineEdit, 0, 0, 1, 2)
-        layout.addWidget(spinBox, 1, 0, 1, 2)
-        layout.addWidget(dateTimeEdit, 2, 0, 1, 2)
-        layout.addWidget(slider, 3, 0)
-        layout.addWidget(scrollBar, 4, 0)
-        layout.addWidget(dial, 3, 1, 2, 1)
-        layout.setRowStretch(5, 1)
-        self.bottomRightGroupBox.setLayout(layout)
-
-    def createProgressBar(self):
-        self.progressBar = QProgressBar()
-        self.progressBar.setRange(0, 10000)
-        self.progressBar.setValue(0)
-
-        timer = QTimer(self)
-        timer.timeout.connect(self.advanceProgressBar)
-        timer.start(1000)
-"""
 
 if __name__ == '__main__':
 
