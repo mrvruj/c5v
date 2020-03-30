@@ -300,10 +300,10 @@ class c4(QDialog):
         return df
     def getLOS(self, LOS): 
         df = pd.DataFrame(columns = ['Minimum LOS', 'Maximum LOS', 'Mortality Ratio', 'LOS Adjustment'])
-        df = df.append({'Minimum LOS': float(LOS.item(0,0)), 'Maximum LOS': float(LOS.item(0,1)), 'Mortality Ratio': float(LOS.item(1,2)), 'LOS Adjustment': float(LOS.item(0,3))}) #adult ward beds
-        df = df.append({'Minimum LOS': float(LOS.item(1,0)), 'Maximum LOS': float(LOS.item(1,1)), 'Mortality Ratio': float(LOS.item(2,2)), 'LOS Adjustment': float(LOS.item(1,3))}) #adult icu beds
-        df = df.append({'Minimum LOS': float(LOS.item(2,0)), 'Maximum LOS': float(LOS.item(2,1)), 'Mortality Ratio': float(LOS.item(3,2)), 'LOS Adjustment': float(LOS.item(2,3))}) #ped ward beds
-        df = df.append({'Minimum LOS': float(LOS.item(3,0)), 'Maximum LOS': float(LOS.item(3,1)), 'Mortality Ratio': float(LOS.item(4,2)), 'LOS Adjustment': float(LOS.item(3,3))}) #ped icu beds
+        df = df.append({'Minimum LOS': float(LOS.item(0,0)), 'Maximum LOS': float(LOS.item(0,1)), 'Mortality Ratio': float(LOS.item(1,2)), 'LOS Adjustment': float(LOS.item(0,3))}, ignore_index=True) #adult ward beds
+        df = df.append({'Minimum LOS': float(LOS.item(1,0)), 'Maximum LOS': float(LOS.item(1,1)), 'Mortality Ratio': float(LOS.item(2,2)), 'LOS Adjustment': float(LOS.item(1,3))}, ignore_index=True) #adult icu beds
+        df = df.append({'Minimum LOS': float(LOS.item(2,0)), 'Maximum LOS': float(LOS.item(2,1)), 'Mortality Ratio': float(LOS.item(3,2)), 'LOS Adjustment': float(LOS.item(2,3))}, ignore_index=True) #ped ward beds
+        df = df.append({'Minimum LOS': float(LOS.item(3,0)), 'Maximum LOS': float(LOS.item(3,1)), 'Mortality Ratio': float(LOS.item(4,2)), 'LOS Adjustment': float(LOS.item(3,3))}, ignore_index=True) #ped icu beds
         return df
     def getVents(self, vents):
         df = pd.DataFrame(columns = ['Available Ward Beds', 'Available ICU Beds', 'Available Ventilators', 'Patients per Ventilator', 'Effective Ventilator Supply'])
@@ -311,14 +311,14 @@ class c4(QDialog):
                         'Available ICU Beds': float(vents.item(0,1)), 
                         'Available Ventilators': float(vents.item(0,2)), 
                         'Patients per Ventilator': float(vents.item(0,3)), 
-                        'Effective Ventilator Supply': float(vents.item(0,4))})
+                        'Effective Ventilator Supply': float(vents.item(0,4))}, ignore_index=True)
         return df
     def getNoVents(self, noVents):
         df = pd.DataFrame(columns = ['Mild', 'Severe'])
-        df = df.append({'Mild': float(noVents.item(0,0)), 'Severe': float(noVents.item(1,1))}) #Survivor Minimum LOS
-        df = df.append({'Mild': float(noVents.item(1,0)), 'Severe': float(noVents.item(2,1))}) #Survivor Maximum LOS
-        df = df.append({'Mild': float(noVents.item(2,0)), 'Severe': float(noVents.item(3,1))}) #Mortality Ratio (%)
-        df = df.append({'Mild': float(noVents.item(3,0)), 'Severe': float(noVents.item(4,1))}) #LOS Adjustment (%)
+        df = df.append({'Mild': float(noVents.item(0,0)), 'Severe': float(noVents.item(1,1))}, ignore_index=True) #Survivor Minimum LOS
+        df = df.append({'Mild': float(noVents.item(1,0)), 'Severe': float(noVents.item(2,1))}, ignore_index=True) #Survivor Maximum LOS
+        df = df.append({'Mild': float(noVents.item(2,0)), 'Severe': float(noVents.item(3,1))}, ignore_index=True) #Mortality Ratio (%)
+        df = df.append({'Mild': float(noVents.item(3,0)), 'Severe': float(noVents.item(4,1))}, ignore_index=True) #LOS Adjustment (%)
         return df
     
     def getInfectionRate(self, infRate): #returns a percentage

@@ -145,7 +145,6 @@ def ageDist(totalPop, popCOM): #TODO: fix these
 
 def CHR(m0, s0, m1, s1, m2, s2, m3, s3, m4, s4, m5, s5, m6, s6):
     CHR = pd.DataFrame(columns = ['Mild','Severe'])
-    CHR = pd.DataFrame(columns = ['Mild','Severe'])
     CHR = CHR.append({'Mild': float(m0)/100, 'Severe': float(s0)/100}, ignore_index=True)
     CHR = CHR.append({'Mild': float(m1)/100, 'Severe': float(s1)/100}, ignore_index=True)
     CHR = CHR.append({'Mild': float(m2)/100, 'Severe': float(s2)/100}, ignore_index=True)
