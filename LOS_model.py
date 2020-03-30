@@ -20,7 +20,10 @@ LOS_Deaths_df = pd.DataFrame(columns=['Day','mW_A','sW_A','mICU_A','sICU_A','mW_
 
 LOS_Discharges_df = pd.DataFrame(columns=['Day','mW_A','sW_A','mICU_A','sICU_A','mW_P','sW_P','mICU_P','sICU_P'])
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f18871f5c7fe0aea9a3cb6ee319b3c77a9615058
 def calc_LOS_Admissions(df,mW_A,sW_A,mICU_A,sICU_A,mW_P,sW_P,mICU_P,sICU_P):
     """
     Takes input DataFrame from epi_curve and populates LOS_Admissions_df with the 
@@ -132,6 +135,14 @@ def calc_LOS_Occupancy():
 #---> Carry out functions to pouplate the DFs
 
 #---> Map everything back to LOS outputs
+<<<<<<< HEAD
                 
 #---> Plot
 
+=======
+#TODO: Define LOS variables, multiplication factors
+
+#TODO: Carry out functions to pouplate the DFs
+
+#TODO: Map everything back to LOS outputs
+>>>>>>> f18871f5c7fe0aea9a3cb6ee319b3c77a9615058

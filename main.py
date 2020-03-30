@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComb
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, QTabWidget, QTextEdit,
         QVBoxLayout, QWidget)
 import pandas as pd
+import calc
 
 class c4(QDialog):
     def __init__(self, parent=None):
@@ -25,6 +26,7 @@ class c4(QDialog):
         advancedCheck.toggled.connect(self.bottomLeftTabWidget.setEnabled)
         
         runCalc = QPushButton("Calculate")
+        runCalc.clicked.connect(self.calc)
         printButton = QPushButton("Print")
         defaultButton = QPushButton("Default")
         instructions = QPushButton("Instructions")
@@ -154,7 +156,7 @@ class c4(QDialog):
         tab2 = QWidget()
         CCHF = QTableWidget(7, 2)
         CCHFLabel = QLabel("Critical Care Hospitalization Fraction (%)")
-        CCHFLabel.setBuddy(CHR)
+        CCHFLabel.setBuddy(CCHF)
         CCHFDefault = QPushButton("Default")
         tab2grid = QGridLayout()
         tab2grid.setContentsMargins(5, 5, 5, 5)
@@ -168,7 +170,7 @@ class c4(QDialog):
         tab3 = QWidget()
         LOS = QTableWidget(4, 4)
         LOSLabel = QLabel("Enter min/max length of stay, %mortality, and change in LOS for patients who die.")
-        LOSLabel.setBuddy(CHR)
+        LOSLabel.setBuddy(LOS)
         LOSDefault = QPushButton("Default")
         tab3grid = QGridLayout()
         tab3grid.setContentsMargins(5, 5, 5, 5)
@@ -248,22 +250,6 @@ class c4(QDialog):
         CCHF.setItem(4,1, QTableWidgetItem("18.8"))
         CCHF.setItem(5,1, QTableWidgetItem("31.0"))
         CCHF.setItem(6,1, QTableWidgetItem("29.0"))
-    def bedDefaults(self, bed):
-        bed.setItem(0, 0, QTableWidgetItem("20,000"))
-        bed.setItem(0, 1, QTableWidgetItem("1,800"))
-        bed.setItem(0, 2, QTableWidgetItem("1,000"))
-        bed.setItem(0, 3, QTableWidgetItem("1.25"))
-        bed.setItem(0, 4, QTableWidgetItem("1,250"))
-    def ventDefaults(self, vent):
-        vent.setItem(0,0, QTableWidgetItem("2"))
-        vent.setItem(1,0, QTableWidgetItem("10"))
-        vent.setItem(2,0, QTableWidgetItem("95"))
-        vent.setItem(3,0, QTableWidgetItem("5"))
-        
-        vent.setItem(0,1, QTableWidgetItem("2"))
-        vent.setItem(1,1, QTableWidgetItem("10"))
-        vent.setItem(2,1, QTableWidgetItem("0.95"))
-        vent.setItem(3,1, QTableWidgetItem("0.5"))
     def LOSDefaults(self, LOS):
         LOS.setItem(0,0, QTableWidgetItem("3"))
         LOS.setItem(1,0, QTableWidgetItem("7"))
@@ -280,7 +266,23 @@ class c4(QDialog):
         LOS.setItem(0,3, QTableWidgetItem("150"))
         LOS.setItem(1,3, QTableWidgetItem("150"))
         LOS.setItem(2,3, QTableWidgetItem("100"))
-        LOS.setItem(3,3, QTableWidgetItem("100"))
+        LOS.setItem(3,3, QTableWidgetItem("100"))      
+    def bedDefaults(self, bed):
+        bed.setItem(0, 0, QTableWidgetItem("20000"))
+        bed.setItem(0, 1, QTableWidgetItem("1800"))
+        bed.setItem(0, 2, QTableWidgetItem("1000"))
+        bed.setItem(0, 3, QTableWidgetItem("1.25"))
+        bed.setItem(0, 4, QTableWidgetItem("1250"))
+    def ventDefaults(self, vent):
+        vent.setItem(0,0, QTableWidgetItem("2"))
+        vent.setItem(1,0, QTableWidgetItem("10"))
+        vent.setItem(2,0, QTableWidgetItem("95"))
+        vent.setItem(3,0, QTableWidgetItem("5"))
+        
+        vent.setItem(0,1, QTableWidgetItem("2"))
+        vent.setItem(1,1, QTableWidgetItem("10"))
+        vent.setItem(2,1, QTableWidgetItem("0.95"))
+        vent.setItem(3,1, QTableWidgetItem("0.5"))
     def setDefaults(self, CHR, CCHF, bed, vent, LOS):
         self.chrDefaults(CHR)
         self.cchfDefaults(CCHF)
@@ -288,54 +290,128 @@ class c4(QDialog):
         self.ventDefaults(vent)
         self.LOSDefaults(LOS)
 
-    def getRatios(self, CHR): #Use this for CHR and CCHF
+    def getCHR(self): 
         df = pd.DataFrame(columns = ["Mild", "Severe"])
-        df = df.append({'Mild': float(CHR.item(0,0)), 'Severe': float(CHR.item(0,1))}, ignore_index=True) #0-19
-        df = df.append({'Mild': float(CHR.item(1,0)), 'Severe': float(CHR.item(1,1))}, ignore_index=True) #20-44
-        df = df.append({'Mild': float(CHR.item(2,0)), 'Severe': float(CHR.item(2,1))}, ignore_index=True) #45-54
-        df = df.append({'Mild': float(CHR.item(3,0)), 'Severe': float(CHR.item(3,1))}, ignore_index=True) #55-64
-        df = df.append({'Mild': float(CHR.item(4,0)), 'Severe': float(CHR.item(4,1))}, ignore_index=True) #65-74
-        df = df.append({'Mild': float(CHR.item(5,0)), 'Severe': float(CHR.item(5,1))}, ignore_index=True) #75-84
-        df = df.append({'Mild': float(CHR.item(6,0)), 'Severe': float(CHR.item(6,1))}, ignore_index=True) #85+
+        CHR = self.bottomLeftTabWidget.widget(0).children()[3]
+        df = df.append({'Mild': float(CHR.item(0,0).text())/100, 'Severe': float(CHR.item(0,1).text())/100}, ignore_index=True) #0-19
+        df = df.append({'Mild': float(CHR.item(1,0).text())/100, 'Severe': float(CHR.item(1,1).text())/100}, ignore_index=True) #20-44
+        df = df.append({'Mild': float(CHR.item(2,0).text())/100, 'Severe': float(CHR.item(2,1).text())/100}, ignore_index=True) #45-54
+        df = df.append({'Mild': float(CHR.item(3,0).text())/100, 'Severe': float(CHR.item(3,1).text())/100}, ignore_index=True) #55-64
+        df = df.append({'Mild': float(CHR.item(4,0).text())/100, 'Severe': float(CHR.item(4,1).text())/100}, ignore_index=True) #65-74
+        df = df.append({'Mild': float(CHR.item(5,0).text())/100, 'Severe': float(CHR.item(5,1).text())/100}, ignore_index=True) #75-84
+        df = df.append({'Mild': float(CHR.item(6,0).text())/100, 'Severe': float(CHR.item(6,1).text())/100}, ignore_index=True) #85+
         return df
-    def getLOS(self, LOS): 
+    def getCCHF(self): 
+        df = pd.DataFrame(columns = ["Mild", "Severe"])
+        CCHF = self.bottomLeftTabWidget.widget(1).children()[3]
+        df = df.append({'Mild': float(CCHF.item(0,0).text())/100, 'Severe': float(CCHF.item(0,1).text())/100}, ignore_index=True) #0-19
+        df = df.append({'Mild': float(CCHF.item(1,0).text())/100, 'Severe': float(CCHF.item(1,1).text())/100}, ignore_index=True) #20-44
+        df = df.append({'Mild': float(CCHF.item(2,0).text())/100, 'Severe': float(CCHF.item(2,1).text())/100}, ignore_index=True) #45-54
+        df = df.append({'Mild': float(CCHF.item(3,0).text())/100, 'Severe': float(CCHF.item(3,1).text())/100}, ignore_index=True) #55-64
+        df = df.append({'Mild': float(CCHF.item(4,0).text())/100, 'Severe': float(CCHF.item(4,1).text())/100}, ignore_index=True) #65-74
+        df = df.append({'Mild': float(CCHF.item(5,0).text())/100, 'Severe': float(CCHF.item(5,1).text())/100}, ignore_index=True) #75-84
+        df = df.append({'Mild': float(CCHF.item(6,0).text())/100, 'Severe': float(CCHF.item(6,1).text())/100}, ignore_index=True) #85+
+        return df
+    def getLOS(self): 
         df = pd.DataFrame(columns = ['Minimum LOS', 'Maximum LOS', 'Mortality Ratio', 'LOS Adjustment'])
-        df = df.append({'Minimum LOS': float(LOS.item(0,0)), 'Maximum LOS': float(LOS.item(0,1)), 'Mortality Ratio': float(LOS.item(1,2)), 'LOS Adjustment': float(LOS.item(0,3))}) #adult ward beds
-        df = df.append({'Minimum LOS': float(LOS.item(1,0)), 'Maximum LOS': float(LOS.item(1,1)), 'Mortality Ratio': float(LOS.item(2,2)), 'LOS Adjustment': float(LOS.item(1,3))}) #adult icu beds
-        df = df.append({'Minimum LOS': float(LOS.item(2,0)), 'Maximum LOS': float(LOS.item(2,1)), 'Mortality Ratio': float(LOS.item(3,2)), 'LOS Adjustment': float(LOS.item(2,3))}) #ped ward beds
-        df = df.append({'Minimum LOS': float(LOS.item(3,0)), 'Maximum LOS': float(LOS.item(3,1)), 'Mortality Ratio': float(LOS.item(4,2)), 'LOS Adjustment': float(LOS.item(3,3))}) #ped icu beds
+        LOS = self.bottomLeftTabWidget.widget(2).children()[3]
+        df = df.append({'Minimum LOS': float(LOS.item(0,0).text()), 'Maximum LOS': float(LOS.item(0,1).text()), 'Mortality Ratio': float(LOS.item(0,2).text()), 'LOS Adjustment': float(LOS.item(0,3).text())}, ignore_index=True) #adult ward beds
+        df = df.append({'Minimum LOS': float(LOS.item(1,0).text()), 'Maximum LOS': float(LOS.item(1,1).text()), 'Mortality Ratio': float(LOS.item(1,2).text()), 'LOS Adjustment': float(LOS.item(1,3).text())}, ignore_index=True) #adult icu beds
+        df = df.append({'Minimum LOS': float(LOS.item(2,0).text()), 'Maximum LOS': float(LOS.item(2,1).text()), 'Mortality Ratio': float(LOS.item(2,2).text()), 'LOS Adjustment': float(LOS.item(2,3).text())}, ignore_index=True) #ped ward beds
+        df = df.append({'Minimum LOS': float(LOS.item(3,0).text()), 'Maximum LOS': float(LOS.item(3,1).text()), 'Mortality Ratio': float(LOS.item(3,2).text()), 'LOS Adjustment': float(LOS.item(3,3).text())}, ignore_index=True) #ped icu beds
         return df
-    def getVents(self, vents):
+    def getBeds(self):
         df = pd.DataFrame(columns = ['Available Ward Beds', 'Available ICU Beds', 'Available Ventilators', 'Patients per Ventilator', 'Effective Ventilator Supply'])
-        df = df.append({'Available Ward Beds': float(vents.item(0,0)), 
-                        'Available ICU Beds': float(vents.item(0,1)), 
-                        'Available Ventilators': float(vents.item(0,2)), 
-                        'Patients per Ventilator': float(vents.item(0,3)), 
-                        'Effective Ventilator Supply': float(vents.item(0,4))})
+        beds = self.bottomLeftTabWidget.widget(3).children()[3]
+        df = df.append({'Available Ward Beds': float(beds.item(0,0).text()), 
+                        'Available ICU Beds': float(beds.item(0,1).text()), 
+                        'Available Ventilators': float(beds.item(0,2).text()), 
+                        'Patients per Ventilator': float(beds.item(0,3).text()), 
+                        'Effective Ventilator Supply': float(beds.item(0,4).text())}, ignore_index=True)
         return df
-    def getNoVents(self, noVents):
+    def getNoVents(self):
         df = pd.DataFrame(columns = ['Mild', 'Severe'])
-        df = df.append({'Mild': float(noVents.item(0,0)), 'Severe': float(noVents.item(1,1))}) #Survivor Minimum LOS
-        df = df.append({'Mild': float(noVents.item(1,0)), 'Severe': float(noVents.item(2,1))}) #Survivor Maximum LOS
-        df = df.append({'Mild': float(noVents.item(2,0)), 'Severe': float(noVents.item(3,1))}) #Mortality Ratio (%)
-        df = df.append({'Mild': float(noVents.item(3,0)), 'Severe': float(noVents.item(4,1))}) #LOS Adjustment (%)
+        noVents = self.bottomLeftTabWidget.widget(4).children()[3]
+        df = df.append({'Mild': float(noVents.item(0,0).text()), 'Severe': float(noVents.item(0,1).text())}, ignore_index=True) #Survivor Minimum LOS
+        df = df.append({'Mild': float(noVents.item(1,0).text()), 'Severe': float(noVents.item(1,1).text())}, ignore_index=True) #Survivor Maximum LOS
+        df = df.append({'Mild': float(noVents.item(2,0).text()), 'Severe': float(noVents.item(2,1).text())}, ignore_index=True) #Mortality Ratio (%)
+        df = df.append({'Mild': float(noVents.item(3,0).text()), 'Severe': float(noVents.item(3,1).text())}, ignore_index=True) #LOS Adjustment (%)
         return df
     
-    def getInfectionRate(self, infRate): #returns a percentage
-        return infRate.Value()
-    def getSymptomatic(self, symp): #returns a percentage
-        return symp.Value()
-    def getPopDist(self, popDist): #returns an index
-        return popDist.currentIndex()
-    def getPop(self, totalPop): #returns an int
-        return int(totalPop.Value())
-    def getShapeCurve(self, peaked): #returns index
-        return peaked.currentIndex()
-    def getDayMax(self, peakDay): #returns an int
-        return int(peakDay.currentText())
-    def getDayOutput(self, dayOutput): #returns an int
-        return int(dayOutput.Value())
+    def getInfectionRate(self): #returns a decimal between 0 and 1
+        return self.topLeftGroupBox.children()[1].value()/100
+    def getSymptomatic(self): #returns a decimal between 0 and 1
+        return self.topLeftGroupBox.children()[2].value()/100
+    def getPopDist(self): #returns an index
+        return self.topLeftGroupBox.children()[6].currentIndex()
+    def getPop(self): #returns an int
+        return self.topLeftGroupBox.children()[0].value()
+    def getShapeCurve(self): #returns index
+        return self.topRightGroupBox.children()[3].currentIndex()
+    def getDayMax(self): #returns an int
+        index = self.topRightGroupBox.children()[5].currentIndex()
+        if index == 0:
+            return 30
+        if index == 1:
+            return 60
+        if index == 2:
+            return 90
+    def getDayOutput(self): #returns an int
+        return self.topRightGroupBox.children()[0].value()
 
+    def test(self): #put this function in line 29 instead of calc to test the getters
+        print(self.getCHR()) #CHR
+        print(self.getCCHF()) #CCHF
+        print(self.getLOS()) #LOS
+        print(self.getBeds()) #beds
+        print(self.getNoVents()) #noVents
+        print(self.getInfectionRate()) #inf
+        print(self.getSymptomatic()) #symp
+        print(self.getPopDist()) #should be an index
+        print(self.getPop()) #should be an int
+        print(self.getShapeCurve()) #should be an index
+        print(self.getDayMax()) #should be an int
+        print(self.getDayOutput()) #should be an int
+    
+    def calc(self):
+        #get GUI parameters
+        attackRate = self.getInfectionRate()
+        symptomatic = self.getSymptomatic()
+        dayOfPeak = self.getDayMax()
+        peakedness = self.getShapeCurve()
+        dayOf = self.getDayOutput()
+        totalP = self.getPop()
+        populationType = self.getPopDist()
+        CHR = self.getCHR()
+        CCHF = self.getCCHF()
+        
+        ad = calc.ageDist(totalP, populationType) #age distribution based on inputs
+        THR = calc.totalHosp(attackRate, symptomatic, ad, CHR) #total hospitalizations (by age); note this is a duplicated calculation since the below functions call totalHosp() themselves
+        numICU = calc.totalICUs(attackRate, symptomatic, ad, CHR, CCHF) #total ICU cases (by age)
+        WR = calc.totalWardCases(attackRate, symptomatic, ad, CHR, CCHF) #total ward cases (by age)
+        eC = calc.epi_curve(dayOfPeak,peakedness) #curve that tells us how total cases are distributed in time
+        dICU = calc.dailyICU(numICU, eC, dayOf) #daily ICU cases (by age)
+        dWard = calc.dailyWard(WR, eC, dayOf) #daily ward cases (by age)
+
+        #same as above but broken down by >19 and <19
+        tICU_p = calc.tICU_peds(numICU) #total pediatric ICU cases
+        tICU_a = calc.tICU_adults(numICU) #total adult ICU cases
+        tWard_p = calc.tWard_peds(WR) #total pediatric ward cases
+        tWard_a = calc.tWard_adults(WR) #total adult ward cases
+        dICU_p = calc.dICU_peds(dICU) #daily pediatric ICU cases
+        dICU_a = calc.dICU_adults(dICU) #daily adult ICU cases
+        dWard_p = calc.dWard_peds(dWard) #daily pediatric ward cases
+        dWard_a = calc.dWard_adults(dWard) #daily adult ward cases
+        
+        totalWard = calc.getMaxes(WR) #sum total of all ward cases (mild AND severe scenarios)
+        totalICU = calc.getMaxes(numICU) #sum total of all ICU cases
+        mW = totalWard[0] #sum total of all ward cases in the mild scenario
+        sW = totalWard[1] #sum total of all ward cases in the severe scenario
+        mildICU = totalICU[0] #sum total of all ICU cases in the mild scenario
+        sevICU = totalICU[1] #sum total of all ICu cases in the severe scenario
+
+        #TODO: plots go here
+        
 if __name__ == '__main__':
 
     import sys
