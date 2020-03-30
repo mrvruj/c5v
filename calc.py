@@ -197,7 +197,7 @@ def dICU_adults(df):
     di = df.copy()
     di.drop(index=0)
     da = pd.DataFrame(columns = ['Mild', 'Severe'])
-    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()})
+    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
     return da
     
 def dWard_peds(df):
@@ -210,7 +210,7 @@ def dWard_adults(df):
     di = df.copy()
     di.drop(index=0)
     da = pd.DataFrame(columns = ['Mild', 'Severe'])
-    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()})
+    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
     return da
     
 def tICU_peds(df):
@@ -223,7 +223,7 @@ def tICU_adults(df):
     di = df.copy()
     di.drop(index=0)
     da = pd.DataFrame(columns = ['Mild', 'Severe'])
-    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()})
+    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
     return da
     
 def tWard_peds(df):
@@ -236,7 +236,7 @@ def tWard_adults(df):
     di = df.copy()
     di.drop(index=0)
     da = pd.DataFrame(columns = ['Mild', 'Severe'])
-    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()})
+    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
     return da
 
 ####################     PLOTS      ############################
