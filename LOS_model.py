@@ -23,6 +23,7 @@ LOS_Deaths_df = pd.DataFrame(columns=['Day','Adult_Med/Surg_mild','Adult_ICU_mil
 LOS_Discharges_df = pd.DataFrame(columns=['Day','Adult_Med/Surg_mild','Adult_ICU_mild','Peds_Med/Surg_mild','Peds_ICU_mild',
                                'Adult_Med/Surg_severe','Adult_ICU_severe','Peds_Med/Surg_severe','Peds_ICU_severe'])
 
+<<<<<<< HEAD
 
 def calc_LOS_Admissions(df,mW_A,sW_A,mICU_A,sICU_A,mW_P,sW_P,mICU_P,sICU_P):
     """
@@ -96,3 +97,10 @@ def DepartureOnDay()
 #---> Carry out functions to pouplate the DFs
 
 #---> Map everything back to LOS outputs
+=======
+#TODO: Define LOS variables, multiplication factors
+
+#TODO: Carry out functions to pouplate the DFs
+
+#TODO: Map everything back to LOS outputs
+>>>>>>> 24638607417b385ff1122a1f988876285c6b61bf
