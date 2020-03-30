@@ -26,7 +26,7 @@ class c4(QDialog):
         advancedCheck.toggled.connect(self.bottomLeftTabWidget.setEnabled)
         
         runCalc = QPushButton("Calculate")
-        runCalc.clicked.connect(self.test)
+        runCalc.clicked.connect(self.calc)
         printButton = QPushButton("Print")
         defaultButton = QPushButton("Default")
         instructions = QPushButton("Instructions")
@@ -349,7 +349,13 @@ class c4(QDialog):
     def getShapeCurve(self): #returns index
         return self.topRightGroupBox.children()[3].currentIndex()
     def getDayMax(self): #returns an int
-        return self.topRightGroupBox.children()[5].currentIndex()
+        index = self.topRightGroupBox.children()[5].currentIndex()
+        if index == 0:
+            return 30
+        if index == 1:
+            return 60
+        if index == 2:
+            return 90
     def getDayOutput(self): #returns an int
         return self.topRightGroupBox.children()[0].value()
 
@@ -372,7 +378,7 @@ class c4(QDialog):
         attackRate = self.getInfectionRate()
         symptomatic = self.getSymptomatic()
         dayOfPeak = self.getDayMax()
-        peakedness = self.getShapeCurve
+        peakedness = self.getShapeCurve()
         dayOf = self.getDayOutput()
         totalP = self.getPop()
         populationType = self.getPopDist()
@@ -394,6 +400,9 @@ class c4(QDialog):
         sW = totalWard[1] #sum total of all ward cases in the severe scenario
         mildICU = totalICU[0] #sum total of all ICU cases in the mild scenario
         sevICU = totalICU[1] #sum total of all ICu cases in the severe scenario
+        
+        print(mW)
+        print(sW)
 
         #TODO: plots go here
         
