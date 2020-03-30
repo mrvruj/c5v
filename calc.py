@@ -6,6 +6,7 @@ import pandas as pd
 from scipy.stats import gamma
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtGui, QtCore
+import main
 
 #################   GAMMA CALCS   #################   
 
@@ -98,17 +99,16 @@ def getMaxes(df):
     
     return (sumMild, sumSev)
 
-def ageDist(totalPop, popCOM):
+def ageDist(totalPop, popCOM): #TODO: fix these 
     """
     Parameters:
         totalPop = total number of people
         popCOM = a qualitative assessment of the shape of the population
                     pyramid; has the following options:
-                        1. Old
-                        2. Middle-Aged
-                        3. Adults
-                        4. Teenagers
-                        5. Children
+                        1. Mali (young country)
+                        2. Bangladesh (young adult country)
+                        3. New York (middle age city)
+                        4. Japan (old country)
                     
     Output: 
         ageDist = a dataframe with 5 elements representing the number of people 
@@ -143,7 +143,7 @@ def ageDist(totalPop, popCOM):
     ad['proportions'] = ad['proportions'].apply(lambda x:x*totalPop)
     return ad
 
-def CHR(m0, s0, m1, s1, m2, s2, m3, s3, m4, s4):
+def CHR(m0, s0, m1, s1, m2, s2, m3, s3, m4, s4, m5, s5, m6, s6):
     CHR = pd.DataFrame(columns = ['Mild','Severe'])
     CHR = pd.DataFrame(columns = ['Mild','Severe'])
     CHR = CHR.append({'Mild': float(m0)/100, 'Severe': float(s0)/100}, ignore_index=True)
@@ -151,16 +151,20 @@ def CHR(m0, s0, m1, s1, m2, s2, m3, s3, m4, s4):
     CHR = CHR.append({'Mild': float(m2)/100, 'Severe': float(s2)/100}, ignore_index=True)
     CHR = CHR.append({'Mild': float(m3)/100, 'Severe': float(s3)/100}, ignore_index=True)
     CHR = CHR.append({'Mild': float(m4)/100, 'Severe': float(s4)/100}, ignore_index=True)
+    CHR = CHR.append({'Mild': float(m5)/100, 'Severe': float(s5)/100}, ignore_index=True)
+    CHR = CHR.append({'Mild': float(m6)/100, 'Severe': float(s6)/100}, ignore_index=True)
     
     return CHR
 
-def CCHR(m0, s0, m1, s1, m2, s2, m3, s3, m4, s4):
+def CCHR(m0, s0, m1, s1, m2, s2, m3, s3, m4, s4, m5, s5, m6, s6):
     CCHR = pd.DataFrame(columns = ['Mild','Severe'])
     CCHR = CCHR.append({'Mild': float(m0)/100, 'Severe': float(s0)/100}, ignore_index=True)
     CCHR = CCHR.append({'Mild': float(m1)/100, 'Severe': float(s1)/100}, ignore_index=True)
     CCHR = CCHR.append({'Mild': float(m2)/100, 'Severe': float(s2)/100}, ignore_index=True)
     CCHR = CCHR.append({'Mild': float(m3)/100, 'Severe': float(s3)/100}, ignore_index=True)
     CCHR = CCHR.append({'Mild': float(m4)/100, 'Severe': float(s4)/100}, ignore_index=True)
+    CCHR = CCHR.append({'Mild': float(m5)/100, 'Severe': float(s5)/100}, ignore_index=True)
+    CCHR = CCHR.append({'Mild': float(m6)/100, 'Severe': float(s6)/100}, ignore_index=True)
     
     return CCHR
     
@@ -211,6 +215,30 @@ def dailyICU(df, epi_curve, day):
     dICU['Severe'] = tW['Severe'].apply(lambda x: x*epi_curve.loc[day][1])
     
     return dICU
+
+def dICU_peds(df):
+    dI = df.copy()
+    dICU_peds = pd.DataFrame(columns = ['Mild', 'Severe'])
+    
+    #dICU_peds['>19'] = dICU_peds.sum(1:8)
+    pass
+    
+def dICU_adults(df): 
+    pass
+def dWard_peds(df):
+    pass
+def dWard_adults(df):
+    pass
+def tICU_peds(df):
+    pass
+def tICU_adults(df):
+    pass
+def tWard_peds():
+    pass
+def tWard_adults():
+    pass
+
+#TODO: define dWard and dICU for peds/adults by taking 1st row and summing last 6 rows
 
 ####################     PLOTS      ############################
     

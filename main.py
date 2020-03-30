@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComb
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, QTabWidget, QTextEdit,
         QVBoxLayout, QWidget)
+import pandas as pd
 
 class c4(QDialog):
     def __init__(self, parent=None):
@@ -216,6 +217,8 @@ class c4(QDialog):
         self.bottomLeftTabWidget.addTab(tab4, "Capacitated Inputs")
         self.bottomLeftTabWidget.addTab(tab5, "No Vents")
         
+### GETTERS AND SETTERS ###
+
     def chrDefaults(self, CHR): 
         CHR.setItem(0,0, QTableWidgetItem("1.6"))
         CHR.setItem(1,0, QTableWidgetItem("14.3"))
@@ -288,6 +291,54 @@ class c4(QDialog):
         self.ventDefaults(vent)
         self.LOSDefaults(LOS)
 
+    def getRatios(self, CHR): #Use this for CHR and CCHF
+        df = pd.DataFrame(columns = ["Mild", "Severe"])
+        df = df.append({'Mild': float(CHR.item(0,0)), 'Severe': float(CHR.item(0,1))}, ignore_index=True) #0-19
+        df = df.append({'Mild': float(CHR.item(1,0)), 'Severe': float(CHR.item(1,1))}, ignore_index=True) #20-44
+        df = df.append({'Mild': float(CHR.item(2,0)), 'Severe': float(CHR.item(2,1))}, ignore_index=True) #45-54
+        df = df.append({'Mild': float(CHR.item(3,0)), 'Severe': float(CHR.item(3,1))}, ignore_index=True) #55-64
+        df = df.append({'Mild': float(CHR.item(4,0)), 'Severe': float(CHR.item(4,1))}, ignore_index=True) #65-74
+        df = df.append({'Mild': float(CHR.item(5,0)), 'Severe': float(CHR.item(5,1))}, ignore_index=True) #75-84
+        df = df.append({'Mild': float(CHR.item(6,0)), 'Severe': float(CHR.item(6,1))}, ignore_index=True) #85+
+        return df
+    def getLOS(self, LOS): 
+        df = pd.DataFrame(columns = ['Minimum LOS', 'Maximum LOS', 'Mortality Ratio', 'LOS Adjustment'])
+        df = df.append({'Minimum LOS': float(LOS.item(0,0)), 'Maximum LOS': float(LOS.item(0,1)), 'Mortality Ratio': float(LOS.item(1,2)), 'LOS Adjustment': float(LOS.item(0,3))}) #adult ward beds
+        df = df.append({'Minimum LOS': float(LOS.item(1,0)), 'Maximum LOS': float(LOS.item(1,1)), 'Mortality Ratio': float(LOS.item(2,2)), 'LOS Adjustment': float(LOS.item(1,3))}) #adult icu beds
+        df = df.append({'Minimum LOS': float(LOS.item(2,0)), 'Maximum LOS': float(LOS.item(2,1)), 'Mortality Ratio': float(LOS.item(3,2)), 'LOS Adjustment': float(LOS.item(2,3))}) #ped ward beds
+        df = df.append({'Minimum LOS': float(LOS.item(3,0)), 'Maximum LOS': float(LOS.item(3,1)), 'Mortality Ratio': float(LOS.item(4,2)), 'LOS Adjustment': float(LOS.item(3,3))}) #ped icu beds
+        return df
+    def getVents(self, vents):
+        df = pd.DataFrame(columns = ['Available Ward Beds', 'Available ICU Beds', 'Available Ventilators', 'Patients per Ventilator', 'Effective Ventilator Supply'])
+        df = df.append({'Available Ward Beds': float(vents.item(0,0)), 
+                        'Available ICU Beds': float(vents.item(0,1)), 
+                        'Available Ventilators': float(vents.item(0,2)), 
+                        'Patients per Ventilator': float(vents.item(0,3)), 
+                        'Effective Ventilator Supply': float(vents.item(0,4))})
+        return df
+    def getNoVents(self, noVents):
+        df = pd.DataFrame(columns = ['Mild', 'Severe'])
+        df = df.append({'Mild': float(noVents.item(0,0)), 'Severe': float(noVents.item(1,1))}) #Survivor Minimum LOS
+        df = df.append({'Mild': float(noVents.item(1,0)), 'Severe': float(noVents.item(2,1))}) #Survivor Maximum LOS
+        df = df.append({'Mild': float(noVents.item(2,0)), 'Severe': float(noVents.item(3,1))}) #Mortality Ratio (%)
+        df = df.append({'Mild': float(noVents.item(3,0)), 'Severe': float(noVents.item(4,1))}) #LOS Adjustment (%)
+        return df
+    
+    def getInfectionRate(self, infRate): #returns a percentage
+        return infRate.Value()
+    def getSymptomatic(self, symp): #returns a percentage
+        return symp.Value()
+    def getPopDist(self, popDist): #returns an index
+        return popDist.currentIndex()
+    def getPop(self, totalPop): #returns an int
+        return int(totalPop.Value())
+    def getShapeCurve(self, peaked): #returns index
+        return peaked.currentIndex()
+    def getDayMax(self, peakDay): #returns an int
+        return int(peakDay.currentText())
+    def getDayOutput(self, dayOutput): #returns an int
+        return int(dayOutput.Value())
+        
 """
     def createBottomRightGroupBox(self):
         self.bottomRightGroupBox = QGroupBox("Group 3")
