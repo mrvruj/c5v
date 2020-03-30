@@ -359,6 +359,8 @@ class c4(QDialog):
     def getDayOutput(self): #returns an int
         return self.topRightGroupBox.children()[0].value()
 
+### TESTS AND SIMULATION ### 
+
     def test(self): #put this function in line 29 instead of calc to test the getters
         print(self.getCHR()) #CHR
         print(self.getCCHF()) #CCHF
