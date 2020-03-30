@@ -22,7 +22,7 @@ class c4(QDialog):
         self.createBottomLeftTabWidget()
 
         advancedCheck = QCheckBox("Advanced Options")
-        advancedCheck.setChecked(False)
+        advancedCheck.setChecked(True)
         advancedCheck.toggled.connect(self.bottomLeftTabWidget.setEnabled)
         
         runCalc = QPushButton("Calculate")
