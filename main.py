@@ -22,7 +22,7 @@ class c4(QDialog):
         self.createBottomLeftTabWidget()
 
         advancedCheck = QCheckBox("Advanced Options")
-        advancedCheck.setChecked(True)
+        advancedCheck.setChecked(False)
         advancedCheck.toggled.connect(self.bottomLeftTabWidget.setEnabled)
         
         runCalc = QPushButton("Calculate")
@@ -404,6 +404,9 @@ class c4(QDialog):
         dICU_a = calc.dICU_adults(dICU) #daily adult ICU cases
         dWard_p = calc.dWard_peds(dWard) #daily pediatric ward cases
         dWard_a = calc.dWard_adults(dWard) #daily adult ward cases
+        
+        print(dWard_a) #figure out why this is borked
+        print(dWard_p) #figure out why this is borked
         
         totalWard = calc.getMaxes(WR) #sum total of all ward cases (mild AND severe scenarios)
         totalICU = calc.getMaxes(numICU) #sum total of all ICU cases
