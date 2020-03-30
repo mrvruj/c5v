@@ -229,7 +229,7 @@ def plot(df):
         Window with all the outputted plots.
     """
     
-    app = QtGui.QApplication([])
+    #app = QtGui.QApplication([])
     view = pg.GraphicsView()
     l = pg.GraphicsLayout(border=(100,100,100))
     view.setCentralItem(l)

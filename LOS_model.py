@@ -21,8 +21,8 @@ LOS_Deaths_df = pd.DataFrame(columns=['Day','Adult_Med/Surg_mild','Adult_ICU_mil
 LOS_Discharges_df = pd.DataFrame(columns=['Day','Adult_Med/Surg_mild','Adult_ICU_mild','Peds_Med/Surg_mild','Peds_ICU_mild',
                                'Adult_Med/Surg_severe','Adult_ICU_severe','Peds_Med/Surg_severe','Peds_ICU_severe'])
 
----> Define LOS variables, multiplication factors
+#TODO: Define LOS variables, multiplication factors
 
----> Carry out functions to pouplate the DFs
+#TODO: Carry out functions to pouplate the DFs
 
----> Map everything back to LOS outputs
+#TODO: Map everything back to LOS outputs
