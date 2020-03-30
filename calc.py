@@ -138,32 +138,6 @@ def ageDist(totalPop, popCOM): #TODO: fix these
 
     ad['proportions'] = ad['proportions'].apply(lambda x:x*totalPop)
     return ad
-
-"""
-def CHR(m0, s0, m1, s1, m2, s2, m3, s3, m4, s4, m5, s5, m6, s6):
-    CHR = pd.DataFrame(columns = ['Mild','Severe'])
-    CHR = CHR.append({'Mild': float(m0)/100, 'Severe': float(s0)/100}, ignore_index=True)
-    CHR = CHR.append({'Mild': float(m1)/100, 'Severe': float(s1)/100}, ignore_index=True)
-    CHR = CHR.append({'Mild': float(m2)/100, 'Severe': float(s2)/100}, ignore_index=True)
-    CHR = CHR.append({'Mild': float(m3)/100, 'Severe': float(s3)/100}, ignore_index=True)
-    CHR = CHR.append({'Mild': float(m4)/100, 'Severe': float(s4)/100}, ignore_index=True)
-    CHR = CHR.append({'Mild': float(m5)/100, 'Severe': float(s5)/100}, ignore_index=True)
-    CHR = CHR.append({'Mild': float(m6)/100, 'Severe': float(s6)/100}, ignore_index=True)
-    
-    return CHR
-
-def CCHR(m0, s0, m1, s1, m2, s2, m3, s3, m4, s4, m5, s5, m6, s6):
-    CCHR = pd.DataFrame(columns = ['Mild','Severe'])
-    CCHR = CCHR.append({'Mild': float(m0)/100, 'Severe': float(s0)/100}, ignore_index=True)
-    CCHR = CCHR.append({'Mild': float(m1)/100, 'Severe': float(s1)/100}, ignore_index=True)
-    CCHR = CCHR.append({'Mild': float(m2)/100, 'Severe': float(s2)/100}, ignore_index=True)
-    CCHR = CCHR.append({'Mild': float(m3)/100, 'Severe': float(s3)/100}, ignore_index=True)
-    CCHR = CCHR.append({'Mild': float(m4)/100, 'Severe': float(s4)/100}, ignore_index=True)
-    CCHR = CCHR.append({'Mild': float(m5)/100, 'Severe': float(s5)/100}, ignore_index=True)
-    CCHR = CCHR.append({'Mild': float(m6)/100, 'Severe': float(s6)/100}, ignore_index=True)
-    
-    return CCHR
-"""
     
 def totalHosp(attackRate, symp, ad, CHR):
     tH = CHR.copy()
@@ -214,28 +188,56 @@ def dailyICU(df, epi_curve, day):
     return dICU
 
 def dICU_peds(df):
-    dI = df.copy()
-    dICU_peds = pd.DataFrame(columns = ['Mild', 'Severe'])
-    
-    #dICU_peds['>19'] = dICU_peds.sum(1:8)
-    pass
+    dp = df.copy()
+    for i in range(1, 7, 1): #remove rows index 1,2,3,4,5,6 (preserve 0)
+        dp.drop(index=i)
+    return dp
     
 def dICU_adults(df): 
-    pass
+    di = df.copy()
+    di.drop(index=0)
+    da = pd.DataFrame(columns = ['Mild', 'Severe'])
+    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()})
+    return da
+    
 def dWard_peds(df):
-    pass
-def dWard_adults(df):
-    pass
-def tICU_peds(df):
-    pass
-def tICU_adults(df):
-    pass
-def tWard_peds():
-    pass
-def tWard_adults():
-    pass
+    dp = df.copy()
+    for i in range(1, 7, 1): #remove rows index 1,2,3,4,5,6 (preserve 0)
+        dp.drop(index=i)
+    return dp
 
-#TODO: define dWard and dICU for peds/adults by taking 1st row and summing last 6 rows
+def dWard_adults(df):
+    di = df.copy()
+    di.drop(index=0)
+    da = pd.DataFrame(columns = ['Mild', 'Severe'])
+    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()})
+    return da
+    
+def tICU_peds(df):
+    dp = df.copy()
+    for i in range(1, 7, 1): #remove rows index 1,2,3,4,5,6 (preserve 0)
+        dp.drop(index=i)
+    return dp
+
+def tICU_adults(df):
+    di = df.copy()
+    di.drop(index=0)
+    da = pd.DataFrame(columns = ['Mild', 'Severe'])
+    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()})
+    return da
+    
+def tWard_peds(df):
+    dp = df.copy()
+    for i in range(1, 7, 1): #remove rows index 1,2,3,4,5,6 (preserve 0)
+        dp.drop(index=i)
+    return dp
+
+def tWard_adults():
+    di = df.copy()
+    di.drop(index=0)
+    da = pd.DataFrame(columns = ['Mild', 'Severe'])
+    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()})
+    return da
 
 ####################     PLOTS      ############################
     

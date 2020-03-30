@@ -392,17 +392,23 @@ class c4(QDialog):
         eC = calc.epi_curve(dayOfPeak,peakedness) #curve that tells us how total cases are distributed in time
         dICU = calc.dailyICU(numICU, eC, dayOf) #daily ICU cases (by age)
         dWard = calc.dailyWard(WR, eC, dayOf) #daily ward cases (by age)
+
+        #same as above but broken down by >19 and <19
+        tICU_p = calc.tICU_peds(numICU) #total pediatric ICU cases
+        tICU_a = calc.tICU_adults(numICU) #total adult ICU cases
+        tWard_p = calc.tWard_peds(WR) #total pediatric ward cases
+        tWard_a = calc.tWard_adults(WR) #total adult ward cases
+        dICU_p = calc.dICU_peds(dICU) #daily pediatric ICU cases
+        dICU_a = calc.dICU_adults(dICU) #daily adult ICU cases
+        dWard_p = calc.dWard_peds(dWard) #daily pediatric ward cases
+        dWard_a = calc.dWard_adults(dWard) #daily adult ward cases
         
         totalWard = calc.getMaxes(WR) #sum total of all ward cases (mild AND severe scenarios)
         totalICU = calc.getMaxes(numICU) #sum total of all ICU cases
-        
         mW = totalWard[0] #sum total of all ward cases in the mild scenario
         sW = totalWard[1] #sum total of all ward cases in the severe scenario
         mildICU = totalICU[0] #sum total of all ICU cases in the mild scenario
         sevICU = totalICU[1] #sum total of all ICu cases in the severe scenario
-        
-        print(mW)
-        print(sW)
 
         #TODO: plots go here
         
