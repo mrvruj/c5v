@@ -126,11 +126,8 @@ def calc_LOS_Occupancy():
             else:
                 LOS_Occupancy_df.at[day,col] = LOS_Occupancy_df.loc[day-1][col] + LOS_Admissions_df.loc[day][col] - LOS_Deaths_df.loc[day-1][col] - LOS_Discharges_df.loc[day-1][col]
 
-#---> Carry out functions to pouplate the DFs
-
-#---> Map everything back to LOS outputs
-#TODO: Define LOS variables, multiplication factors
-
 #TODO: Carry out functions to pouplate the DFs
-
+#TODO: Map everything back to LOS outputs
+#TODO: Define LOS variables, multiplication factors
+#TODO: Carry out functions to pouplate the DFs
 #TODO: Map everything back to LOS outputs
