@@ -337,20 +337,20 @@ class c4(QDialog):
         df = df.append({'Mild': float(noVents.item(3,0).text()), 'Severe': float(noVents.item(3,1).text())}, ignore_index=True) #LOS Adjustment (%)
         return df
     
-    def getInfectionRate(self, infRate): #returns a percentage
-        return infRate.Value()
-    def getSymptomatic(self, symp): #returns a percentage
-        return symp.Value()
-    def getPopDist(self, popDist): #returns an index
-        return popDist.currentIndex()
-    def getPop(self, totalPop): #returns an int
-        return int(totalPop.Value())
-    def getShapeCurve(self, peaked): #returns index
-        return peaked.currentIndex()
-    def getDayMax(self, peakDay): #returns an int
-        return int(peakDay.currentText())
-    def getDayOutput(self, dayOutput): #returns an int
-        return int(dayOutput.Value())
+    def getInfectionRate(self): #returns a decimal between 0 and 1
+        return self.topLeftGroupBox.children()[1].value()/100
+    def getSymptomatic(self): #returns a decimal between 0 and 1
+        return self.topLeftGroupBox.children()[2].value()/100
+    def getPopDist(self): #returns an index
+        return self.topLeftGroupBox.children()[6].currentIndex()
+    def getPop(self): #returns an int
+        return self.topLeftGroupBox.children()[0].value()
+    def getShapeCurve(self): #returns index
+        return self.topRightGroupBox.children()[3].currentIndex()
+    def getDayMax(self): #returns an int
+        return self.topRightGroupBox.children()[5].currentIndex()
+    def getDayOutput(self): #returns an int
+        return self.topRightGroupBox.children()[0].value()
 
     def calc(self):
         print(self.getCHR()) #CHR
@@ -358,7 +358,14 @@ class c4(QDialog):
         print(self.getLOS()) #LOS
         print(self.getBeds()) #beds
         print(self.getNoVents()) #noVents
-    
+        print(self.getInfectionRate()) #inf
+        print(self.getSymptomatic()) #symp
+        print(self.getPopDist()) #should be an index
+        print(self.getPop()) #should be an int
+        print(self.getShapeCurve()) #should be an index
+        print(self.getDayMax()) #should be an int
+        print(self.getDayOutput()) #should be an int
+        
 if __name__ == '__main__':
 
     import sys
