@@ -232,7 +232,7 @@ def tWard_peds(df):
         dp.drop(index=i)
     return dp
 
-def tWard_adults():
+def tWard_adults(df):
     di = df.copy()
     di.drop(index=0)
     da = pd.DataFrame(columns = ['Mild', 'Severe'])
