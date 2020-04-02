@@ -417,13 +417,6 @@ class c4(QDialog):
         sW = totalWard[1] #sum total of all ward cases in the severe scenario
         mildICU = totalICU[0] #sum total of all ICU cases in the mild scenario
         sevICU = totalICU[1] #sum total of all ICu cases in the severe scenario
-        
-        print(THR)
-        print(numICU)
-
-        #LOS_model.calc_LOS_Admissions(eC,8544,22258,1402,6974,401,1412,72,478)
-        #LOS_model.calc_LOS_data(3, 7, 5, 150,7, 21, 25, 150,2, 
-        #          4, .01, 100,3, 6, .02, 100)
     
         LOS_model.calc_LOS_Admissions(eC, tWard_a.loc[0][0], tWard_a.loc[0][1], tICU_a.loc[0][0], tICU_a.loc[0][1], tWard_p.loc[0][0],tWard_p.loc[0][1],tICU_p.loc[0][0],tICU_p.loc[0][1])
         LOS_model.calc_LOS_data(LOS.loc[0][0], LOS.loc[0][1], LOS.loc[0][2], LOS.loc[0][3], LOS.loc[1][0], LOS.loc[1][1], LOS.loc[1][2], LOS.loc[1][3], LOS.loc[2][0], LOS.loc[2][1], LOS.loc[2][2], LOS.loc[2][3],LOS.loc[3][0], LOS.loc[3][1], LOS.loc[3][2], LOS.loc[3][3])
@@ -433,9 +426,7 @@ class c4(QDialog):
         calc.plot(eC,LOS_model.LOS_Occupancy_df)
         
 if __name__ == '__main__':
-
     import sys
-
     app = QApplication(sys.argv)
     window = c4()
     #window.showMaximized()
