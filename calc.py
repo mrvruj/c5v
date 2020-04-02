@@ -112,29 +112,41 @@ def ageDist(totalPop, popCOM): #TODO: fix these
     """
     ad = pd.DataFrame(columns=['proportions'])
     if popCOM == 0: #Mali
-        ad = ad.append({'proportions': 2623385/14528662}, ignore_index=True)
-        ad = ad.append({'proportions': 4899900/14528662}, ignore_index=True)
-        ad = ad.append({'proportions': 5352915/14528662}, ignore_index=True)
-        ad = ad.append({'proportions': 915501/14528662}, ignore_index=True)
-        ad = ad.append({'proportions': 461451/14528662}, ignore_index=True)
+        tot = 20251 * 10^3
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
     elif popCOM == 1: #Bangladesh
-        ad = ad.append({'proportions': 15061970/144043697}, ignore_index=True)
-        ad = ad.append({'proportions': 41250789/144043697}, ignore_index=True)
-        ad = ad.append({'proportions': 67908170/144043697}, ignore_index=True)
-        ad = ad.append({'proportions': 12987282/144043697}, ignore_index=True)
-        ad = ad.append({'proportions': 6410315/144043697}, ignore_index=True)
+        tot =  164689 * 10^3
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
     elif popCOM == 2: #New York
-        ad = ad.append({'proportions': 535068/8398748}, ignore_index=True)
-        ad = ad.append({'proportions': 1204188/8398748}, ignore_index=True)
-        ad = ad.append({'proportions': 3886398/8398748}, ignore_index=True)
-        ad = ad.append({'proportions': 1527614/8398748}, ignore_index=True)
-        ad = ad.append({'proportions': 1245480/8398748}, ignore_index=True)
+        tot =   331003 * 10^3
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
     elif popCOM == 3: #Japan
-        ad = ad.append({'proportions': 4700/126131}, ignore_index=True)
-        ad = ad.append({'proportions': 13375.5/126131}, ignore_index=True)
-        ad = ad.append({'proportions': 48348.5/126131}, ignore_index=True)
-        ad = ad.append({'proportions': 23780/126131}, ignore_index=True)
-        ad = ad.append({'proportions': 35868/126131}, ignore_index=True)
+        tot =   126476 * 10^3
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
 
     ad['proportions'] = ad['proportions'].apply(lambda x:x*totalPop)
     return ad
