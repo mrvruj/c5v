@@ -120,8 +120,10 @@ def calc_LOS_Occupancy():
     LOS_Occupancy_df['Day'] = LOS_Admissions_df['Day']
     for day in range(1,181):
         for col in ['mW_A','sW_A','mICU_A','sICU_A','mW_P','sW_P','mICU_P','sICU_P']:
-            if day == 0:
+            if day == 1:
                 LOS_Occupancy_df.at[day,col] = 0
             else:
                 LOS_Occupancy_df.at[day,col] = LOS_Occupancy_df.loc[day-1][col] + LOS_Admissions_df.loc[day][col] - LOS_Deaths_df.loc[day-1][col] - LOS_Discharges_df.loc[day-1][col]
+    LOS_Occupancy_df['Day'] + 1
+    LOS_Occupancy_df = LOS_Occupancy_df[:-1]
 

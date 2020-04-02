@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComb
         QVBoxLayout, QWidget)
 import pandas as pd
 import calc
-from LOS_model import *
+import LOS_model
 
 class c4(QDialog):
     def __init__(self, parent=None):
@@ -419,13 +419,13 @@ class c4(QDialog):
         #calc_LOS_Admissions(df,mW_A,sW_A,mICU_A,sICU_A,mW_P,sW_P,mICU_P,sICU_P)
         #calc_LOS_data(W_A_min, W_A_max, W_A_FR, W_A_adj,ICU_A_min, ICU_A_max, ICU_A_FR, ICU_A_adj,W_P_min, 
         #          W_P_max, W_P_FR, W_P_adj,ICU_P_min, ICU_P_max, ICU_P_FR, ICU_P_adj)
-        calc_LOS_Admissions(eC,8544,22258,1402,6974,401,1412,72,478)
-        calc_LOS_data(3, 7, 5, 150,7, 21, 25, 150,2, 
+        LOS_model.calc_LOS_Admissions(eC,8544,22258,1402,6974,401,1412,72,478)
+        LOS_model.calc_LOS_data(3, 7, 5, 150,7, 21, 25, 150,2, 
                   4, .01, 100,3, 6, .02, 100)
-        calc_LOS_Deaths()
-        calc_LOS_Discharges()
-        calc_LOS_Occupancy()
-        plot(eC,LOS_occupancy_df)
+        LOS_model.calc_LOS_Deaths()
+        LOS_model.calc_LOS_Discharges()
+        LOS_model.calc_LOS_Occupancy()
+        calc.plot(eC,LOS_model.LOS_Occupancy_df)
         
         
 if __name__ == '__main__':
