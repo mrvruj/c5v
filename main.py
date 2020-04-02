@@ -413,9 +413,6 @@ class c4(QDialog):
         mildICU = totalICU[0] #sum total of all ICU cases in the mild scenario
         sevICU = totalICU[1] #sum total of all ICu cases in the severe scenario
         
-        print(THR)
-        print(numICU)
-
         LOS = self.getLOS()      
         LOS_model.calc_LOS_Admissions(eC, tWard_a.loc[0][0], tWard_a.loc[0][1], tICU_a.loc[0][0], tICU_a.loc[0][1], tWard_p.loc[0][0],tWard_p.loc[0][1],tICU_p.loc[0][0],tICU_p.loc[0][1])
         LOS_model.calc_LOS_data(LOS.loc[0][0], LOS.loc[0][1], LOS.loc[0][2], LOS.loc[0][3], LOS.loc[1][0], LOS.loc[1][1], LOS.loc[1][2], LOS.loc[1][3], LOS.loc[2][0], LOS.loc[2][1], LOS.loc[2][2], LOS.loc[2][3],LOS.loc[3][0], LOS.loc[3][1], LOS.loc[3][2], LOS.loc[3][3])
