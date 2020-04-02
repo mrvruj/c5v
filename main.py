@@ -387,25 +387,30 @@ class c4(QDialog):
         populationType = self.getPopDist()
         CHR = self.getCHR()
         CCHF = self.getCCHF()
+        LOS = self.getLOS()   
         
+        #common dataframes
         ad = calc.ageDist(totalP, populationType) #age distribution based on inputs
         THR = calc.totalHosp(attackRate, symptomatic, ad, CHR) #total hospitalizations (by age); note this is a duplicated calculation since the below functions call totalHosp() themselves
         numICU = calc.totalICUs(attackRate, symptomatic, ad, CHR, CCHF) #total ICU cases (by age)
         WR = calc.totalWardCases(attackRate, symptomatic, ad, CHR, CCHF) #total ward cases (by age)
         eC = calc.epi_curve(dayOfPeak,peakedness) #curve that tells us how total cases are distributed in time
-        dICU = calc.dailyICU(numICU, eC, dayOf) #daily ICU cases (by age)
-        dWard = calc.dailyWard(WR, eC, dayOf) #daily ward cases (by age)
 
-        #same as above but broken down by >19 and <19
+        #ward and ICU cases by adult/peds status
         tICU_p = calc.tICU_peds(numICU) #total pediatric ICU cases
         tICU_a = calc.tICU_adults(numICU) #total adult ICU cases
         tWard_p = calc.tWard_peds(WR) #total pediatric ward cases
         tWard_a = calc.tWard_adults(WR) #total adult ward cases
+        
+        #daily cases (for output tables @ given day)
+        dICU = calc.dailyICU(numICU, eC, dayOf) #daily ICU cases (by age)
+        dWard = calc.dailyWard(WR, eC, dayOf) #daily ward cases (by age)
         dICU_p = calc.dICU_peds(dICU) #daily pediatric ICU cases
         dICU_a = calc.dICU_adults(dICU) #daily adult ICU cases
         dWard_p = calc.dWard_peds(dWard) #daily pediatric ward cases
         dWard_a = calc.dWard_adults(dWard) #daily adult ward cases
         
+        #calculate grand totals
         totalWard = calc.getMaxes(WR) #sum total of all ward cases (mild AND severe scenarios)
         totalICU = calc.getMaxes(numICU) #sum total of all ICU cases
         mW = totalWard[0] #sum total of all ward cases in the mild scenario
@@ -413,7 +418,6 @@ class c4(QDialog):
         mildICU = totalICU[0] #sum total of all ICU cases in the mild scenario
         sevICU = totalICU[1] #sum total of all ICu cases in the severe scenario
         
-        LOS = self.getLOS()      
         LOS_model.calc_LOS_Admissions(eC, tWard_a.loc[0][0], tWard_a.loc[0][1], tICU_a.loc[0][0], tICU_a.loc[0][1], tWard_p.loc[0][0],tWard_p.loc[0][1],tICU_p.loc[0][0],tICU_p.loc[0][1])
         LOS_model.calc_LOS_data(LOS.loc[0][0], LOS.loc[0][1], LOS.loc[0][2], LOS.loc[0][3], LOS.loc[1][0], LOS.loc[1][1], LOS.loc[1][2], LOS.loc[1][3], LOS.loc[2][0], LOS.loc[2][1], LOS.loc[2][2], LOS.loc[2][3],LOS.loc[3][0], LOS.loc[3][1], LOS.loc[3][2], LOS.loc[3][3])
         LOS_model.calc_LOS_Deaths()
