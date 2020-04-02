@@ -158,8 +158,8 @@ def totalHosp(attackRate, symp, ad, CHR):
     
     return tH
 
-def totalICUs(attackRate, symp, ad, CHR, CCHR):
-    tH = totalHosp(attackRate, symp, ad, CHR)
+def totalICUs(df):
+    tH = df.copy()
     tICU = pd.DataFrame(columns = ['Mild','Severe'])
     
     tICU['Mild'] =   tH['Mild']   * CCHR['Mild']
@@ -167,15 +167,35 @@ def totalICUs(attackRate, symp, ad, CHR, CCHR):
     
     return tICU
         
-def totalWardCases(attackRate, symp, ad, CHR, CCHR):
-    tH = totalHosp(attackRate, symp, ad, CHR)
-    tICU = totalICUs(attackRate, symp, ad, CHR, CCHR)
+def totalWardCases(THR, TICUR):
+    tH = THR.copy()
+    tICU = TICUR.copy()
     wards = pd.DataFrame(columns = ['Mild', 'Severe'])
     
     wards['Mild'] =   tH['Mild'] -   tICU['Mild']
     wards['Severe'] = tH['Severe'] - tICU['Severe']
     
     return wards
+
+def tICU_peds(df):
+    return df.iloc[[0]]
+
+def tICU_adults(df):
+    di = df.copy()
+    di.drop(index=0, inplace=True)
+    da = pd.DataFrame(columns = ['Mild', 'Severe'])
+    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
+    return da
+    
+def tWard_peds(df):
+    return df.iloc[[0]]
+
+def tWard_adults(df):
+    di = df.copy()
+    di.drop(index=0, inplace=True)
+    da = pd.DataFrame(columns = ['Mild', 'Severe'])
+    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
+    return da
 
 def dailyWard(df, epi_curve, day):
     tW = df.copy()
@@ -215,25 +235,7 @@ def dWard_adults(df):
     da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
     return da
     
-def tICU_peds(df):
-    return df.iloc[[0]]
 
-def tICU_adults(df):
-    di = df.copy()
-    di.drop(index=0, inplace=True)
-    da = pd.DataFrame(columns = ['Mild', 'Severe'])
-    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
-    return da
-    
-def tWard_peds(df):
-    return df.iloc[[0]]
-
-def tWard_adults(df):
-    di = df.copy()
-    di.drop(index=0, inplace=True)
-    da = pd.DataFrame(columns = ['Mild', 'Severe'])
-    da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
-    return da
 
 ####################     PLOTS      ############################
     

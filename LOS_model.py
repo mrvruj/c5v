@@ -7,6 +7,7 @@ Created on Sat Mar 28 20:46:41 2020
 """
 
 import pandas as pd
+import calc
 
 LOS_data_df = pd.DataFrame(columns=['W_A','ICU_A','W_P','ICU_P'], 
                         index=['Survivor_min','Survivor_max','Survivor_share','Victim_min','Victim_max','Victim_share'])
@@ -19,12 +20,21 @@ LOS_Deaths_df = pd.DataFrame(columns=['Day','mW_A','sW_A','mICU_A','sICU_A','mW_
 
 LOS_Discharges_df = pd.DataFrame(columns=['Day','mW_A','sW_A','mICU_A','sICU_A','mW_P','sW_P','mICU_P','sICU_P'])
 
-def calc_LOS_Admissions(df,mW_A,sW_A,mICU_A,sICU_A,mW_P,sW_P,mICU_P,sICU_P):
+def calc_LOS_Admissions(df, tICU_p, tICU_a, tWard_p, tWard_a):
     """
     Takes input DataFrame from epi_curve and populates LOS_Admissions_df with the 
     corresponding values based on mild/severe ward/ICU adult/peds parameters.
     
     """
+    mW_A = tWard_a.loc[0][0]
+    sW_A = tWard_a.loc[0][1]
+    mICU_A = tICU_a.loc[0][0]
+    sICU_A = tICU_a.loc[0][1]
+    mW_P = tWard_p.loc[0][0]
+    sW_P = tWard_p.loc[0][1]
+    mICU_P = tICU_p.loc[0][0]
+    sICU_P = tICU_p.loc[0][1]
+    
     LOS_Admissions_df['Day'] = df['Day']
     d = {'mW_A':mW_A, 'sW_A':sW_A, 'mICU_A':mICU_A, 'sICU_A':sICU_A, 'mW_P':mW_P, 'sW_P':sW_P, 'mICU_P':mICU_P, 'sICU_P':sICU_P}
     for key,value in d.items():
@@ -32,14 +42,30 @@ def calc_LOS_Admissions(df,mW_A,sW_A,mICU_A,sICU_A,mW_P,sW_P,mICU_P,sICU_P):
     LOS_Admissions_df.index += 1
     #To correct for C4-AnalyticOutput starting at 1
 
-def calc_LOS_data(W_A_min, W_A_max, W_A_FR, W_A_adj,ICU_A_min, ICU_A_max, ICU_A_FR, ICU_A_adj,W_P_min, 
-                  W_P_max, W_P_FR, W_P_adj,ICU_P_min, ICU_P_max, ICU_P_FR, ICU_P_adj):
+def calc_LOS_data(LOS):
     """
     Takes in the data from the LOS table in the inputs and converts it to the proper form to 
     be used during the LOS Dynamics calculations.
     
     Here, both mild and severe scenarios have the same LOS.
     """
+    W_A_min = LOS.loc[0][0]
+    W_A_max = LOS.loc[0][1]
+    W_A_FR = LOS.loc[0][2]
+    W_A_adj = LOS.loc[0][3]
+    ICU_A_min = LOS.loc[1][0]
+    ICU_A_max = LOS.loc[1][1]
+    ICU_A_FR = LOS.loc[1][2]
+    ICU_A_adj = LOS.loc[1][3]
+    W_P_min = LOS.loc[2][0]
+    W_P_max = LOS.loc[2][1]
+    W_P_FR = LOS.loc[2][2]
+    W_P_adj = LOS.loc[2][3]
+    ICU_P_min = LOS.loc[3][0]
+    ICU_P_max = LOS.loc[3][1]
+    ICU_P_FR = LOS.loc[3][2]
+    ICU_P_adj = LOS.loc[3][3]
+    
     LOS_data_df.loc['Survivor_min']['W_A'] = W_A_min
     LOS_data_df.loc['Survivor_min']['ICU_A'] = ICU_A_min
     LOS_data_df.loc['Survivor_min']['W_P'] = W_P_min

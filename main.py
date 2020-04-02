@@ -392,8 +392,8 @@ class c4(QDialog):
         #common dataframes
         ad = calc.ageDist(totalP, populationType) #age distribution based on inputs
         THR = calc.totalHosp(attackRate, symptomatic, ad, CHR) #total hospitalizations (by age); note this is a duplicated calculation since the below functions call totalHosp() themselves
-        numICU = calc.totalICUs(attackRate, symptomatic, ad, CHR, CCHF) #total ICU cases (by age)
-        WR = calc.totalWardCases(attackRate, symptomatic, ad, CHR, CCHF) #total ward cases (by age)
+        numICU = calc.totalICUs(THR) #total ICU cases (by age)
+        WR = calc.totalWardCases(THR, numICU) #total ward cases (by age)
         eC = calc.epi_curve(dayOfPeak,peakedness) #curve that tells us how total cases are distributed in time
 
         #ward and ICU cases by adult/peds status
@@ -418,8 +418,8 @@ class c4(QDialog):
         mildICU = totalICU[0] #sum total of all ICU cases in the mild scenario
         sevICU = totalICU[1] #sum total of all ICu cases in the severe scenario
     
-        LOS_model.calc_LOS_Admissions(eC, tWard_a.loc[0][0], tWard_a.loc[0][1], tICU_a.loc[0][0], tICU_a.loc[0][1], tWard_p.loc[0][0],tWard_p.loc[0][1],tICU_p.loc[0][0],tICU_p.loc[0][1])
-        LOS_model.calc_LOS_data(LOS.loc[0][0], LOS.loc[0][1], LOS.loc[0][2], LOS.loc[0][3], LOS.loc[1][0], LOS.loc[1][1], LOS.loc[1][2], LOS.loc[1][3], LOS.loc[2][0], LOS.loc[2][1], LOS.loc[2][2], LOS.loc[2][3],LOS.loc[3][0], LOS.loc[3][1], LOS.loc[3][2], LOS.loc[3][3])
+        LOS_model.calc_LOS_Admissions(eC, tICU_p, tICU_a, tWard_p, tWard_a)
+        LOS_model.calc_LOS_data(LOS)
         LOS_model.calc_LOS_Deaths()
         LOS_model.calc_LOS_Discharges()
         LOS_model.calc_LOS_Occupancy()
