@@ -121,7 +121,7 @@ def ageDist(totalPop, popCOM): #TODO: fix these
         ad = ad.append({'proportions': 0.00624794020828969*tot}, ignore_index=True)
         ad = ad.append({'proportions': 0.000624665631054998*tot}, ignore_index=True)
     elif popCOM == 1: #Bangladesh
-        tot =  164689 * 10^3
+        tot = 164689 * 10^3
         ad = ad.append({'proportions': 0.362178975435229*tot}, ignore_index=True)
         ad = ad.append({'proportions': 0.40987433294349*tot}, ignore_index=True)
         ad = ad.append({'proportions': 0.107661949283033*tot}, ignore_index=True)
@@ -130,7 +130,7 @@ def ageDist(totalPop, popCOM): #TODO: fix these
         ad = ad.append({'proportions': 0.016758821666118*tot}, ignore_index=True)
         ad = ad.append({'proportions': 0.00421834114224595*tot}, ignore_index=True)
     elif popCOM == 2: #USA
-        tot =   8398748 #TODO: make a separate NYC one
+        tot = 8398748 #TODO: make a separate NYC one
         ad = ad.append({'proportions': 0.247894932997318*tot}, ignore_index=True)
         ad = ad.append({'proportions': 0.33551678515731*tot}, ignore_index=True)
         ad = ad.append({'proportions': 0.122753112001548*tot}, ignore_index=True)
@@ -139,7 +139,7 @@ def ageDist(totalPop, popCOM): #TODO: fix these
         ad = ad.append({'proportions': 0.0489087810829501*tot}, ignore_index=True)
         ad = ad.append({'proportions': 0.0201991738150662*tot}, ignore_index=True)
     elif popCOM == 3: #Japan
-        tot =   126476 * 10^3
+        tot = 126476 * 10^3
         ad = ad.append({'proportions': 0.169574166917293*tot}, ignore_index=True)
         ad = ad.append({'proportions': 0.277293992531005*tot}, ignore_index=True)
         ad = ad.append({'proportions': 0.147563153610769*tot}, ignore_index=True)
