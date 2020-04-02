@@ -196,9 +196,7 @@ def dailyICU(df, epi_curve, day):
     return dICU
 
 def dICU_peds(df):
-    dp = pd.DataFrame(columns = ['Mild', 'Severe'])
-    dp.append(df.iloc[[0]])
-    return dp
+    return df.iloc[[0]]
     
 def dICU_adults(df): 
     di = df.copy()
@@ -208,9 +206,7 @@ def dICU_adults(df):
     return da
     
 def dWard_peds(df):
-    dp = pd.DataFrame(columns = ['Mild', 'Severe'])
-    dp.append(df.iloc[[0]])
-    return dp
+    return df.iloc[[0]]
 
 def dWard_adults(df):
     di = df.copy()
@@ -220,9 +216,7 @@ def dWard_adults(df):
     return da
     
 def tICU_peds(df):
-    dp = pd.DataFrame(columns = ['Mild', 'Severe'])
-    dp.append(df.iloc[[0]])
-    return dp
+    return df.iloc[[0]]
 
 def tICU_adults(df):
     di = df.copy()
@@ -232,9 +226,7 @@ def tICU_adults(df):
     return da
     
 def tWard_peds(df):
-    dp = pd.DataFrame(columns = ['Mild', 'Severe'])
-    dp.append(df.iloc[[0]])
-    return dp
+    return df.iloc[[0]]
 
 def tWard_adults(df):
     di = df.copy()
