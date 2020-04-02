@@ -158,7 +158,7 @@ def totalHosp(attackRate, symp, ad, CHR):
     
     return tH
 
-def totalICUs(df):
+def totalICUs(df, CCHR):
     tH = df.copy()
     tICU = pd.DataFrame(columns = ['Mild','Severe'])
     

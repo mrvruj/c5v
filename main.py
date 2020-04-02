@@ -392,7 +392,7 @@ class c4(QDialog):
         #common dataframes
         ad = calc.ageDist(totalP, populationType) #age distribution based on inputs
         THR = calc.totalHosp(attackRate, symptomatic, ad, CHR) #total hospitalizations (by age); note this is a duplicated calculation since the below functions call totalHosp() themselves
-        numICU = calc.totalICUs(THR) #total ICU cases (by age)
+        numICU = calc.totalICUs(THR, CCHF) #total ICU cases (by age)
         WR = calc.totalWardCases(THR, numICU) #total ward cases (by age)
         eC = calc.epi_curve(dayOfPeak,peakedness) #curve that tells us how total cases are distributed in time
 
