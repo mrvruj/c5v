@@ -65,7 +65,7 @@ class c4(QDialog):
         tPopLabel.setBuddy(totalPop)
         
         popDist = QComboBox()
-        popDist.addItems(('Young (Mali)', 'Young Adults (Bangladesh)', 'Middle-Aged (New York)', 'Old (Japan)'))
+        popDist.addItems(('Young (Mali)', 'Young Adults (Bangladesh)', 'Middle-Aged (United States)', 'Old (Japan)'))
         popDistLabel = QLabel("Population Distribution:")
         popDistLabel.setBuddy(popDist)
         popDist.setCurrentIndex(2)

@@ -112,41 +112,37 @@ def ageDist(totalPop, popCOM): #TODO: fix these
     """
     ad = pd.DataFrame(columns=['proportions'])
     if popCOM == 0: #Mali
-        tot = 20251 * 10^3
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 0.581199816264357}, ignore_index=True)
+        ad = ad.append({'proportions': 0.305733679906714}, ignore_index=True)
+        ad = ad.append({'proportions': 0.0566936156802233}, ignore_index=True)
+        ad = ad.append({'proportions': 0.0316014639199551}, ignore_index=True)
+        ad = ad.append({'proportions': 0.0178988183894056}, ignore_index=True)
+        ad = ad.append({'proportions': 0.00624794020828969}, ignore_index=True)
+        ad = ad.append({'proportions': 0.000624665631054998}, ignore_index=True)
     elif popCOM == 1: #Bangladesh
-        tot =  164689 * 10^3
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-    elif popCOM == 2: #New York
-        tot =   331003 * 10^3
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 0.362178975435229}, ignore_index=True)
+        ad = ad.append({'proportions': 0.40987433294349}, ignore_index=True)
+        ad = ad.append({'proportions': 0.107661949283033}, ignore_index=True)
+        ad = ad.append({'proportions': 0.0680146879899356}, ignore_index=True)
+        ad = ad.append({'proportions': 0.0312928915399483}, ignore_index=True)
+        ad = ad.append({'proportions': 0.016758821666118}, ignore_index=True)
+        ad = ad.append({'proportions': 0.00421834114224595}, ignore_index=True)
+    elif popCOM == 2: #USA
+        ad = ad.append({'proportions': 0.247894932997318}, ignore_index=True)
+        ad = ad.append({'proportions': 0.33551678515731}, ignore_index=True)
+        ad = ad.append({'proportions': 0.122753112001548}, ignore_index=True)
+        ad = ad.append({'proportions': 0.12752590767046}, ignore_index=True)
+        ad = ad.append({'proportions': 0.0972013072753464}, ignore_index=True)
+        ad = ad.append({'proportions': 0.0489087810829501}, ignore_index=True)
+        ad = ad.append({'proportions': 0.0201991738150662}, ignore_index=True)
     elif popCOM == 3: #Japan
-        tot =   126476 * 10^3
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
-        ad = ad.append({'proportions': 1/tot}, ignore_index=True)
+        ad = ad.append({'proportions': 0.169574166917293}, ignore_index=True)
+        ad = ad.append({'proportions': 0.277293992531005}, ignore_index=True)
+        ad = ad.append({'proportions': 0.147563153610769}, ignore_index=True)
+        ad = ad.append({'proportions': 0.121595957407346}, ignore_index=True)
+        ad = ad.append({'proportions': 0.138416518590361}, ignore_index=True)
+        ad = ad.append({'proportions': 0.0980190795665704}, ignore_index=True)
+        ad = ad.append({'proportions': 0.0475371313766551}, ignore_index=True)
 
     ad['proportions'] = ad['proportions'].apply(lambda x:x*totalPop)
     return ad
@@ -200,53 +196,41 @@ def dailyICU(df, epi_curve, day):
     return dICU
 
 def dICU_peds(df):
-    dp = df.copy()
-    for i in range(1, 7, 1): #remove rows index 1,2,3,4,5,6 (preserve 0)
-        dp.drop(index=i)
-    return dp
+    return df.iloc[[0]]
     
 def dICU_adults(df): 
     di = df.copy()
-    di.drop(index=0)
+    di.drop(index=0, inplace=True)
     da = pd.DataFrame(columns = ['Mild', 'Severe'])
     da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
     return da
     
 def dWard_peds(df):
-    dp = df.copy()
-    for i in range(1, 7, 1): #remove rows index 1,2,3,4,5,6 (preserve 0)
-        dp.drop(index=i)
-    return dp
+    return df.iloc[[0]]
 
 def dWard_adults(df):
     di = df.copy()
-    di.drop(index=0)
+    di.drop(index=0, inplace=True)
     da = pd.DataFrame(columns = ['Mild', 'Severe'])
     da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
     return da
     
 def tICU_peds(df):
-    dp = df.copy()
-    for i in range(1, 7, 1): #remove rows index 1,2,3,4,5,6 (preserve 0)
-        dp.drop(index=i)
-    return dp
+    return df.iloc[[0]]
 
 def tICU_adults(df):
     di = df.copy()
-    di.drop(index=0)
+    di.drop(index=0, inplace=True)
     da = pd.DataFrame(columns = ['Mild', 'Severe'])
     da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
     return da
     
 def tWard_peds(df):
-    dp = df.copy()
-    for i in range(1, 7, 1): #remove rows index 1,2,3,4,5,6 (preserve 0)
-        dp.drop(index=i)
-    return dp
+    return df.iloc[[0]]
 
 def tWard_adults(df):
     di = df.copy()
-    di.drop(index=0)
+    di.drop(index=0, inplace=True)
     da = pd.DataFrame(columns = ['Mild', 'Severe'])
     da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
     return da
