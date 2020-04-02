@@ -426,3 +426,5 @@ if __name__ == '__main__':
     #window.showMaximized()
     window.show()
     sys.exit(app.exec_()) 
+
+#TODO: curves w/ error bars (+/- 5% IR/SR)
