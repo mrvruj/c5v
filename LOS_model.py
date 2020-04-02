@@ -129,7 +129,8 @@ def calc_LOS_Occupancy():
                 LOS_Occupancy_df.at[day,col] = 0
             else:
                 LOS_Occupancy_df.at[day,col] = LOS_Occupancy_df.loc[day-1][col] + LOS_Admissions_df.loc[day][col] - LOS_Deaths_df.loc[day-1][col] - LOS_Discharges_df.loc[day-1][col]
-                
+ 
+               
     
 
 #---> Carry out functions to pouplate the DFs
