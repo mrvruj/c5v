@@ -413,13 +413,7 @@ class c4(QDialog):
         mildICU = totalICU[0] #sum total of all ICU cases in the mild scenario
         sevICU = totalICU[1] #sum total of all ICu cases in the severe scenario
         
-        print("THR")
-        print(THR)
-        print("numICU")
-        print(numICU)
-        
-        print("tICU_p")
-        print(tICU_p)
+        print(tWard_p)
 
         #calc_LOS_Admissions(df,mW_A,sW_A,mICU_A,sICU_A,mW_P,sW_P,mICU_P,sICU_P)
         #calc_LOS_data(W_A_min, W_A_max, W_A_FR, W_A_adj,ICU_A_min, ICU_A_max, ICU_A_FR, ICU_A_adj,W_P_min, 
