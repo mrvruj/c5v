@@ -359,6 +359,8 @@ class c4(QDialog):
     def getDayOutput(self): #returns an int
         return self.topRightGroupBox.children()[0].value()
 
+### TESTS AND SIMULATION ### 
+
     def test(self): #put this function in line 29 instead of calc to test the getters
         print(self.getCHR()) #CHR
         print(self.getCCHF()) #CCHF
@@ -403,6 +405,9 @@ class c4(QDialog):
         dWard_p = calc.dWard_peds(dWard) #daily pediatric ward cases
         dWard_a = calc.dWard_adults(dWard) #daily adult ward cases
         
+        print(dWard_a) #figure out why this is borked
+        print(dWard_p) #figure out why this is borked
+        
         totalWard = calc.getMaxes(WR) #sum total of all ward cases (mild AND severe scenarios)
         totalICU = calc.getMaxes(numICU) #sum total of all ICU cases
         mW = totalWard[0] #sum total of all ward cases in the mild scenario
@@ -421,3 +426,5 @@ if __name__ == '__main__':
     #window.showMaximized()
     window.show()
     sys.exit(app.exec_()) 
+
+#TODO: curves w/ error bars (+/- 5% IR/SR)
