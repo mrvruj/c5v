@@ -406,8 +406,6 @@ class c4(QDialog):
         dWard_p = calc.dWard_peds(dWard) #daily pediatric ward cases
         dWard_a = calc.dWard_adults(dWard) #daily adult ward cases
         
-        print(tICU_p)
-        
         totalWard = calc.getMaxes(WR) #sum total of all ward cases (mild AND severe scenarios)
         totalICU = calc.getMaxes(numICU) #sum total of all ICU cases
         mW = totalWard[0] #sum total of all ward cases in the mild scenario
