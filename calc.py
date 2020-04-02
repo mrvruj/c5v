@@ -130,7 +130,7 @@ def ageDist(totalPop, popCOM): #TODO: fix these
         ad = ad.append({'proportions': 0.016758821666118*tot}, ignore_index=True)
         ad = ad.append({'proportions': 0.00421834114224595*tot}, ignore_index=True)
     elif popCOM == 2: #USA
-        tot =   331003 * 10^3
+        tot =   8398748 #TODO: make a separate NYC one
         ad = ad.append({'proportions': 0.247894932997318*tot}, ignore_index=True)
         ad = ad.append({'proportions': 0.33551678515731*tot}, ignore_index=True)
         ad = ad.append({'proportions': 0.122753112001548*tot}, ignore_index=True)
