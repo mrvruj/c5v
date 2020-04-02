@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComb
         QVBoxLayout, QWidget)
 import pandas as pd
 import calc
+import LOS_model
 
 class c4(QDialog):
     def __init__(self, parent=None):
@@ -405,8 +406,7 @@ class c4(QDialog):
         dWard_p = calc.dWard_peds(dWard) #daily pediatric ward cases
         dWard_a = calc.dWard_adults(dWard) #daily adult ward cases
         
-        print(dWard_a) #figure out why this is borked
-        print(dWard_p) #figure out why this is borked
+        print(tICU_p)
         
         totalWard = calc.getMaxes(WR) #sum total of all ward cases (mild AND severe scenarios)
         totalICU = calc.getMaxes(numICU) #sum total of all ICU cases
@@ -415,7 +415,13 @@ class c4(QDialog):
         mildICU = totalICU[0] #sum total of all ICU cases in the mild scenario
         sevICU = totalICU[1] #sum total of all ICu cases in the severe scenario
 
-        #TODO: plots go here
+        calc_LOS_Admissions(df,mW_A,sW_A,mICU_A,sICU_A,mW_P,sW_P,mICU_P,sICU_P)
+        calc_LOS_data(W_A_min, W_A_max, W_A_FR, W_A_adj,ICU_A_min, ICU_A_max, ICU_A_FR, ICU_A_adj,W_P_min, 
+                  W_P_max, W_P_FR, W_P_adj,ICU_P_min, ICU_P_max, ICU_P_FR, ICU_P_adj)
+        calc_LOS_Deaths()
+        calc_LOS_Discharges()
+        calc_LOS_Occupancy()
+        
         
 if __name__ == '__main__':
 

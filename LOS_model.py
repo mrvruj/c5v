@@ -7,7 +7,6 @@ Created on Sat Mar 28 20:46:41 2020
 """
 
 import pandas as pd
-import numpy as np
 
 LOS_data_df = pd.DataFrame(columns=['W_A','ICU_A','W_P','ICU_P'], 
                         index=['Survivor_min','Survivor_max','Survivor_share','Victim_min','Victim_max','Victim_share'])
