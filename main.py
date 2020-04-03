@@ -9,8 +9,8 @@ from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComb
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, QTabWidget, QTextEdit,
         QVBoxLayout, QWidget)
 import pandas as pd
-import calc
 import LOS_model
+import calc
 
 class c4(QDialog):
     def __init__(self, parent=None):
