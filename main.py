@@ -417,15 +417,13 @@ class c4(QDialog):
         sW = totalWard[1] #sum total of all ward cases in the severe scenario
         mildICU = totalICU[0] #sum total of all ICU cases in the mild scenario
         sevICU = totalICU[1] #sum total of all ICu cases in the severe scenario
-    
-        print(tWard_a)
-        print(tICU_a)
-        #LOS_model.calc_LOS_Admissions(eC, tICU_p, tICU_a, tWard_p, tWard_a)
-        #LOS_model.calc_LOS_data(LOS)
-        #LOS_model.calc_LOS_Deaths()
-        #LOS_model.calc_LOS_Discharges()
-        #LOS_model.calc_LOS_Occupancy()
-        #calc.plot(eC,LOS_model.LOS_Occupancy_df)
+        
+        LOS_model.calc_LOS_Admissions(eC, tICU_p, tICU_a, tWard_p, tWard_a)
+        LOS_model.calc_LOS_data(LOS)
+        LOS_model.calc_LOS_Deaths()
+        LOS_model.calc_LOS_Discharges()
+        LOS_model.calc_LOS_Occupancy()
+        calc.plot(eC,LOS_model.LOS_Occupancy_df)
         
 if __name__ == '__main__':
     import sys

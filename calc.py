@@ -184,7 +184,8 @@ def tICU_adults(df):
     di = df.copy()
     di = di[1:]
     da = pd.DataFrame(columns = ['Mild', 'Severe'])
-    da.append({'Mild': di['Mild'].sum(), 'Severe': di['Severe'].sum()}, ignore_index=True)
+    da.at[0,'Mild'] = di['Mild'].sum()
+    da.at[0,'Severe'] = di['Severe'].sum()
     return da
     
 def tWard_peds(df):
@@ -194,7 +195,8 @@ def tWard_adults(df):
     di = df.copy()
     di = di[1:]
     da = pd.DataFrame(columns = ['Mild', 'Severe'])
-    da.append({'Mild': di['Mild'].sum(), 'Severe': di['Severe'].sum()}, ignore_index=True)
+    da.at[0,'Mild'] = di['Mild'].sum()
+    da.at[0,'Severe'] = di['Severe'].sum()
     return da
 
 def dailyWard(df, epi_curve, day):
