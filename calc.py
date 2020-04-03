@@ -184,12 +184,8 @@ def tICU_adults(df):
     di = df.copy()
     di = di[1:]
     da = pd.DataFrame(columns = ['Mild', 'Severe'])
-<<<<<<< HEAD
-    da.append({'Mild': di['Mild'].sum(), 'Severe': di['Severe'].sum()}, ignore_index=True) 
-=======
     da.at[0,'Mild'] = di['Mild'].sum()
     da.at[0,'Severe'] = di['Severe'].sum()
->>>>>>> 5246f3c65b8472eea92fdd9561ad420c380312a0
     return da
     
 def tWard_peds(df):
