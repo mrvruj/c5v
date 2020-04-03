@@ -256,7 +256,7 @@ def plot(epi_curve_df,LOS_occupancy_df):
         Window with all the outputted plots.
     """
     
-    #app = QtGui.QApplication([])
+    app = QtGui.QApplication([])
     view = pg.GraphicsView()
     l = pg.GraphicsLayout(border=(100,100,100))
     view.setCentralItem(l)
@@ -298,4 +298,12 @@ def plot(epi_curve_df,LOS_occupancy_df):
     p3.plot(LOS_occupancy_df['Day'],LOS_occupancy_df['sICU_P'],pen=pg.mkPen('m',width=5), name='Pediatric Severe ICU')
     l.nextRow()
     
-    return QtGui.QApplication.instance().exec_()
+    #return QtGui.QApplication.instance().exec_()
+    if __name__ == '__main__':
+        import sys
+        if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
+            QtGui.QApplication.instance().exec_()
+            
+eC = epi_curve(60,2)
+df = pd.read_pickle('df.pkl')
+plot(eC,df)

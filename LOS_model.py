@@ -152,4 +152,5 @@ def calc_LOS_Occupancy():
                 LOS_Occupancy_df.at[day,col] = LOS_Occupancy_df.loc[day-1][col] + LOS_Admissions_df.loc[day][col] - LOS_Deaths_df.loc[day-1][col] - LOS_Discharges_df.loc[day-1][col]
     LOS_Occupancy_df['Day'] += 1
     LOS_Occupancy_df.drop([181],inplace=True)
+    LOS_Occupancy_df.reset_index(drop=True, inplace=True)
 
