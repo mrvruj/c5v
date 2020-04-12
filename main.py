@@ -21,7 +21,7 @@ class c4(QDialog):
         self.createTopLeftGroupBox()
         self.createTopRightGroupBox()
         self.createBottomLeftTabWidget()
-        self.createPlotWidget()
+        #self.createPlotWidget()
 
         advancedCheck = QCheckBox("Advanced Options")
         advancedCheck.setChecked(True)
@@ -39,13 +39,31 @@ class c4(QDialog):
         topLayout.addWidget(defaultButton)
         topLayout.addWidget(printButton)
         topLayout.addWidget(runCalc) #make these into objects called by addWidget()
+        
+        plot1 = QPushButton("Plot 1")
+        plot2 = QPushButton("Plot 2")
+        plot3 = QPushButton("Plot 3")
+        table1 = QPushButton("Table 1")
+        table2 = QPushButton("Table 2")
+        table3 = QPushButton("Table 3")
+        table4 = QPushButton("Table 4")
+        
+        plotGrid = QGridLayout()
+        plotGrid.addWidget(plot1, 0, 1, 1, 1)
+        plotGrid.addWidget(plot2, 0, 1, 2, 1)
+        plotGrid.addWidget(plot3, 0, 1, 3, 1)
+        plotGrid.addWidget(table1, 0, 2, 1, 2)
+        plotGrid.addWidget(table2, 0, 2, 2, 2)
+        plotGrid.addWidget(table3, 0, 2, 3, 2)
+        plotGrid.addWidget(table4, 0, 2, 4, 2)
 
         mainLayout = QGridLayout()
         mainLayout.addLayout(topLayout, 0, 0, 1, 3)
         mainLayout.addWidget(self.topLeftGroupBox, 1, 0)
         mainLayout.addWidget(self.topRightGroupBox, 1, 1)
         mainLayout.addWidget(self.bottomLeftTabWidget, 2, 0, 1, 2)
-        mainLayout.addWidget(self.PlotWidget, 1, 3, 3, 3)
+        mainLayout.addLayout(plotGrid, 1, 3, 3, 3)
+        #mainLayout.addLayout()
         mainLayout.setRowStretch(1, 1)
         mainLayout.setRowStretch(2, 1)
         mainLayout.setColumnStretch(0, 1)
@@ -219,10 +237,9 @@ class c4(QDialog):
         self.bottomLeftTabWidget.addTab(tab4, "Capacitated Inputs")
         self.bottomLeftTabWidget.addTab(tab5, "No Vents")
         
-    def createPlotWidget(self):
-        self.PlotWidget = QGroupBox("Output")
-    
-        
+    #def createPlotWidget(self):
+    #    self.PlotWidget = QGroupBox("Output")
+                
 ### GETTERS AND SETTERS ###
 
     def chrDefaults(self, CHR): 
@@ -429,7 +446,7 @@ class c4(QDialog):
         LOS_model.calc_LOS_Deaths()
         LOS_model.calc_LOS_Discharges()
         LOS_model.calc_LOS_Occupancy()
-        calc.plot(eC,LOS_model.LOS_Occupancy_df)
+        #calc.plot(eC,LOS_model.LOS_Occupancy_df)
         
 if __name__ == '__main__':
     import sys
