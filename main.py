@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComb
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, QTabWidget, QTextEdit,
-        QVBoxLayout, QWidget)
+        QVBoxLayout, QWidget, QHeaderView)
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 import pandas as pd
@@ -74,6 +74,12 @@ class c4(QDialog):
         self.setLayout(mainLayout)
 
         self.setWindowTitle("c4: Cornell COVID-19 Caseload Calculator")
+        self.width = 640
+        self.height = 720
+        self.left = 100
+        self.top = 100
+        self.setGeometry(self.left, self.top, self.width, self.height)
+        
         QApplication.setStyle(QStyleFactory.create('Fusion'))
         QApplication.setPalette(QApplication.style().standardPalette())
 
@@ -176,6 +182,8 @@ class c4(QDialog):
         tab1.setLayout(tab1grid)
         CHR.setHorizontalHeaderLabels(("Mild", "Severe"))
         CHR.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85"))
+        header = CHR.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents) 
 
         tab2 = QWidget()
         CCHF = QTableWidget(7, 2)
@@ -190,6 +198,8 @@ class c4(QDialog):
         tab2.setLayout(tab2grid)
         CCHF.setHorizontalHeaderLabels(("Mild", "Severe"))
         CCHF.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85"))
+        header = CCHF.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents) 
         
         tab3 = QWidget()
         LOS = QTableWidget(4, 4)
@@ -204,6 +214,8 @@ class c4(QDialog):
         tab3.setLayout(tab3grid)
         LOS.setHorizontalHeaderLabels(("Minimum LOS", "Maximum LOS", "Mortality Ratio", "LOS Adjustment"))
         LOS.setVerticalHeaderLabels(("Adult Ward Beds", "Adult ICU Beds", "Pediatric Ward Beds", "Pediatric ICU Beds"))
+        header = LOS.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents) 
         
         tab4 = QWidget()
         capInputs = QTableWidget(1, 5)
@@ -217,6 +229,8 @@ class c4(QDialog):
         tab4grid.addWidget(capInputs, 1, 0, 1, 2)
         tab4.setLayout(tab4grid)
         capInputs.setHorizontalHeaderLabels(("Available Ward Beds", "Available ICU Beds", "Available Ventilators", "Patients per Ventilator", "Effective Ventilator Supply"))
+        header = capInputs.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents) 
         
         tab5 = QWidget()
         noVent = QTableWidget(4, 2)
@@ -231,6 +245,8 @@ class c4(QDialog):
         tab5.setLayout(tab5grid)
         noVent.setHorizontalHeaderLabels(("Mild", "Severe"))
         noVent.setVerticalHeaderLabels(("Survivor Minimum LOS", "Survivor Maximum LOS", "Mortality Ratio (%)", "LOS Adjustment (%)"))
+        header = noVent.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents) 
 
         self.setDefaults(CHR, CCHF, capInputs, noVent, LOS)
 
@@ -284,6 +300,8 @@ class c4(QDialog):
         tab1.setLayout(tab1grid)
         THR.setHorizontalHeaderLabels(("Mild", "Severe"))
         THR.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85", "Total"))
+        header = THR.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents) 
         
         tab2 = QWidget()
         TWC = QTableWidget(8, 2)
@@ -296,6 +314,8 @@ class c4(QDialog):
         tab2.setLayout(tab2grid)
         TWC.setHorizontalHeaderLabels(("Mild", "Severe"))
         TWC.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85", "Total"))
+        header = TWC.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents)
         
         tab3 = QWidget()
         ICU = QTableWidget(8, 2)
@@ -308,6 +328,8 @@ class c4(QDialog):
         tab3.setLayout(tab3grid)
         ICU.setHorizontalHeaderLabels(("Mild", "Severe"))
         ICU.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85", "Total"))
+        header = ICU.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents)
         
         tab4 = QWidget()
         DWARD = QTableWidget(8, 2)
@@ -320,6 +342,8 @@ class c4(QDialog):
         tab4.setLayout(tab4grid)
         DWARD.setHorizontalHeaderLabels(("Mild", "Severe"))
         DWARD.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85", "Total"))
+        header = DWARD.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents)
         
         tab5 = QWidget()
         DICU = QTableWidget(8, 2)
@@ -332,6 +356,8 @@ class c4(QDialog):
         tab5.setLayout(tab5grid)
         DICU.setHorizontalHeaderLabels(("Mild", "Severe"))
         DICU.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85", "Total"))
+        header = DICU.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents)
         
         layout = QGridLayout()
         layout.addWidget(tab1, 0, 0)
