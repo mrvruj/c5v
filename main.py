@@ -21,6 +21,7 @@ class c4(QDialog):
         self.createTopLeftGroupBox()
         self.createTopRightGroupBox()
         self.createBottomLeftTabWidget()
+        self.createPlotWidget()
 
         advancedCheck = QCheckBox("Advanced Options")
         advancedCheck.setChecked(True)
@@ -40,10 +41,11 @@ class c4(QDialog):
         topLayout.addWidget(runCalc) #make these into objects called by addWidget()
 
         mainLayout = QGridLayout()
-        mainLayout.addLayout(topLayout, 0, 0, 1, 2)
+        mainLayout.addLayout(topLayout, 0, 0, 1, 3)
         mainLayout.addWidget(self.topLeftGroupBox, 1, 0)
         mainLayout.addWidget(self.topRightGroupBox, 1, 1)
         mainLayout.addWidget(self.bottomLeftTabWidget, 2, 0, 1, 2)
+        mainLayout.addWidget(self.PlotWidget, 1, 3, 3, 3)
         mainLayout.setRowStretch(1, 1)
         mainLayout.setRowStretch(2, 1)
         mainLayout.setColumnStretch(0, 1)
@@ -216,6 +218,10 @@ class c4(QDialog):
         self.bottomLeftTabWidget.addTab(tab3, "LOS")
         self.bottomLeftTabWidget.addTab(tab4, "Capacitated Inputs")
         self.bottomLeftTabWidget.addTab(tab5, "No Vents")
+        
+    def createPlotWidget(self):
+        self.PlotWidget = QGroupBox("Output")
+    
         
 ### GETTERS AND SETTERS ###
 
@@ -418,12 +424,12 @@ class c4(QDialog):
         mildICU = totalICU[0] #sum total of all ICU cases in the mild scenario
         sevICU = totalICU[1] #sum total of all ICu cases in the severe scenario
     
-        #LOS_model.calc_LOS_Admissions(eC, tICU_p, tICU_a, tWard_p, tWard_a)
-        #LOS_model.calc_LOS_data(LOS)
-        #LOS_model.calc_LOS_Deaths()
-        #LOS_model.calc_LOS_Discharges()
-        #LOS_model.calc_LOS_Occupancy()
-        #calc.plot(eC,LOS_model.LOS_Occupancy_df)
+        LOS_model.calc_LOS_Admissions(eC, tICU_p, tICU_a, tWard_p, tWard_a)
+        LOS_model.calc_LOS_data(LOS)
+        LOS_model.calc_LOS_Deaths()
+        LOS_model.calc_LOS_Discharges()
+        LOS_model.calc_LOS_Occupancy()
+        calc.plot(eC,LOS_model.LOS_Occupancy_df)
         
 if __name__ == '__main__':
     import sys
