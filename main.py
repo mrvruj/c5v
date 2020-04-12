@@ -2,6 +2,12 @@
 #C4 Desktop Application by Vruj Patel & Lior Shtayer
 #############################################################################
 #pylint: disable=no-name-in-module
+
+import sys
+import matplotlib
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+from matplotlib.figure import Figure
 from PyQt5.QtCore import QDateTime, Qt, QTimer
 from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComboBox, QDateTimeEdit,
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
@@ -13,11 +19,6 @@ import pyqtgraph as pg
 import pandas as pd
 import LOS_model
 import calc
-import sys
-import matplotlib
-matplotlib.use('Qt5Agg')
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
-from matplotlib.figure import Figure
 
 class MplCanvas(FigureCanvasQTAgg):
 
@@ -66,7 +67,6 @@ class c4(QDialog):
         mainLayout.addWidget(self.plotWidget2, 1, 3)
         mainLayout.addWidget(self.plotWidget3, 1, 4)
         mainLayout.addWidget(self.tableWidget, 2, 2, 3, 4)
-        #mainLayout.addLayout()
         mainLayout.setRowStretch(1, 1)
         mainLayout.setRowStretch(2, 1)
         mainLayout.setColumnStretch(0, 1)
@@ -269,8 +269,79 @@ class c4(QDialog):
         layout = QVBoxLayout()
         layout.addWidget(sc3)
         self.plotWidget3.setLayout(layout)
-                
+           
     def createTableWidget(self):
+        self.tableWidget = QGroupBox()
+        
+        tab1 = QWidget()
+        THR = QTableWidget(8, 2)
+        THRLabel = QLabel("Total Hospitalizations")
+        THRLabel.setBuddy(THR)
+        tab1grid = QGridLayout()
+        tab1grid.setContentsMargins(5, 5, 5, 5)
+        tab1grid.addWidget(THRLabel, 0, 0) 
+        tab1grid.addWidget(THR, 1, 0, 1, 2)
+        tab1.setLayout(tab1grid)
+        THR.setHorizontalHeaderLabels(("Mild", "Severe"))
+        THR.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85", "Total"))
+        
+        tab2 = QWidget()
+        TWC = QTableWidget(8, 2)
+        TWCLabel = QLabel("Total Ward Cases")
+        TWCLabel.setBuddy(TWC)
+        tab2grid = QGridLayout()
+        tab2grid.setContentsMargins(5, 5, 5, 5)
+        tab2grid.addWidget(TWCLabel, 0, 0) 
+        tab2grid.addWidget(TWC, 1, 0, 1, 2)
+        tab2.setLayout(tab2grid)
+        TWC.setHorizontalHeaderLabels(("Mild", "Severe"))
+        TWC.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85", "Total"))
+        
+        tab3 = QWidget()
+        ICU = QTableWidget(8, 2)
+        ICULabel = QLabel("Total ICU Cases")
+        ICULabel.setBuddy(ICU)
+        tab3grid = QGridLayout()
+        tab3grid.setContentsMargins(5, 5, 5, 5)
+        tab3grid.addWidget(ICULabel, 0, 0) 
+        tab3grid.addWidget(ICU, 1, 0, 1, 2)
+        tab3.setLayout(tab3grid)
+        ICU.setHorizontalHeaderLabels(("Mild", "Severe"))
+        ICU.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85", "Total"))
+        
+        tab4 = QWidget()
+        DWARD = QTableWidget(8, 2)
+        DWARDLabel = QLabel("Daily Ward Cases")
+        DWARDLabel.setBuddy(DWARD)
+        tab4grid = QGridLayout()
+        tab4grid.setContentsMargins(5, 5, 5, 5)
+        tab4grid.addWidget(DWARDLabel, 0, 0) 
+        tab4grid.addWidget(DWARD, 1, 0, 1, 2)
+        tab4.setLayout(tab4grid)
+        DWARD.setHorizontalHeaderLabels(("Mild", "Severe"))
+        DWARD.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85", "Total"))
+        
+        tab5 = QWidget()
+        DICU = QTableWidget(8, 2)
+        DICULabel = QLabel("Total Hospitalizations")
+        DICULabel.setBuddy(THR)
+        tab5grid = QGridLayout()
+        tab5grid.setContentsMargins(5, 5, 5, 5)
+        tab5grid.addWidget(DICULabel, 0, 0) 
+        tab5grid.addWidget(DICU, 1, 0, 1, 2)
+        tab5.setLayout(tab5grid)
+        DICU.setHorizontalHeaderLabels(("Mild", "Severe"))
+        DICU.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85", "Total"))
+        
+        layout = QGridLayout()
+        layout.addWidget(tab1, 0, 0)
+        layout.addWidget(tab2, 0, 1)
+        layout.addWidget(tab3, 0, 2)
+        layout.addWidget(tab4, 0, 3)
+        layout.addWidget(tab5, 0, 4)
+        self.tableWidget.setLayout(layout) 
+                
+    def createTableWidget1(self):
         self.tableWidget = QTabWidget()
         
         tab1 = QWidget()
@@ -333,11 +404,11 @@ class c4(QDialog):
         DICU.setHorizontalHeaderLabels(("Mild", "Severe"))
         DICU.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85", "Total"))
         
-        self.tableWidget.addTab(tab1, "THR")
-        self.tableWidget.addTab(tab2, "Ward")
-        self.tableWidget.addTab(tab3, "ICU")
-        self.tableWidget.addTab(tab4, "Daily Ward")
-        self.tableWidget.addTab(tab5, "Daily ICU")
+        self.tableWidget1.addTab(tab1, "THR")
+        self.tableWidget1.addTab(tab2, "Ward")
+        self.tableWidget1.addTab(tab3, "ICU")
+        self.tableWidget1.addTab(tab4, "Daily Ward")
+        self.tableWidget1.addTab(tab5, "Daily ICU")
                 
 ### GETTERS AND SETTERS ###
 
