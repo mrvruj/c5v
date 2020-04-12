@@ -304,6 +304,6 @@ def plot(epi_curve_df,LOS_occupancy_df):
         if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
             QtGui.QApplication.instance().exec_()
             
-eC = epi_curve(60,2)
-df = pd.read_pickle('df.pkl')
-plot(eC,df)
+#eC = epi_curve(60,2)
+#df = pd.read_pickle('df.pkl')
+#plot(eC,df)
