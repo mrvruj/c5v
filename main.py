@@ -592,7 +592,8 @@ class c4(QDialog):
         self.mainLayout.removeWidget(self.sc1)
         self.sc1.close()
         #self.createPlotWidget1 = myDumpBox(self.centralwidget)
-        self.mainLayout.addWidget(self.sc1.axes.plot(eC['Day'],eC['Gamma_Values']), 1, 2)
+        self.sc1.axes.plot(eC['Day'],eC['Gamma_Values'])
+        self.mainLayout.addWidget(self.sc1, 1, 2)
         self.mainLayout.update()
         self.setLayout(self.mainLayout)
         
