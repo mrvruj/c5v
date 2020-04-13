@@ -36,7 +36,7 @@ class c4(QDialog):
         self.createTopLeftGroupBox()
         self.createTopRightGroupBox()
         self.createBottomLeftTabWidget()
-        self.createPlotWidget1()
+        self.createPlotWidget1([0,0,0,0,0],[0,0,0,0,0])
         self.createPlotWidget2()
         self.createPlotWidget3()
         self.createTableWidget()
@@ -257,12 +257,12 @@ class c4(QDialog):
         self.bottomLeftTabWidget.addTab(tab4, "Capacitated Inputs")
         self.bottomLeftTabWidget.addTab(tab5, "No Vents")
         
-    def createPlotWidget1(self):
+    def createPlotWidget1(self,x,y):
         self.plotWidget1 = QGroupBox("Possible COVID-19 Hospital-Apparent Epidemic Curves")    
         
         sc1 = MplCanvas(self, width=3, height=2, dpi=100)
-        sc1.axes.plot([0,1,2,3,4], [10,1,20,3,40])
-                
+        sc1.axes.plot(x,y)
+        
         layout = QVBoxLayout()
         layout.addWidget(sc1)
         self.plotWidget1.setLayout(layout)
@@ -575,6 +575,16 @@ class c4(QDialog):
         LOS_model.calc_LOS_Discharges()
         LOS_model.calc_LOS_Occupancy()
         #calc.plot(eC,LOS_model.LOS_Occupancy_df)
+        
+        #self.layout.removeWidget(self.createPlotWidget1)
+        #self.createPlotWidget1.close()
+        #self.createPlotWidget1 = myDumpBox(self.centralwidget)
+        #self.layout.addWidget(self.createPlotWidget1(eC['Day'],eC['Gamma_Values']), 0, 0, 1, 1)
+        #self.layout.update()
+        
+        #self.createPlotWidget1.close()
+        self.createPlotWidget1(eC['Day'],eC['Gamma_Values'])
+        self.createPlotWidget1.update()
         
 if __name__ == '__main__':
     import sys
