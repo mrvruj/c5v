@@ -59,14 +59,16 @@ class c4(QDialog):
         topLayout.addWidget(runCalc) 
         
         x, y = [0,0,0,0,0], [0,0,0,0,0]
-        self.sc1 = MplCanvas(self, width=3, height=2, dpi=100)
+        self.sc1 = MplCanvas(self, width=4, height=2, dpi=100)
         self.sc1.axes.plot(x,y)
         
-        self.sc2 = MplCanvas(self, width=3, height=2, dpi=100)
-        self.sc2.axes.plot([0,1,2,3,4], [40,3,20,1,10])
+        w, x, y, z,  = [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]
+        self.sc2 = MplCanvas(self, width=5, height=2, dpi=100)
+        self.sc2.axes.plot(w,x,y,z)
         
-        self.sc3 = MplCanvas(self, width=3, height=2, dpi=100)
-        self.sc3.axes.plot([0,1,2,3,4], [10,1,20,3,40])
+        w, x, y, z = [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]
+        self.sc3 = MplCanvas(self, width=5, height=2, dpi=100)
+        self.sc3.axes.plot(w,x,y,z)
                 
         self.mainLayout = QGridLayout()
         self.mainLayout.addLayout(topLayout, 0, 0, 1, 2)
@@ -87,11 +89,11 @@ class c4(QDialog):
         self.setLayout(self.mainLayout)
 
         self.setWindowTitle("c4: Cornell COVID-19 Caseload Calculator")
-        self.width = 640
-        self.height = 720
-        self.left = 100
-        self.top = 100
-        self.setGeometry(self.left, self.top, self.width, self.height)
+        #self.width = 640
+        #self.height = 720
+        #self.left = 100
+        #self.top = 100
+        #self.setGeometry(self.left, self.top, self.width, self.height)
         
         QApplication.setStyle(QStyleFactory.create('Fusion'))
         QApplication.setPalette(QApplication.style().standardPalette())
@@ -589,26 +591,47 @@ class c4(QDialog):
         LOS_model.calc_LOS_Occupancy()
         #calc.plot(eC,LOS_model.LOS_Occupancy_df)
         
+        #Plot epi curve
         self.mainLayout.removeWidget(self.sc1)
         self.sc1.close()
-        #self.createPlotWidget1 = myDumpBox(self.centralwidget)
+        self.sc1 = MplCanvas(self, width=4, height=2, dpi=100)
         self.sc1.axes.plot(eC['Day'],eC['Gamma_Values'])
         self.mainLayout.addWidget(self.sc1, 1, 2)
         self.mainLayout.update()
         self.setLayout(self.mainLayout)
         
-        #self.createPlotWidget1.close()
-        #$self.createPlotWidget1(eC['Day'],eC['Gamma_Values'])
-        #self.createPlotWidget1.update()
+        #Plot adult scenario
+        self.mainLayout.removeWidget(self.sc2)
+        self.sc2.close()
+        self.sc2 = MplCanvas(self, width=5, height=2, dpi=100)
+        self.sc2.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['mW_A'],color='c', label='Adult Mild Ward')
+        self.sc2.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['sW_A'],color='m', label='Adult Severe Ward')
+        self.sc2.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['mICU_A'],color='b', label='Adult Mild ICU')
+        self.sc2.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['sICU_A'],color='r', label='Adult Severe ICU')
+        self.sc2.axes.legend()
+        self.mainLayout.addWidget(self.sc2, 1, 3)
+        self.mainLayout.update()
+        self.setLayout(self.mainLayout)
         
-        #self.sc1.axes.plot(eC['Day'],eC['Gamma_Values'])
-        #self.sc1.update()
+        #Plot peds scenario
+        self.mainLayout.removeWidget(self.sc3)
+        self.sc3.close()
+        self.sc3 = MplCanvas(self, width=5, height=2, dpi=100)
+        self.sc3.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['mW_P'],color='c', label='Pediatric Mild Ward')
+        self.sc3.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['sW_P'],color='m', label='Pediatric Severe Ward')
+        self.sc3.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['mICU_P'],color='b', label='Pediatric Mild ICU')
+        self.sc3.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['sICU_P'],color='r', label='Pediatric Severe ICU')
+        self.sc3.axes.legend()
+        self.mainLayout.addWidget(self.sc3, 1, 4)
+        self.mainLayout.update()
+        self.setLayout(self.mainLayout)
+        
         
 if __name__ == '__main__':
     import sys
     app = QApplication(sys.argv)
     window = c4()
-    #window.showMaximized()
+    window.showMaximized()
     window.show()
     sys.exit(app.exec_()) 
 
