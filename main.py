@@ -309,7 +309,7 @@ class c4(QDialog):
         tab1grid.addWidget(THRLabel, 0, 0) 
         tab1grid.addWidget(THR, 1, 0, 1, 2)
         tab1.setLayout(tab1grid)
-        THR.setHorizontalHeaderLabels(("Mild", "Severe"))
+        THR.setHorizontalHeaderLabels(("Mild Scenario", "Severe Scenario"))
         THR.setVerticalHeaderLabels(("0-19", "20-44", "45-54", "55-64", "65-74", "75-84", "=>85", "Total"))
         header = THR.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents) 
@@ -325,8 +325,8 @@ class c4(QDialog):
         tab2.setLayout(tab2grid)
         MILD.setHorizontalHeaderLabels(("Total Number Admitted","Peak Daily Admissions","Day of Peak Admissions", "Peak Hospital Census",
                                        "Day of Peak Census", "Total Deaths", "Total Discharges"))
-        MILD.setVerticalHeaderLabels(("ADULT","MILD Medical/Surgical", "MILD Critical Care", "PEDIATRIC", "MILD Medical/Surgical",
-                                     "MILD Critical Care"))
+        MILD.setVerticalHeaderLabels(("ADULT","Ward Cases", "ICU Cases", "PEDIATRIC", "Ward Cases",
+                                     "ICU Cases"))
         header = MILD.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
         
@@ -341,14 +341,14 @@ class c4(QDialog):
         tab3.setLayout(tab3grid)
         SEVERE.setHorizontalHeaderLabels(("Total Number Admitted","Peak Daily Admissions","Day of Peak Admissions", "Peak Hospital Census",
                                        "Day of Peak Census", "Total Deaths", "Total Discharges"))
-        SEVERE.setVerticalHeaderLabels(("ADULT","SEVERE Medical/Surgical", "SEVERE Critical Care", "PEDIATRIC", "SEVERE Medical/Surgical",
-                                     "SEVERE Critical Care"))
+        SEVERE.setVerticalHeaderLabels(("ADULT","Ward Cases", "ICU Cases", "PEDIATRIC", "Ward Cases",
+                                     "ICU Cases"))
         header = SEVERE.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
 
         tab4 = QWidget()
         MED = QTableWidget(2, 4)
-        MEDLabel = QLabel("Adult Medical/Surgical Beds")
+        MEDLabel = QLabel("Adult Ward Beds")
         MEDLabel.setBuddy(MED)
         tab4grid = QGridLayout()
         tab4grid.setContentsMargins(5, 5, 5, 5)
@@ -363,25 +363,25 @@ class c4(QDialog):
         
         tab5 = QWidget()
         ICU = QTableWidget(2, 5)
-        ICULabel = QLabel("Adult ICU/Critical Care Beds and Ventilators")
+        ICULabel = QLabel("Adult ICU Beds and Ventilators")
         ICULabel.setBuddy(ICU)
         tab5grid = QGridLayout()
         tab5grid.setContentsMargins(5, 5, 5, 5)
         tab5grid.addWidget(ICULabel, 0, 0) 
         tab5grid.addWidget(ICU, 1, 0, 1, 2)
         tab5.setLayout(tab5grid)
-        ICU.setHorizontalHeaderLabels(("Total Critical Care Patients", "Peak SIMULTANEOUS ICU Bed Requirement", "Day of Max Census",
-                                       "TOTAL Patient-Days for COVID Critical Care Patients", 
+        ICU.setHorizontalHeaderLabels(("Total ICU Patients", "Peak SIMULTANEOUS ICU Bed Requirement", "Day of Max Census",
+                                       "TOTAL Patient-Days for COVID ICU Patients", 
                                        "Peak Ventilator Need (80% Ventilated Fraction)"))
         ICU.setVerticalHeaderLabels(("MILD SCENARIO", "SEVERE SCENARIO"))
         header = ICU.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
         
         self.tableWidget.addTab(tab1, "Total Hospitalizations")
-        self.tableWidget.addTab(tab2, "Detailed Results of the MILD Scenarios")
-        self.tableWidget.addTab(tab3, "Detailed Results of the SEVERE Scenarios")
-        self.tableWidget.addTab(tab4, "Adult Medical/Surgical Beds")
-        self.tableWidget.addTab(tab5, "Adult ICU/Critical Care Beds and Ventilators")
+        self.tableWidget.addTab(tab2, "Detailed Results of the MILD Scenario")
+        self.tableWidget.addTab(tab3, "Detailed Results of the SEVERE Scenario")
+        self.tableWidget.addTab(tab4, "Adult Ward Beds")
+        self.tableWidget.addTab(tab5, "Adult ICU Beds and Ventilators")
                 
 ### GETTERS AND SETTERS ###
 
