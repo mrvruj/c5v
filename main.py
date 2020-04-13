@@ -347,7 +347,7 @@ class c4(QDialog):
         
         tab5 = QWidget()
         DICU = QTableWidget(8, 2)
-        DICULabel = QLabel("Total Hospitalizations")
+        DICULabel = QLabel("Daily ICU Cases")
         DICULabel.setBuddy(THR)
         tab5grid = QGridLayout()
         tab5grid.setContentsMargins(5, 5, 5, 5)
