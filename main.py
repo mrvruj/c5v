@@ -59,8 +59,8 @@ class c4(QDialog):
         topLayout.addWidget(runCalc) 
         
         x, y = [0,0,0,0,0], [0,0,0,0,0]
-        sc1 = MplCanvas(self, width=3, height=2, dpi=100)
-        sc1.axes.plot(x,y)
+        self.sc1 = MplCanvas(self, width=3, height=2, dpi=100)
+        self.sc1.axes.plot(x,y)
         
         sc2 = MplCanvas(self, width=3, height=2, dpi=100)
         sc2.axes.plot([0,1,2,3,4], [40,3,20,1,10])
@@ -68,23 +68,23 @@ class c4(QDialog):
         sc3 = MplCanvas(self, width=3, height=2, dpi=100)
         sc3.axes.plot([0,1,2,3,4], [10,1,20,3,40])
                 
-        mainLayout = QGridLayout()
-        mainLayout.addLayout(topLayout, 0, 0, 1, 2)
-        mainLayout.addWidget(self.topLeftGroupBox, 1, 0)
-        mainLayout.addWidget(self.topRightGroupBox, 1, 1)
-        mainLayout.addWidget(self.bottomLeftTabWidget, 2, 0, 1, 2)
-        mainLayout.addWidget(sc1, 1, 2)
-        mainLayout.addWidget(sc2, 1, 3)
-        mainLayout.addWidget(sc3, 1, 4)
+        self.mainLayout = QGridLayout()
+        self.mainLayout.addLayout(topLayout, 0, 0, 1, 2)
+        self.mainLayout.addWidget(self.topLeftGroupBox, 1, 0)
+        self.mainLayout.addWidget(self.topRightGroupBox, 1, 1)
+        self.mainLayout.addWidget(self.bottomLeftTabWidget, 2, 0, 1, 2)
+        self.mainLayout.addWidget(self.sc1, 1, 2)
+        self.mainLayout.addWidget(sc2, 1, 3)
+        self.mainLayout.addWidget(sc3, 1, 4)
         #mainLayout.addWidget(self.plotWidget1, 1, 2)
         #mainLayout.addWidget(self.plotWidget2, 1, 3)
         #mainLayout.addWidget(self.plotWidget3, 1, 4)
-        mainLayout.addWidget(self.tableWidget, 2, 2, 3, 4)
-        mainLayout.setRowStretch(1, 1)
-        mainLayout.setRowStretch(2, 1)
-        mainLayout.setColumnStretch(0, 1)
-        mainLayout.setColumnStretch(1, 1)
-        self.setLayout(mainLayout)
+        self.mainLayout.addWidget(self.tableWidget, 2, 2, 3, 4)
+        self.mainLayout.setRowStretch(1, 1)
+        self.mainLayout.setRowStretch(2, 1)
+        self.mainLayout.setColumnStretch(0, 1)
+        self.mainLayout.setColumnStretch(1, 1)
+        self.setLayout(self.mainLayout)
 
         self.setWindowTitle("c4: Cornell COVID-19 Caseload Calculator")
         self.width = 640
@@ -589,15 +589,19 @@ class c4(QDialog):
         LOS_model.calc_LOS_Occupancy()
         #calc.plot(eC,LOS_model.LOS_Occupancy_df)
         
-        #self.layout.removeWidget(self.createPlotWidget1)
-        #self.createPlotWidget1.close()
+        self.mainLayout.removeWidget(self.sc1)
+        self.sc1.close()
         #self.createPlotWidget1 = myDumpBox(self.centralwidget)
-        #self.layout.addWidget(self.createPlotWidget1(eC['Day'],eC['Gamma_Values']), 0, 0, 1, 1)
-        #self.layout.update()
+        self.mainLayout.addWidget(self.sc1.axes.plot(eC['Day'],eC['Gamma_Values']), 1, 2)
+        self.mainLayout.update()
+        self.setLayout(self.mainLayout)
         
         #self.createPlotWidget1.close()
-        self.createPlotWidget1(eC['Day'],eC['Gamma_Values'])
-        self.createPlotWidget1.update()
+        #$self.createPlotWidget1(eC['Day'],eC['Gamma_Values'])
+        #self.createPlotWidget1.update()
+        
+        #self.sc1.axes.plot(eC['Day'],eC['Gamma_Values'])
+        #self.sc1.update()
         
 if __name__ == '__main__':
     import sys
