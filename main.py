@@ -155,7 +155,7 @@ class c4(QDialog):
         peaked.setCurrentIndex(3)
         
         peakDay = QComboBox()
-        peakDay.addItems(('30', '45', '60', '90'))
+        peakDay.addItems(('30', '60', '90'))
         peakDayLabel = QLabel("Choose the day of maximum cases: ")
         peakDayLabel.setBuddy(peakDay)
         peaked.setCurrentIndex(2)
@@ -521,10 +521,8 @@ class c4(QDialog):
         if index == 0:
             return 30
         if index == 1:
-            return 45
-        if index == 2:
             return 60
-        if index == 3:
+        if index == 2:
             return 90
     def getDayOutput(self): #returns an int
         return self.topRightGroupBox.children()[0].value()
