@@ -373,7 +373,7 @@ class c4(QDialog):
         ICU.setHorizontalHeaderLabels(("Total ICU Patients", "Peak SIMULTANEOUS ICU Bed Requirement", "Day of Max Census",
                                        "TOTAL Patient-Days for COVID ICU Patients", 
                                        "Peak Ventilator Need (80% Ventilated Fraction)"))
-        ICU.setVerticalHeaderLabels(("MILD SCENARIO", "SEVERE SCENARIO"))
+        ICU.setVerticalHeaderLabels(("MILD Scenario", "SEVERE Scenario"))
         header = ICU.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
         
