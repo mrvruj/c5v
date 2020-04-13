@@ -97,9 +97,9 @@ class c4(QDialog):
         
         QApplication.setStyle(QStyleFactory.create('Fusion'))
         QApplication.setPalette(QApplication.style().standardPalette())
-
+        
     def createTopLeftGroupBox(self):
-        self.topLeftGroupBox = QGroupBox("Population Parameters")
+        self.topLeftGroupBox = QGroupBox("Input Parameters")
         
         totalPop = QSpinBox(self.topLeftGroupBox)
         totalPop.setGroupSeparatorShown(True)
@@ -118,14 +118,15 @@ class c4(QDialog):
         infRate.setTickInterval(10)
         infRate.setTickPosition(QSlider.TicksBothSides)
         infRate.setValue(40)
-        infRateLabel = QLabel("Infection Rate:")
+        infRateLabel = QLabel("Infection Rate: 40%")
         infRateLabel.setBuddy(infRate)
+        #infRate.valueChanged.connect(self.updateSliderLabel())
         
         sympRate = QSlider(Qt.Horizontal, self.topLeftGroupBox)
         sympRate.setTickInterval(10)
         sympRate.setTickPosition(QSlider.TicksBothSides)
         sympRate.setValue(40)
-        sympRateLabel = QLabel("% Symptomatic:")
+        sympRateLabel = QLabel("% Symptomatic: 40%")
         sympRateLabel.setBuddy(sympRate)
         
         peaked = QComboBox()
