@@ -62,11 +62,11 @@ class c4(QDialog):
         self.sc1 = MplCanvas(self, width=3, height=2, dpi=100)
         self.sc1.axes.plot(x,y)
         
-        sc2 = MplCanvas(self, width=3, height=2, dpi=100)
-        sc2.axes.plot([0,1,2,3,4], [40,3,20,1,10])
+        self.sc2 = MplCanvas(self, width=3, height=2, dpi=100)
+        self.sc2.axes.plot([0,1,2,3,4], [40,3,20,1,10])
         
-        sc3 = MplCanvas(self, width=3, height=2, dpi=100)
-        sc3.axes.plot([0,1,2,3,4], [10,1,20,3,40])
+        self.sc3 = MplCanvas(self, width=3, height=2, dpi=100)
+        self.sc3.axes.plot([0,1,2,3,4], [10,1,20,3,40])
                 
         self.mainLayout = QGridLayout()
         self.mainLayout.addLayout(topLayout, 0, 0, 1, 2)
@@ -74,8 +74,8 @@ class c4(QDialog):
         self.mainLayout.addWidget(self.topRightGroupBox, 1, 1)
         self.mainLayout.addWidget(self.bottomLeftTabWidget, 2, 0, 1, 2)
         self.mainLayout.addWidget(self.sc1, 1, 2)
-        self.mainLayout.addWidget(sc2, 1, 3)
-        self.mainLayout.addWidget(sc3, 1, 4)
+        self.mainLayout.addWidget(self.sc2, 1, 3)
+        self.mainLayout.addWidget(self.sc3, 1, 4)
         #mainLayout.addWidget(self.plotWidget1, 1, 2)
         #mainLayout.addWidget(self.plotWidget2, 1, 3)
         #mainLayout.addWidget(self.plotWidget3, 1, 4)
