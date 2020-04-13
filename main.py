@@ -19,6 +19,7 @@ import pyqtgraph as pg
 import pandas as pd
 import LOS_model
 import calc
+from imp import reload
 
 class MplCanvas(FigureCanvasQTAgg):
 
@@ -520,8 +521,10 @@ class c4(QDialog):
         if index == 0:
             return 30
         if index == 1:
-            return 60
+            return 45
         if index == 2:
+            return 60
+        if index == 3:
             return 90
     def getDayOutput(self): #returns an int
         return self.topRightGroupBox.children()[0].value()
@@ -625,6 +628,13 @@ class c4(QDialog):
         self.mainLayout.addWidget(self.sc3, 1, 4)
         self.mainLayout.update()
         self.setLayout(self.mainLayout)
+        
+        
+        
+        
+        
+        #reload(calc)
+        reload(LOS_model)
         
         
 if __name__ == '__main__':
