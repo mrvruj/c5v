@@ -325,8 +325,7 @@ class c4(QDialog):
         tab2.setLayout(tab2grid)
         MILD.setHorizontalHeaderLabels(("Total Number Admitted","Peak Daily Admissions","Day of Peak Admissions", "Peak Hospital Census",
                                        "Day of Peak Census", "Total Deaths", "Total Discharges"))
-        MILD.setVerticalHeaderLabels(("ADULT","Ward Cases", "ICU Cases", "PEDIATRIC", "Ward Cases",
-                                     "ICU Cases"))
+        MILD.setVerticalHeaderLabels(("ADULT:","Ward Cases", "ICU Cases", "PEDIATRIC:", "Ward Cases", "ICU Cases"))
         header = MILD.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
         
@@ -341,8 +340,7 @@ class c4(QDialog):
         tab3.setLayout(tab3grid)
         SEVERE.setHorizontalHeaderLabels(("Total Number Admitted","Peak Daily Admissions","Day of Peak Admissions", "Peak Hospital Census",
                                        "Day of Peak Census", "Total Deaths", "Total Discharges"))
-        SEVERE.setVerticalHeaderLabels(("ADULT","Ward Cases", "ICU Cases", "PEDIATRIC", "Ward Cases",
-                                     "ICU Cases"))
+        SEVERE.setVerticalHeaderLabels(("ADULT:","Ward Cases", "ICU Cases", "PEDIATRIC:", "Ward Cases","ICU Cases"))
         header = SEVERE.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
 
