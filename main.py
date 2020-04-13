@@ -35,7 +35,7 @@ class c4(QDialog):
         self.originalPalette = QApplication.palette()
 
         self.createTopLeftGroupBox()
-        self.createTopRightGroupBox()
+        #self.createTopRightGroupBox()
         self.createBottomLeftTabWidget()
         #self.createPlotWidget1([0,0,0,0,0],[0,0,0,0,0])
         #self.createPlotWidget2()
@@ -47,7 +47,7 @@ class c4(QDialog):
         advancedCheck.toggled.connect(self.bottomLeftTabWidget.setEnabled)
         
         runCalc = QPushButton("Calculate")
-        runCalc.clicked.connect(self.calc)
+        runCalc.clicked.connect(self.calc) ##fix this back to calc after buttons work again
         printButton = QPushButton("Print")
         defaultButton = QPushButton("Default")
         instructions = QPushButton("Instructions")
@@ -73,8 +73,7 @@ class c4(QDialog):
                 
         self.mainLayout = QGridLayout()
         self.mainLayout.addLayout(topLayout, 0, 0, 1, 2)
-        self.mainLayout.addWidget(self.topLeftGroupBox, 1, 0)
-        self.mainLayout.addWidget(self.topRightGroupBox, 1, 1)
+        self.mainLayout.addWidget(self.topLeftGroupBox, 1, 0, 1, 2)
         self.mainLayout.addWidget(self.bottomLeftTabWidget, 2, 0, 1, 2)
         self.mainLayout.addWidget(self.sc1, 1, 2)
         self.mainLayout.addWidget(self.sc2, 1, 3)
@@ -129,6 +128,28 @@ class c4(QDialog):
         sympRateLabel = QLabel("% Symptomatic:")
         sympRateLabel.setBuddy(sympRate)
         
+        peaked = QComboBox()
+        peaked.addItems(('A-type: Broad', 'B-type: Somewhat Broad', 'C-type: A Bit Peaked', 'D-type: Very Peaked', 'E-type: Extremely Peaked'))
+        peakedLabel = QLabel("Shape of the epidemic curve: ")
+        peakedLabel.setBuddy(peaked)
+        peaked.setCurrentIndex(2)
+        
+        peakDay = QComboBox()
+        peakDay.addItems(('30', '60', '90'))
+        peakDayLabel = QLabel("Choose the day of maximum cases: ")
+        peakDayLabel.setBuddy(peakDay)
+        peakDay.setCurrentIndex(1)
+        
+        dayOutput = QDial(self.topLeftGroupBox)
+        dayOutput.setMinimum(1)
+        dayOutput.setMaximum(180)
+        dayOutput.setValue(60)
+        dayOutput.setNotchesVisible(True)
+        dayOutputLabel = QLabel("Day of Output:")
+        dayOutputLabel.setBuddy(dayOutput)
+        #dayCount = QLabel(str(dayOutput.valueChanged.connect(dayOutput.sliderMoved))) #Figure out how to display the current day as selected by slider
+        #dayCount.setBuddy(dayOutput)
+        
         layout = QVBoxLayout()
         layout.addWidget(tPopLabel)
         layout.addWidget(totalPop)
@@ -142,44 +163,16 @@ class c4(QDialog):
         layout.addWidget(sympRateLabel)
         layout.addWidget(sympRate)
         layout.addStretch(1)
-        self.topLeftGroupBox.setLayout(layout)    
-
-    def createTopRightGroupBox(self):
-        self.topRightGroupBox = QGroupBox("Output Parameters")
-        #TODO: add switch for mild/severe
-        
-        peaked = QComboBox()
-        peaked.addItems(('A-type: Broad', 'B-type: Somewhat Broad', 'C-type: A Bit Peaked', 'D-type: Very Peaked', 'E-type: Extremely Peaked'))
-        peakedLabel = QLabel("Shape of the epidemic curve: ")
-        peakedLabel.setBuddy(peaked)
-        peaked.setCurrentIndex(3)
-        
-        peakDay = QComboBox()
-        peakDay.addItems(('30', '60', '90'))
-        peakDayLabel = QLabel("Choose the day of maximum cases: ")
-        peakDayLabel.setBuddy(peakDay)
-        peaked.setCurrentIndex(2)
-        
-        dayOutput = QDial(self.topRightGroupBox)
-        dayOutput.setMinimum(1)
-        dayOutput.setMaximum(180)
-        dayOutput.setValue(60)
-        dayOutput.setNotchesVisible(True)
-        dayOutputLabel = QLabel("Day of Output:")
-        dayOutputLabel.setBuddy(dayOutput)
-        #dayCount = QLabel(str(dayOutput.valueChanged.connect(dayOutput.sliderMoved))) #Figure out how to display the current day as selected by slider
-        #dayCount.setBuddy(dayOutput)
-
-        layout = QVBoxLayout()
         layout.addWidget(peakedLabel)
         layout.addWidget(peaked)
+        layout.addStretch(1)
         layout.addWidget(peakDayLabel)
         layout.addWidget(peakDay)
+        layout.addStretch(1)
         layout.addWidget(dayOutputLabel)
         layout.addWidget(dayOutput)
         layout.addStretch(1)
-        #layout.addWidget(dayCount)
-        self.topRightGroupBox.setLayout(layout)
+        self.topLeftGroupBox.setLayout(layout)    
 
     def createBottomLeftTabWidget(self):
         self.bottomLeftTabWidget = QTabWidget()
@@ -449,8 +442,8 @@ class c4(QDialog):
         
         vent.setItem(0,1, QTableWidgetItem("2"))
         vent.setItem(1,1, QTableWidgetItem("10"))
-        vent.setItem(2,1, QTableWidgetItem("0.95"))
-        vent.setItem(3,1, QTableWidgetItem("0.5"))
+        vent.setItem(2,1, QTableWidgetItem("95"))
+        vent.setItem(3,1, QTableWidgetItem("5"))
     def setDefaults(self, CHR, CCHF, bed, vent, LOS):
         self.chrDefaults(CHR)
         self.cchfDefaults(CCHF)
@@ -511,13 +504,13 @@ class c4(QDialog):
     def getSymptomatic(self): #returns a decimal between 0 and 1
         return self.topLeftGroupBox.children()[2].value()/100
     def getPopDist(self): #returns an index
-        return self.topLeftGroupBox.children()[6].currentIndex()
+        return self.topLeftGroupBox.children()[7].currentIndex()
     def getPop(self): #returns an int
         return self.topLeftGroupBox.children()[0].value()
     def getShapeCurve(self): #returns index
-        return self.topRightGroupBox.children()[3].currentIndex()
+        return self.topLeftGroupBox.children()[11].currentIndex()
     def getDayMax(self): #returns an int
-        index = self.topRightGroupBox.children()[5].currentIndex()
+        index = self.topLeftGroupBox.children()[13].currentIndex()
         if index == 0:
             return 30
         if index == 1:
@@ -525,7 +518,7 @@ class c4(QDialog):
         if index == 2:
             return 90
     def getDayOutput(self): #returns an int
-        return self.topRightGroupBox.children()[0].value()
+        return self.topLeftGroupBox.children()[3].value()
 
 ### TESTS AND SIMULATION ### 
 
@@ -626,14 +619,8 @@ class c4(QDialog):
         self.mainLayout.addWidget(self.sc3, 1, 4)
         self.mainLayout.update()
         self.setLayout(self.mainLayout)
-        
-        
-        
-        
-        
         #reload(calc)
         reload(LOS_model)
-        
         
 if __name__ == '__main__':
     import sys
@@ -642,5 +629,3 @@ if __name__ == '__main__':
     window.showMaximized()
     window.show()
     sys.exit(app.exec_()) 
-
-#TODO: curves w/ error bars (+/- 5% IR/SR)
