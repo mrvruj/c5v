@@ -118,7 +118,7 @@ class c4(QDialog):
         infRate.setTickInterval(10)
         infRate.setTickPosition(QSlider.TicksBothSides)
         infRate.setValue(40)
-        infRateLabel = QLabel("Infection Rate: 40%")
+        infRateLabel = QLabel("Infection Rate: ")
         infRateLabel.setBuddy(infRate)
         #infRate.valueChanged.connect(self.updateSliderLabel())
         
@@ -126,7 +126,7 @@ class c4(QDialog):
         sympRate.setTickInterval(10)
         sympRate.setTickPosition(QSlider.TicksBothSides)
         sympRate.setValue(40)
-        sympRateLabel = QLabel("% Symptomatic: 40%")
+        sympRateLabel = QLabel("% Symptomatic: ")
         sympRateLabel.setBuddy(sympRate)
         
         peaked = QComboBox()
