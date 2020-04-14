@@ -617,7 +617,7 @@ class c4(QDialog):
         self.mainLayout.update()
         self.setLayout(self.mainLayout)      
         
-        #simulation run output above the plots
+        #simulation run output above the plots 
         self.results.deleteLater()
         x, y = 100000, 12.5
         self.results = QLabel("This simulation run created " + str(x) + " patients, representing " + str(y) + "% of the catchment area.")  
