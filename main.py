@@ -617,7 +617,7 @@ class c4(QDialog):
 
         #Total Hospitalizations Output
         THR = pd.DataFrame(columns=['Total Number Hospitalized', '% of Symptomatic Population', 'Hospitalized Case Fatality Ratio (HFR)',
-                                    'Overall Symptomatic Case Fatality Ratio (CFR)'], index=['Mild', 'Severe'])
+                                    'Overall Symptomatic Case Fatality Ratio (CFR)'], index=['Mild Scenario', 'Severe Scenario'])
         numPx = totalP*attackRate*symptomatic
         fracPx = numPx/totalP
         totMild = LOS_model.LOS_Admissions_df[['mW_A','mICU_A','mW_P','mICU_P']].values.sum()
@@ -630,19 +630,18 @@ class c4(QDialog):
         severeHFR = (deathSevere/totSevere)*100
         mildCFR = (deathMild/numPx)*100
         severeCFR = (deathSevere/numPx)*100
-        THR.loc['Mild']['Total Number Hospitalized'] = totMild
-        THR.loc['Severe']['Total Number Hospitalized'] = totSevere
-        THR.loc['Mild']['% of Symptomatic Population'] = fracMild*100
-        THR.loc['Severe']['% of Symptomatic Population'] = fracSevere*100
-        THR.loc['Mild']['Hospitalized Case Fatality Ratio (HFR)'] = mildHFR
-        THR.loc['Severe']['Hospitalized Case Fatality Ratio (HFR)'] = severeHFR
-        THR.loc['Mild']['Overall Symptomatic Case Fatality Ratio (CFR)'] = mildCFR
-        THR.loc['Severe']['Overall Symptomatic Case Fatality Ratio (CFR)'] = severeCFR
+        THR.loc['Mild Scenario']['Total Number Hospitalized'] = totMild
+        THR.loc['Severe Scenario']['Total Number Hospitalized'] = totSevere
+        THR.loc['Mild Scenario']['% of Symptomatic Population'] = fracMild*100
+        THR.loc['Severe Scenario']['% of Symptomatic Population'] = fracSevere*100
+        THR.loc['Mild Scenario']['Hospitalized Case Fatality Ratio (HFR)'] = mildHFR
+        THR.loc['Severe Scenario']['Hospitalized Case Fatality Ratio (HFR)'] = severeHFR
+        THR.loc['Mild Scenario']['Overall Symptomatic Case Fatality Ratio (CFR)'] = mildCFR
+        THR.loc['Severe Scenario']['Overall Symptomatic Case Fatality Ratio (CFR)'] = severeCFR
         THR = THR.astype(float).round(1)
         THR = THR.astype(float).round({'Total Number Hospitalized': 0})
         THR['Total Number Hospitalized'] = THR['Total Number Hospitalized'].astype(int)
         THR['Total Number Hospitalized'] = THR.apply(lambda x: "{:,}".format(x['Total Number Hospitalized'])[:-2], axis=1)
-        print(THR)
 
 
         #Mild Scenario Output
@@ -745,8 +744,43 @@ class c4(QDialog):
         SEVERE['Total Discharges'] = SEVERE.apply(lambda x: "{:,}".format(x['Total Discharges'])[:-2], axis=1)
 
         #Adult Ward Beds output
+        AWARD = pd.DataFrame(columns=["Total Medical Ward Patients", "Peak Simultaneous Ward Beds (Max Census)", "Day of Max Census",
+                                       "Total Patient-Days for COVID Ward Patients"], index = ["Mild Scenario", "Severe Scenario"])
+        AWARD.loc['Mild Scenario']['Total Medical Ward Patients'] = LOS_model.LOS_Admissions_df['mW_A'].sum()
+        AWARD.loc['Severe Scenario']['Total Medical Ward Patients'] = LOS_model.LOS_Admissions_df['sW_A'].sum()
+        AWARD.loc['Mild Scenario']['Peak Simultaneous Ward Beds (Max Census)'] = LOS_model.LOS_Occupancy_df['mW_A'].max()
+        AWARD.loc['Severe Scenario']['Peak Simultaneous Ward Beds (Max Census)'] = LOS_model.LOS_Occupancy_df['sW_A'].max()
+        AWARD.loc['Mild Scenario']['Day of Max Census'] = LOS_model.LOS_Occupancy_df['mW_A'].astype(float).idxmax()
+        AWARD.loc['Severe Scenario']['Day of Max Census'] = LOS_model.LOS_Occupancy_df['sW_A'].astype(float).idxmax()
+        AWARD.loc['Mild Scenario']['Total Patient-Days for COVID Ward Patients'] = LOS_model.LOS_Occupancy_df['mW_A'].sum()
+        AWARD.loc['Severe Scenario']['Total Patient-Days for COVID Ward Patients'] = LOS_model.LOS_Occupancy_df['sW_A'].sum()
+        AWARD = AWARD.astype(float).round(0)
+        AWARD['Total Medical Ward Patients'] = AWARD.apply(lambda x: "{:,}".format(x['Total Medical Ward Patients'])[:-2], axis=1)
+        AWARD['Peak Simultaneous Ward Beds (Max Census)'] = AWARD.apply(lambda x: "{:,}".format(x['Peak Simultaneous Ward Beds (Max Census)'])[:-2], axis=1)
+        AWARD['Day of Max Census'] = AWARD.apply(lambda x: "{:,}".format(x['Day of Max Census'])[:-2], axis=1)
+        AWARD['Total Patient-Days for COVID Ward Patients'] = AWARD.apply(lambda x: "{:,}".format(x['Total Patient-Days for COVID Ward Patients'])[:-2], axis=1)
         
         #Adult ICU Beds and Ventilators output
+        AICU = pd.DataFrame(columns=["Total ICU Patients", "Peak Simultaneous ICU Bed Requirement", "Day of Max Census", 
+                                     "Total Patient-Days for COVID ICU Patients", "Peak Ventilator Need (80% Ventilated Fraction)"], 
+                                    index = ["Mild Scenario", "Severe Scenario"])
+        AICU.loc['Mild Scenario']['Total ICU Patients'] = LOS_model.LOS_Admissions_df['mICU_A'].sum()
+        AICU.loc['Severe Scenario']['Total ICU Patients'] = LOS_model.LOS_Admissions_df['sICU_A'].sum()
+        AICU.loc['Mild Scenario']['Peak Simultaneous ICU Bed Requirement'] = LOS_model.LOS_Occupancy_df['mICU_A'].max()
+        AICU.loc['Severe Scenario']['Peak Simultaneous ICU Bed Requirement'] = LOS_model.LOS_Occupancy_df['sICU_A'].max()
+        AICU.loc['Mild Scenario']['Day of Max Census'] = LOS_model.LOS_Occupancy_df['mICU_A'].astype(float).idxmax()
+        AICU.loc['Severe Scenario']['Day of Max Census'] = LOS_model.LOS_Occupancy_df['sICU_A'].astype(float).idxmax()
+        AICU.loc['Mild Scenario']['Total Patient-Days for COVID ICU Patients'] = LOS_model.LOS_Occupancy_df['mICU_A'].sum()
+        AICU.loc['Severe Scenario']['Total Patient-Days for COVID ICU Patients'] = LOS_model.LOS_Occupancy_df['sICU_A'].sum()
+        AICU.loc['Mild Scenario']['Peak Ventilator Need (80% Ventilated Fraction)'] = LOS_model.LOS_Occupancy_df['mICU_A'].max()*0.8
+        AICU.loc['Severe Scenario']['Peak Ventilator Need (80% Ventilated Fraction)'] = LOS_model.LOS_Occupancy_df['sICU_A'].max()*0.8
+        AICU = AICU.astype(float).round(0)
+        AICU['Total ICU Patients'] = AICU.apply(lambda x: "{:,}".format(x['Total ICU Patients'])[:-2], axis=1)
+        AICU['Peak Simultaneous ICU Bed Requirement'] = AICU.apply(lambda x: "{:,}".format(x['Peak Simultaneous ICU Bed Requirement'])[:-2], axis=1)
+        AICU['Day of Max Census'] = AICU.apply(lambda x: "{:,}".format(x['Day of Max Census'])[:-2], axis=1)
+        AICU['Total Patient-Days for COVID ICU Patients'] = AICU.apply(lambda x: "{:,}".format(x['Total Patient-Days for COVID ICU Patients'])[:-2], axis=1)
+        AICU['Peak Ventilator Need (80% Ventilated Fraction)'] = AICU.apply(lambda x: "{:,}".format(x['Peak Ventilator Need (80% Ventilated Fraction)'])[:-2], axis=1)
+        
         
         self.tableWidget.removeTab(4) #figure out how to delete tabs, not just remove from view
         self.tableWidget.removeTab(3)
@@ -767,11 +801,11 @@ class c4(QDialog):
         tab3.setModel(SEVERE)
         
         tab4 = QTableView(None)
-        AWARD = QStandardItemModel()
+        AWARD = TableModel(AWARD)
         tab4.setModel(AWARD)
         
         tab5 = QTableView(None)
-        AICU = QStandardItemModel()
+        AICU = TableModel(AICU)
         tab5.setModel(AICU)
         
         self.tableWidget.addTab(tab1, "Total Hospitalizations")
