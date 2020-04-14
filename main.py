@@ -168,7 +168,7 @@ class c4(QDialog):
         layout.addStretch(1)
         layout.addWidget(infRateLabel)
         layout.addWidget(infRate)
-        layout.addWidget(infRateVal)
+        #layout.addWidget(infRateVal)
         layout.addStretch(1)
         layout.addWidget(sympRateLabel)
         layout.addWidget(sympRate)
@@ -650,8 +650,7 @@ class c4(QDialog):
         #reload(calc)
         reload(LOS_model)
 
-        
-        self.tableWidget.removeTab(4)
+        self.tableWidget.removeTab(4) #figure out how to delete tabs, not just remove from view
         self.tableWidget.removeTab(3)
         self.tableWidget.removeTab(2)
         self.tableWidget.removeTab(1)
