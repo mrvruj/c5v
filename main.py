@@ -650,15 +650,14 @@ class c4(QDialog):
         #reload(calc)
         reload(LOS_model)
 
-        
-        self.tableWidget.removeTab(4)
+        self.tableWidget.removeTab(4) #figure out how to delete tabs, not just remove from view
         self.tableWidget.removeTab(3)
         self.tableWidget.removeTab(2)
         self.tableWidget.removeTab(1)
         self.tableWidget.removeTab(0)
         
         tab1 = QTableView(None)
-        THR_mod = TableModel(THR) #need to round the dataframes
+        THR_mod = TableModel(THR) #need to round the dataframes, also need to add vertical headers
         tab1.setModel(THR_mod)
         
         tab2 = QTableView(None)
