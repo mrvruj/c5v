@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComb
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, 
         QTabWidget, QTableView, 
         QTextEdit, QVBoxLayout, QWidget, QHeaderView)
-from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtGui import QStandardItem, QStandardItemModel, QFontMetrics
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 import pandas as pd
@@ -34,14 +34,12 @@ class c4(QDialog):
     def __init__(self, parent=None):
         super(c4, self).__init__(parent)
 
-        self.originalPalette = QApplication.palette()
-
+        x = [1, 2, 3, 4, 5]
         self.createTopLeftGroupBox()
-        #self.createTopRightGroupBox()
         self.createBottomLeftTabWidget()
-        #self.createPlotWidget1([0,0,0,0,0],[0,0,0,0,0])
-        #self.createPlotWidget2()
-        #self.createPlotWidget3()
+        self.createEpiCurvePlot(x, x)
+        self.createAdultPlot(x, x, x, x, x)
+        self.createPedPlot(x, x, x, x, x)
         self.createTableWidget()
 
         advancedCheck = QCheckBox("Advanced Options")
@@ -49,7 +47,7 @@ class c4(QDialog):
         advancedCheck.toggled.connect(self.bottomLeftTabWidget.setEnabled)
         
         runCalc = QPushButton("Calculate")
-        runCalc.clicked.connect(self.calc) ##fix this back to calc after buttons work again
+        runCalc.clicked.connect(self.calc) 
         printButton = QPushButton("Print")
         defaultButton = QPushButton("Default")
         instructions = QPushButton("Instructions")
@@ -60,42 +58,22 @@ class c4(QDialog):
         topLayout.addWidget(defaultButton)
         topLayout.addWidget(printButton)
         topLayout.addWidget(runCalc) 
-        
-        x, y = [0,0,0,0,0], [0,0,0,0,0]
-        self.sc1 = MplCanvas(self, width=4, height=2, dpi=100)
-        self.sc1.axes.plot(x,y)
-        
-        w, x, y, z,  = [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]
-        self.sc2 = MplCanvas(self, width=5, height=2, dpi=100)
-        self.sc2.axes.plot(w,x,y,z)
-        
-        w, x, y, z = [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]
-        self.sc3 = MplCanvas(self, width=5, height=2, dpi=100)
-        self.sc3.axes.plot(w,x,y,z)
-                
+                        
         self.mainLayout = QGridLayout()
-        self.mainLayout.addLayout(topLayout, 0, 0, 1, 2)
-        self.mainLayout.addWidget(self.topLeftGroupBox, 1, 0, 1, 2)
-        self.mainLayout.addWidget(self.bottomLeftTabWidget, 2, 0, 1, 2)
-        self.mainLayout.addWidget(self.sc1, 1, 2)
-        self.mainLayout.addWidget(self.sc2, 1, 3)
-        self.mainLayout.addWidget(self.sc3, 1, 4)
-        #mainLayout.addWidget(self.plotWidget1, 1, 2)
-        #mainLayout.addWidget(self.plotWidget2, 1, 3)
-        #mainLayout.addWidget(self.plotWidget3, 1, 4)
-        self.mainLayout.addWidget(self.tableWidget, 2, 2, 3, 4)
-        self.mainLayout.setRowStretch(1, 1)
-        self.mainLayout.setRowStretch(2, 1)
-        self.mainLayout.setColumnStretch(0, 1)
-        self.mainLayout.setColumnStretch(1, 1)
+        self.mainLayout.addLayout(topLayout, 0, 0)
+        self.mainLayout.addWidget(self.topLeftGroupBox, 1, 0)
+        self.mainLayout.addWidget(self.bottomLeftTabWidget, 2, 0)
+        self.mainLayout.addWidget(self.epiPlot, 1, 1)
+        self.mainLayout.addWidget(self.adultPlot, 1, 2)
+        self.mainLayout.addWidget(self.pedPlot, 1, 3)
+        self.mainLayout.addWidget(self.tableWidget, 2, 1, 1, 3) #the 3 is so it spans the length of 3 plots
+        self.mainLayout.setColumnStretch(0, 0) #ensures that the plots are larger than the input groupbox when window is stretched
+        self.mainLayout.setColumnStretch(1, 4) 
+        self.mainLayout.setColumnStretch(2, 4)
+        self.mainLayout.setColumnStretch(3, 4)
         self.setLayout(self.mainLayout)
 
         self.setWindowTitle("c4: Cornell COVID-19 Caseload Calculator")
-        #self.width = 640
-        #self.height = 720
-        #self.left = 100
-        #self.top = 100
-        #self.setGeometry(self.left, self.top, self.width, self.height)
         
         QApplication.setStyle(QStyleFactory.create('Fusion'))
         QApplication.setPalette(QApplication.style().standardPalette())
@@ -276,35 +254,49 @@ class c4(QDialog):
         self.bottomLeftTabWidget.addTab(tab4, "Capacitated Inputs")
         self.bottomLeftTabWidget.addTab(tab5, "No Vents")
         
-    def createPlotWidget1(self,x,y):
-        self.plotWidget1 = QGroupBox("Possible COVID-19 Hospital-Apparent Epidemic Curves")    
+    def createEpiCurvePlot(self, x, y):
+        self.epiPlot = QGroupBox("Possible COVID-19 Hospital-Apparent Epidemic Curve")    
         
-        sc1 = MplCanvas(self, width=3, height=2, dpi=100)
-        sc1.axes.plot(x,y)
+        epiCurve = MplCanvas(self, width=3, height=2, dpi=100)
+        epiCurve.axes.plot(x, y)
+    
+        layout = QGridLayout()
+        layout.addWidget(epiCurve)
+        self.epiPlot.setLayout(layout)
         
-        layout = QVBoxLayout()
-        layout.addWidget(sc1)
-        self.plotWidget1.setLayout(layout)
+    def createAdultPlot(self, x, y_occ_mW_A, y_occ_sW_A, y_occ_mICU_A, y_occ_sICU_A):
+        self.adultPlot = QGroupBox("Adult Patient Daily Census by Location and Scenario")    
         
-    def createPlotWidget2(self):
-        self.plotWidget2 = QGroupBox("Adult Patient Daily Census by Location and Scenario")    
+        adult = MplCanvas(self, width=3, height=2, dpi=100)
+        adult.axes.plot(x, y_occ_mW_A, color='c', label='Adult Mild Ward')
+        adult.axes.plot(x, y_occ_sW_A, color='m', label='Adult Severe Ward')
+        adult.axes.plot(x, y_occ_mICU_A, color='b', label='Adult Mild ICU')
+        adult.axes.plot(x, y_occ_sICU_A, color='r', label='Adult Severe ICU')
         
-        sc2 = MplCanvas(self, width=3, height=2, dpi=100)
-        sc2.axes.plot([0,1,2,3,4], [40,3,20,1,10])
+        adult.axes.legend()
+        adult.axes.set_xlabel('Day')
+        adult.axes.set_ylabel('Daily Admissions')
+    
+        layout = QGridLayout()
+        layout.addWidget(adult)
+        self.adultPlot.setLayout(layout)
+        
+    def createPedPlot(self, x, y_occ_mW_P, y_occ_sW_P, y_occ_mICU_P, y_occ_sICU_P):
+        self.pedPlot = QGroupBox("Pediatric Patient Daily Census by Location and Scenario")    
+        
+        ped = MplCanvas(self, width=3, height=2, dpi=100)
+        ped.axes.plot(x, y_occ_mW_P, color='c', label='Pediatric Mild Ward')
+        ped.axes.plot(x, y_occ_sW_P, color='m', label='Pediatric Severe Ward')
+        ped.axes.plot(x, y_occ_mICU_P, color='b', label='Pediatric Mild ICU')
+        ped.axes.plot(x, y_occ_sICU_P, color='r', label='Pediatric Severe ICU')
 
-        layout = QVBoxLayout()
-        layout.addWidget(sc2)
-        self.plotWidget2.setLayout(layout)
-        
-    def createPlotWidget3(self):
-        self.plotWidget3 = QGroupBox("Pediatric Patient Daily Census by Location and Scenario")    
-        
-        sc3 = MplCanvas(self, width=3, height=2, dpi=100)
-        sc3.axes.plot([0,1,2,3,4], [10,1,20,3,40])
+        ped.axes.legend()
+        ped.axes.set_xlabel('Day')
+        ped.axes.set_ylabel('Daily Admissions')
                 
-        layout = QVBoxLayout()
-        layout.addWidget(sc3)
-        self.plotWidget3.setLayout(layout)
+        layout = QGridLayout()
+        layout.addWidget(ped)
+        self.pedPlot.setLayout(layout)
            
     def createTableWidget_OLD(self):
         self.tableWidget = QTabWidget()
@@ -613,45 +605,18 @@ class c4(QDialog):
         LOS_model.calc_LOS_Occupancy()
         #calc.plot(eC,LOS_model.LOS_Occupancy_df)
         
-        #Plot epi curve
-        self.mainLayout.removeWidget(self.sc1)
-        self.sc1.close()
-        self.sc1 = MplCanvas(self, width=4, height=2, dpi=100)
-        self.sc1.axes.plot(eC['Day'],eC['Gamma_Values'])
-        self.sc1.axes.set_xlabel('Day')
-        self.mainLayout.addWidget(self.sc1, 1, 2)
+        #Plotting        
+        self.mainLayout.removeWidget(self.epiPlot)
+        self.mainLayout.removeWidget(self.adultPlot)
+        self.mainLayout.removeWidget(self.pedPlot)
+        self.createEpiCurvePlot(eC['Day'],eC['Gamma_Values'])
+        self.createAdultPlot(LOS_model.LOS_Occupancy_df['Day'], LOS_model.LOS_Occupancy_df['mW_A'], LOS_model.LOS_Occupancy_df['sW_A'], LOS_model.LOS_Occupancy_df['mICU_A'], LOS_model.LOS_Occupancy_df['sICU_A'])
+        self.createPedPlot(LOS_model.LOS_Occupancy_df['Day'], LOS_model.LOS_Occupancy_df['mW_P'], LOS_model.LOS_Occupancy_df['sW_P'], LOS_model.LOS_Occupancy_df['mICU_P'], LOS_model.LOS_Occupancy_df['sICU_P'])
+        self.mainLayout.addWidget(self.epiPlot, 1, 1)
+        self.mainLayout.addWidget(self.adultPlot, 1, 2)
+        self.mainLayout.addWidget(self.pedPlot, 1, 3)
         self.mainLayout.update()
-        self.setLayout(self.mainLayout)
-        
-        #Plot adult scenario
-        self.mainLayout.removeWidget(self.sc2)
-        self.sc2.close()
-        self.sc2 = MplCanvas(self, width=5, height=2, dpi=100)
-        self.sc2.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['mW_A'],color='c', label='Adult Mild Ward')
-        self.sc2.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['sW_A'],color='m', label='Adult Severe Ward')
-        self.sc2.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['mICU_A'],color='b', label='Adult Mild ICU')
-        self.sc2.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['sICU_A'],color='r', label='Adult Severe ICU')
-        self.sc2.axes.legend()
-        self.sc2.axes.set_xlabel('Day')
-        self.sc2.axes.set_ylabel('Daily Admissions')
-        self.mainLayout.addWidget(self.sc2, 1, 3)
-        self.mainLayout.update()
-        self.setLayout(self.mainLayout)
-        
-        #Plot peds scenario
-        self.mainLayout.removeWidget(self.sc3)
-        self.sc3.close()
-        self.sc3 = MplCanvas(self, width=5, height=2, dpi=100)
-        self.sc3.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['mW_P'],color='c', label='Pediatric Mild Ward')
-        self.sc3.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['sW_P'],color='m', label='Pediatric Severe Ward')
-        self.sc3.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['mICU_P'],color='b', label='Pediatric Mild ICU')
-        self.sc3.axes.plot(LOS_model.LOS_Occupancy_df['Day'],LOS_model.LOS_Occupancy_df['sICU_P'],color='r', label='Pediatric Severe ICU')
-        self.sc3.axes.legend()
-        self.sc3.axes.set_xlabel('Day')
-        self.sc3.axes.set_ylabel('Daily Admissions')
-        self.mainLayout.addWidget(self.sc3, 1, 4)
-        self.mainLayout.update()
-        self.setLayout(self.mainLayout)
+        self.setLayout(self.mainLayout)        
 
         #Total Hospitalizations Output
         THR = pd.DataFrame(columns=['Total Number Hospitalized', '% of Symptomatic Population', 'Hospitalized Case Fatality Ratio (HFR)',
@@ -797,8 +762,7 @@ class c4(QDialog):
         tab1 = QTableView(None)
         THR_mod = TableModel(THR) #need to round the dataframes, also need to add vertical headers
         tab1.setModel(THR_mod)
-        #THR_mod.resizeColumnToContents()
-        
+
         tab2 = QTableView(None)
         MILD_mod = TableModel(MILD)
         tab2.setModel(MILD_mod)
@@ -846,8 +810,9 @@ class TableModel(QAbstractTableModel):
                 return str(self._data.columns[section])
 
             if orientation == Qt.Vertical:
-                return str(self._data.index[section])        
-        
+                return str(self._data.index[section])
+
+
 if __name__ == '__main__':
     import sys
     app = QApplication(sys.argv)
