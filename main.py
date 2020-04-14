@@ -168,7 +168,7 @@ class c4(QDialog):
         layout.addStretch(1)
         layout.addWidget(infRateLabel)
         layout.addWidget(infRate)
-        layout.addWidget(infRateVal)
+        #layout.addWidget(infRateVal)
         layout.addStretch(1)
         layout.addWidget(sympRateLabel)
         layout.addWidget(sympRate)
