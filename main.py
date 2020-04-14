@@ -8,12 +8,14 @@ import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
-from PyQt5.QtCore import QDateTime, Qt, QTimer
+from PyQt5.QtCore import QDateTime, Qt, QTimer, QAbstractTableModel
 from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComboBox, QDateTimeEdit,
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLCDNumber, QLabel, QLineEdit,
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
-        QSlider, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, QTabWidget, QTextEdit,
-        QVBoxLayout, QWidget, QHeaderView)
+        QSlider, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, 
+        QTabWidget, QTableView, 
+        QTextEdit, QVBoxLayout, QWidget, QHeaderView)
+from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 import pandas as pd
@@ -304,7 +306,7 @@ class c4(QDialog):
         layout.addWidget(sc3)
         self.plotWidget3.setLayout(layout)
            
-    def createTableWidget(self):
+    def createTableWidget_OLD(self):
         self.tableWidget = QTabWidget()
         
         tab1 = QWidget()
@@ -382,6 +384,21 @@ class c4(QDialog):
         header = ICU.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
         
+        self.tableWidget.addTab(tab1, "Total Hospitalizations")
+        self.tableWidget.addTab(tab2, "Detailed Results of the MILD Scenario")
+        self.tableWidget.addTab(tab3, "Detailed Results of the SEVERE Scenario")
+        self.tableWidget.addTab(tab4, "Adult Ward Beds")
+        self.tableWidget.addTab(tab5, "Adult ICU Beds and Ventilators")
+        
+    def createTableWidget(self):
+        self.tableWidget = QTabWidget()
+        
+        tab1 = QTableView(None)
+        tab2 = QTableView(None)
+        tab3 = QTableView(None)
+        tab4 = QTableView(None)
+        tab5 = QTableView(None)
+
         self.tableWidget.addTab(tab1, "Total Hospitalizations")
         self.tableWidget.addTab(tab2, "Detailed Results of the MILD Scenario")
         self.tableWidget.addTab(tab3, "Detailed Results of the SEVERE Scenario")
@@ -633,6 +650,63 @@ class c4(QDialog):
         #reload(calc)
         reload(LOS_model)
 
+        
+        self.tableWidget.removeTab(4)
+        self.tableWidget.removeTab(3)
+        self.tableWidget.removeTab(2)
+        self.tableWidget.removeTab(1)
+        self.tableWidget.removeTab(0)
+        
+        tab1 = QTableView(None)
+        THR_mod = TableModel(THR) #need to round the dataframes
+        tab1.setModel(THR_mod)
+        
+        tab2 = QTableView(None)
+        MILD = QStandardItemModel()
+        tab2.setModel(MILD)
+        
+        tab3 = QTableView(None)
+        SEVERE = QStandardItemModel()
+        tab3.setModel(SEVERE)
+        
+        tab4 = QTableView(None)
+        AWARD = QStandardItemModel()
+        tab4.setModel(AWARD)
+        
+        tab5 = QTableView(None)
+        AICU = QStandardItemModel()
+        tab5.setModel(AICU)
+        
+        self.tableWidget.addTab(tab1, "Total Hospitalizations")
+        self.tableWidget.addTab(tab2, "Detailed Results of the MILD Scenario")
+        self.tableWidget.addTab(tab3, "Detailed Results of the SEVERE Scenario")
+        self.tableWidget.addTab(tab4, "Adult Ward Beds")
+        self.tableWidget.addTab(tab5, "Adult ICU Beds and Ventilators")
+        
+class TableModel(QAbstractTableModel):
+
+    def __init__(self, data):
+        super(TableModel, self).__init__()
+        self._data = data
+
+    def data(self, index, role):
+        if role == Qt.DisplayRole:
+            value = self._data.iloc[index.row(), index.column()]
+            return str(value)
+
+    def rowCount(self, index):
+        return self._data.shape[0]
+
+    def columnCount(self, index):
+        return self._data.shape[1]
+    
+    def headerData(self, section, orientation, role):
+        if role == Qt.DisplayRole:
+            if orientation == Qt.Horizontal:
+                return str(self._data.columns[section])
+
+            if orientation == Qt.Vertical:
+                return str(self._data.index[section])        
         
 if __name__ == '__main__':
     import sys

@@ -6,6 +6,7 @@ import pandas as pd
 from scipy.stats import gamma
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtGui, QtCore
+from PyQt5.QtGui import QStandardItem, QStandardItemModel
 import main
 
 #################   GAMMA CALCS   #################   
@@ -236,8 +237,6 @@ def dWard_adults(df):
     da = pd.DataFrame(columns = ['Mild', 'Severe'])
     da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
     return da
-    
-
 
 ####################     PLOTS      ############################
     
@@ -303,7 +302,3 @@ def plot(epi_curve_df,LOS_occupancy_df):
         import sys
         if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
             QtGui.QApplication.instance().exec_()
-            
-#eC = epi_curve(60,2)
-#df = pd.read_pickle('df.pkl')
-#plot(eC,df)
