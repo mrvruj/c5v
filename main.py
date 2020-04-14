@@ -650,7 +650,7 @@ class c4(QDialog):
         self.tableWidget.removeTab(0)
         
         tab1 = QTableView(None)
-        THR_mod = TableModel(THR) #need to round the dataframes
+        THR_mod = TableModel(THR) #need to round the dataframes, also need to add vertical headers
         tab1.setModel(THR_mod)
         
         tab2 = QTableView(None)
