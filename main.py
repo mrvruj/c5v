@@ -614,6 +614,10 @@ class c4(QDialog):
         self.mainLayout.addWidget(self.epiPlot, 1, 1)
         self.mainLayout.addWidget(self.adultPlot, 1, 2)
         self.mainLayout.addWidget(self.pedPlot, 1, 3)
+        self.mainLayout.setColumnStretch(0, 0) #ensures that the plots are larger than the input groupbox when window is stretched
+        self.mainLayout.setColumnStretch(1, 2) 
+        self.mainLayout.setColumnStretch(2, 2)
+        self.mainLayout.setColumnStretch(3, 2)
         self.mainLayout.update()
         self.setLayout(self.mainLayout)      
 
@@ -817,7 +821,6 @@ class c4(QDialog):
         
         #simulation run output above the plots 
         self.results.deleteLater()
-        x, y = 100000, 12.5
         self.results = QLabel("This simulation run created " + str("{:,}".format(round(numPx,0))[:-2]) + " patients, representing " + str(round(fracPx,3)*100) + "% of the catchment area.")  
         self.mainLayout.addWidget(self.results, 0, 2)
                 
