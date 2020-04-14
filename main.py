@@ -731,10 +731,10 @@ class c4(QDialog):
         tab1 = QTableView(None)
         THR_mod = TableModel(THR) #need to round the dataframes, also need to add vertical headers
         tab1.setModel(THR_mod)
-        THR_mod.resizeColumnToContents()
+        #THR_mod.resizeColumnToContents()
         
         tab2 = QTableView(None)
-        MILD_mod = QStandardItemModel(MILD)
+        MILD_mod = QStandardItemModel()
         tab2.setModel(MILD_mod)
         
         tab3 = QTableView(None)
