@@ -606,6 +606,9 @@ class c4(QDialog):
         #calc.plot(eC,LOS_model.LOS_Occupancy_df)
         
         #Plotting        
+        self.epiPlot.layout.removeWidget(epiCurve)
+        self.adultPlot.layout.removeWidget(adult)
+        self.pedPlot.layout.removeWidget(ped)
         self.mainLayout.removeWidget(self.epiPlot)
         self.mainLayout.removeWidget(self.adultPlot)
         self.mainLayout.removeWidget(self.pedPlot)
