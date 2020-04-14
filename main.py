@@ -34,10 +34,7 @@ class c4(QDialog):
     def __init__(self, parent=None):
         super(c4, self).__init__(parent)
 
-        self.originalPalette = QApplication.palette()
-
         x = [1, 2, 3, 4, 5]
-
         self.createTopLeftGroupBox()
         self.createBottomLeftTabWidget()
         self.createEpiCurvePlot(x, x)
@@ -69,9 +66,9 @@ class c4(QDialog):
         self.mainLayout.addWidget(self.epiPlot, 1, 1)
         self.mainLayout.addWidget(self.adultPlot, 1, 2)
         self.mainLayout.addWidget(self.pedPlot, 1, 3)
-        self.mainLayout.addWidget(self.tableWidget, 2, 1, 1, 3)
-        self.mainLayout.setColumnStretch(0, 0)
-        self.mainLayout.setColumnStretch(1, 4)
+        self.mainLayout.addWidget(self.tableWidget, 2, 1, 1, 3) #the 3 is so it spans the length of 3 plots
+        self.mainLayout.setColumnStretch(0, 0) #ensures that the plots are larger than the input groupbox when window is stretched
+        self.mainLayout.setColumnStretch(1, 4) 
         self.mainLayout.setColumnStretch(2, 4)
         self.mainLayout.setColumnStretch(3, 4)
         self.setLayout(self.mainLayout)
