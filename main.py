@@ -23,13 +23,6 @@ import LOS_model
 import calc
 from imp import reload
 
-class MplCanvas(FigureCanvasQTAgg):
-
-    def __init__(self, parent=None, width=5, height=4, dpi=100):
-        fig = Figure(figsize=(width, height), dpi=dpi)
-        self.axes = fig.add_subplot(111)
-        super(MplCanvas, self).__init__(fig)
-
 class c4(QDialog):
     def __init__(self, parent=None):
         super(c4, self).__init__(parent)
@@ -80,6 +73,8 @@ class c4(QDialog):
         
     def changeValue(self,value):
         return value
+        
+## INPUT ##
         
     def createTopLeftGroupBox(self):
         self.topLeftGroupBox = QGroupBox("Input Parameters")
@@ -253,6 +248,8 @@ class c4(QDialog):
         self.bottomLeftTabWidget.addTab(tab3, "LOS")
         self.bottomLeftTabWidget.addTab(tab4, "Capacitated Inputs")
         self.bottomLeftTabWidget.addTab(tab5, "No Vents")
+     
+## OUTPUT ##
         
     def createEpiCurvePlot(self, x, y):
         self.epiPlot = QGroupBox("Possible COVID-19 Hospital-Apparent Epidemic Curve")    
@@ -540,9 +537,7 @@ class c4(QDialog):
     def getDayOutput(self): #returns an int
         return self.topLeftGroupBox.children()[3].value()
 
-### TESTS AND SIMULATION ### 
-
-    def test(self): #put this function in line 29 instead of calc to test the getters
+    def testGetters(self): #put this function in line 29 instead of calc to test the getters
         print(self.getCHR()) #CHR
         print(self.getCCHF()) #CCHF
         print(self.getLOS()) #LOS
@@ -555,6 +550,8 @@ class c4(QDialog):
         print(self.getShapeCurve()) #should be an index
         print(self.getDayMax()) #should be an int
         print(self.getDayOutput()) #should be an int
+
+## CALCULATE ##
     
     def calc(self):
         #get GUI parameters
@@ -606,12 +603,9 @@ class c4(QDialog):
         #calc.plot(eC,LOS_model.LOS_Occupancy_df)
         
         #Plotting        
-        self.epiPlot.layout.removeWidget(epiCurve)
-        self.adultPlot.layout.removeWidget(adult)
-        self.pedPlot.layout.removeWidget(ped)
-        self.mainLayout.removeWidget(self.epiPlot)
-        self.mainLayout.removeWidget(self.adultPlot)
-        self.mainLayout.removeWidget(self.pedPlot)
+        self.epiPlot.deleteLater() #removeWidget() does not actually delete the widget, so use deleteLater() 
+        self.adultPlot.deleteLater()
+        self.pedPlot.deleteLater()
         self.createEpiCurvePlot(eC['Day'],eC['Gamma_Values'])
         self.createAdultPlot(LOS_model.LOS_Occupancy_df['Day'], LOS_model.LOS_Occupancy_df['mW_A'], LOS_model.LOS_Occupancy_df['sW_A'], LOS_model.LOS_Occupancy_df['mICU_A'], LOS_model.LOS_Occupancy_df['sICU_A'])
         self.createPedPlot(LOS_model.LOS_Occupancy_df['Day'], LOS_model.LOS_Occupancy_df['mW_P'], LOS_model.LOS_Occupancy_df['sW_P'], LOS_model.LOS_Occupancy_df['mICU_P'], LOS_model.LOS_Occupancy_df['sICU_P'])
@@ -750,8 +744,6 @@ class c4(QDialog):
         SEVERE['Total Deaths'] = SEVERE.apply(lambda x: "{:,}".format(x['Total Deaths'])[:-2], axis=1)
         SEVERE['Total Discharges'] = SEVERE.apply(lambda x: "{:,}".format(x['Total Discharges'])[:-2], axis=1)
 
-        
-        
         #Adult Ward Beds output
         
         #Adult ICU Beds and Ventilators output
@@ -815,6 +807,11 @@ class TableModel(QAbstractTableModel):
             if orientation == Qt.Vertical:
                 return str(self._data.index[section])
 
+class MplCanvas(FigureCanvasQTAgg):
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = fig.add_subplot(111)
+        super(MplCanvas, self).__init__(fig)
 
 if __name__ == '__main__':
     import sys
