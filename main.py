@@ -10,7 +10,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 from PyQt5.QtCore import QDateTime, Qt, QTimer
 from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComboBox, QDateTimeEdit,
-        QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit,
+        QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLCDNumber, QLabel, QLineEdit,
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, QTabWidget, QTextEdit,
         QVBoxLayout, QWidget, QHeaderView)
@@ -98,6 +98,9 @@ class c4(QDialog):
         QApplication.setStyle(QStyleFactory.create('Fusion'))
         QApplication.setPalette(QApplication.style().standardPalette())
         
+    def changeValue(self,value):
+        return value
+        
     def createTopLeftGroupBox(self):
         self.topLeftGroupBox = QGroupBox("Input Parameters")
         
@@ -120,7 +123,10 @@ class c4(QDialog):
         infRate.setValue(40)
         infRateLabel = QLabel("Infection Rate: ")
         infRateLabel.setBuddy(infRate)
-        #infRate.valueChanged.connect(self.updateSliderLabel())
+        def infRateVal(self,val):
+            infRateVal = QSpinBox(self.topLeftGroupBox)
+            infRateVal.setValue(val)
+        infRate.valueChanged.connect(infRateVal)
         
         sympRate = QSlider(Qt.Horizontal, self.topLeftGroupBox)
         sympRate.setTickInterval(10)
@@ -160,6 +166,7 @@ class c4(QDialog):
         layout.addStretch(1)
         layout.addWidget(infRateLabel)
         layout.addWidget(infRate)
+        layout.addWidget(infRateVal)
         layout.addStretch(1)
         layout.addWidget(sympRateLabel)
         layout.addWidget(sympRate)
@@ -625,6 +632,7 @@ class c4(QDialog):
         self.setLayout(self.mainLayout)
         #reload(calc)
         reload(LOS_model)
+
         
 if __name__ == '__main__':
     import sys
