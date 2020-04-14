@@ -45,15 +45,17 @@ class c4(QDialog):
         defaultButton = QPushButton("Default")
         instructions = QPushButton("Instructions")
 
-        topLayout = QHBoxLayout()
-        topLayout.addWidget(instructions)
-        topLayout.addWidget(advancedCheck)
-        topLayout.addWidget(defaultButton)
-        topLayout.addWidget(printButton)
-        topLayout.addWidget(runCalc) 
+        self.topLayout = QHBoxLayout()
+        self.topLayout.addWidget(instructions)
+        self.topLayout.addWidget(advancedCheck)
+        self.topLayout.addWidget(defaultButton)
+        self.topLayout.addWidget(printButton)
+        self.topLayout.addWidget(runCalc) 
+        
+        self.results = QLabel() #placeholder so the deleteLater() in calc doesn't shit a brick
                         
         self.mainLayout = QGridLayout()
-        self.mainLayout.addLayout(topLayout, 0, 0)
+        self.mainLayout.addLayout(self.topLayout, 0, 0)
         self.mainLayout.addWidget(self.topLeftGroupBox, 1, 0)
         self.mainLayout.addWidget(self.bottomLeftTabWidget, 2, 0)
         self.mainLayout.addWidget(self.epiPlot, 1, 1)
@@ -613,7 +615,13 @@ class c4(QDialog):
         self.mainLayout.addWidget(self.adultPlot, 1, 2)
         self.mainLayout.addWidget(self.pedPlot, 1, 3)
         self.mainLayout.update()
-        self.setLayout(self.mainLayout)        
+        self.setLayout(self.mainLayout)      
+        
+        #simulation run output above the plots 
+        self.results.deleteLater()
+        x, y = 100000, 12.5
+        self.results = QLabel("This simulation run created " + str(x) + " patients, representing " + str(y) + "% of the catchment area.")  
+        self.mainLayout.addWidget(self.results, 0, 2)
 
         #Total Hospitalizations Output
         THR = pd.DataFrame(columns=['Total Number Hospitalized', '% of Symptomatic Population', 'Hospitalized Case Fatality Ratio (HFR)',
@@ -642,7 +650,6 @@ class c4(QDialog):
         THR = THR.astype(float).round({'Total Number Hospitalized': 0})
         THR['Total Number Hospitalized'] = THR['Total Number Hospitalized'].astype(int)
         THR['Total Number Hospitalized'] = THR.apply(lambda x: "{:,}".format(x['Total Number Hospitalized'])[:-2], axis=1)
-
 
         #Mild Scenario Output
         MILD = pd.DataFrame(columns=["Total Number Admitted","Peak Daily Admissions","Day of Peak Admissions", 
