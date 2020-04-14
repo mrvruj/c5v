@@ -755,10 +755,6 @@ class c4(QDialog):
         self.tableWidget.addTab(tab4, "Adult Ward Beds")
         self.tableWidget.addTab(tab5, "Adult ICU Beds and Ventilators")
         
-        
-        
-        
-        
         reload(LOS_model)
         
 class TableModel(QAbstractTableModel):
