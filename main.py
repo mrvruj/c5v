@@ -678,7 +678,10 @@ class c4(QDialog):
         THR.loc['Severe']['Overall Symptomatic Case Fatality Ratio (CFR)'] = severeCFR
         THR = THR.astype(float).round(1)
         THR = THR.astype(float).round({'Total Number Hospitalized': 0})
-        THR['Total Number Hospitalized'] = THR.apply(lambda x: "{:,}".format(x['Total Number Hospitalized']), axis=1)
+        THR['Total Number Hospitalized'] = THR['Total Number Hospitalized'].astype(int)
+        THR['Total Number Hospitalized'] = THR.apply(lambda x: "{:,}".format(x['Total Number Hospitalized'])[:-2], axis=1)
+        print(THR)
+
 
         #Mild Scenario Output
         MILD = pd.DataFrame(columns=["Total Number Admitted","Peak Daily Admissions","Day of Peak Admissions", 
@@ -721,6 +724,69 @@ class c4(QDialog):
         MILD.loc['Pediatric ICU Cases']['Total Discharges'] = LOS_model.LOS_Discharges_df['mICU_P'].sum()
         
         MILD = MILD.astype(float).round(0)
+        MILD['Total Number Admitted'] = MILD.apply(lambda x: "{:,}".format(x['Total Number Admitted'])[:-2], axis=1)
+        MILD['Peak Daily Admissions'] = MILD.apply(lambda x: "{:,}".format(x['Peak Daily Admissions'])[:-2], axis=1)
+        MILD['Day of Peak Admissions'] = MILD.apply(lambda x: "{:,}".format(x['Day of Peak Admissions'])[:-2], axis=1)
+        MILD['Peak Hospital Census'] = MILD.apply(lambda x: "{:,}".format(x['Peak Hospital Census'])[:-2], axis=1)
+        MILD['Day of Peak Census'] = MILD.apply(lambda x: "{:,}".format(x['Day of Peak Census'])[:-2], axis=1)
+        MILD['Total Deaths'] = MILD.apply(lambda x: "{:,}".format(x['Total Deaths'])[:-2], axis=1)
+        MILD['Total Discharges'] = MILD.apply(lambda x: "{:,}".format(x['Total Discharges'])[:-2], axis=1)
+
+        
+        #Severe Scenario Output
+        SEVERE = pd.DataFrame(columns=["Total Number Admitted","Peak Daily Admissions","Day of Peak Admissions", 
+                                     "Peak Hospital Census","Day of Peak Census", "Total Deaths", "Total Discharges"],
+    index=["Adult Ward Cases", "Adult ICU Cases", "Pediatric Ward Cases", "Pediatric ICU Cases"])
+        
+        SEVERE.loc['Adult Ward Cases']['Total Number Admitted'] = LOS_model.LOS_Admissions_df['sW_A'].sum()
+        SEVERE.loc['Adult ICU Cases']['Total Number Admitted'] = LOS_model.LOS_Admissions_df['sICU_A'].sum()
+        SEVERE.loc['Pediatric Ward Cases']['Total Number Admitted'] = LOS_model.LOS_Admissions_df['sW_P'].sum()
+        SEVERE.loc['Pediatric ICU Cases']['Total Number Admitted'] = LOS_model.LOS_Admissions_df['sICU_P'].sum()
+        
+        SEVERE.loc['Adult Ward Cases']['Peak Daily Admissions'] = LOS_model.LOS_Admissions_df['sW_A'].max()
+        SEVERE.loc['Adult ICU Cases']['Peak Daily Admissions'] = LOS_model.LOS_Admissions_df['sICU_A'].max()
+        SEVERE.loc['Pediatric Ward Cases']['Peak Daily Admissions'] = LOS_model.LOS_Admissions_df['sW_P'].max()
+        SEVERE.loc['Pediatric ICU Cases']['Peak Daily Admissions'] = LOS_model.LOS_Admissions_df['sICU_P'].max()
+
+        SEVERE.loc['Adult Ward Cases']['Day of Peak Admissions'] = LOS_model.LOS_Admissions_df['sW_A'].idxmax()
+        SEVERE.loc['Adult ICU Cases']['Day of Peak Admissions'] = LOS_model.LOS_Admissions_df['sICU_A'].idxmax()
+        SEVERE.loc['Pediatric Ward Cases']['Day of Peak Admissions'] = LOS_model.LOS_Admissions_df['sW_P'].idxmax()
+        SEVERE.loc['Pediatric ICU Cases']['Day of Peak Admissions'] = LOS_model.LOS_Admissions_df['sICU_P'].idxmax()
+
+        SEVERE.loc['Adult Ward Cases']['Peak Hospital Census'] = LOS_model.LOS_Occupancy_df['sW_A'].max()
+        SEVERE.loc['Adult ICU Cases']['Peak Hospital Census'] = LOS_model.LOS_Occupancy_df['sICU_A'].max()
+        SEVERE.loc['Pediatric Ward Cases']['Peak Hospital Census'] = LOS_model.LOS_Occupancy_df['sW_P'].max()
+        SEVERE.loc['Pediatric ICU Cases']['Peak Hospital Census'] = LOS_model.LOS_Occupancy_df['sICU_P'].max()
+
+        SEVERE.loc['Adult Ward Cases']['Day of Peak Census'] = LOS_model.LOS_Occupancy_df['sW_A'].astype(float).idxmax()
+        SEVERE.loc['Adult ICU Cases']['Day of Peak Census'] = LOS_model.LOS_Occupancy_df['sICU_A'].astype(float).idxmax()
+        SEVERE.loc['Pediatric Ward Cases']['Day of Peak Census'] = LOS_model.LOS_Occupancy_df['sW_P'].astype(float).idxmax()
+        SEVERE.loc['Pediatric ICU Cases']['Day of Peak Census'] = LOS_model.LOS_Occupancy_df['sICU_P'].astype(float).idxmax()
+        
+        SEVERE.loc['Adult Ward Cases']['Total Deaths'] = LOS_model.LOS_Deaths_df['sW_A'].sum()
+        SEVERE.loc['Adult ICU Cases']['Total Deaths'] = LOS_model.LOS_Deaths_df['sICU_A'].sum()
+        SEVERE.loc['Pediatric Ward Cases']['Total Deaths'] = LOS_model.LOS_Deaths_df['sW_P'].sum()
+        SEVERE.loc['Pediatric ICU Cases']['Total Deaths'] = LOS_model.LOS_Deaths_df['sICU_P'].sum()
+
+        SEVERE.loc['Adult Ward Cases']['Total Discharges'] = LOS_model.LOS_Discharges_df['sW_A'].sum()
+        SEVERE.loc['Adult ICU Cases']['Total Discharges'] = LOS_model.LOS_Discharges_df['sICU_A'].sum()
+        SEVERE.loc['Pediatric Ward Cases']['Total Discharges'] = LOS_model.LOS_Discharges_df['sW_P'].sum()
+        SEVERE.loc['Pediatric ICU Cases']['Total Discharges'] = LOS_model.LOS_Discharges_df['sICU_P'].sum()
+        
+        SEVERE = SEVERE.astype(float).round(0)
+        SEVERE['Total Number Admitted'] = SEVERE.apply(lambda x: "{:,}".format(x['Total Number Admitted'])[:-2], axis=1)
+        SEVERE['Peak Daily Admissions'] = SEVERE.apply(lambda x: "{:,}".format(x['Peak Daily Admissions'])[:-2], axis=1)
+        SEVERE['Day of Peak Admissions'] = SEVERE.apply(lambda x: "{:,}".format(x['Day of Peak Admissions'])[:-2], axis=1)
+        SEVERE['Peak Hospital Census'] = SEVERE.apply(lambda x: "{:,}".format(x['Peak Hospital Census'])[:-2], axis=1)
+        SEVERE['Day of Peak Census'] = SEVERE.apply(lambda x: "{:,}".format(x['Day of Peak Census'])[:-2], axis=1)
+        SEVERE['Total Deaths'] = SEVERE.apply(lambda x: "{:,}".format(x['Total Deaths'])[:-2], axis=1)
+        SEVERE['Total Discharges'] = SEVERE.apply(lambda x: "{:,}".format(x['Total Discharges'])[:-2], axis=1)
+
+        
+        
+        #Adult Ward Beds output
+        
+        #Adult ICU Beds and Ventilators output
         
         self.tableWidget.removeTab(4) #figure out how to delete tabs, not just remove from view
         self.tableWidget.removeTab(3)
@@ -734,11 +800,11 @@ class c4(QDialog):
         #THR_mod.resizeColumnToContents()
         
         tab2 = QTableView(None)
-        MILD_mod = QStandardItemModel()
+        MILD_mod = TableModel(MILD)
         tab2.setModel(MILD_mod)
         
         tab3 = QTableView(None)
-        SEVERE = QStandardItemModel()
+        SEVERE = TableModel(SEVERE)
         tab3.setModel(SEVERE)
         
         tab4 = QTableView(None)
