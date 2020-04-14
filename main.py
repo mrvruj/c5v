@@ -705,10 +705,10 @@ class c4(QDialog):
         MILD.loc['Pediatric Ward Cases']['Peak Hospital Census'] = LOS_model.LOS_Occupancy_df['mW_P'].max()
         MILD.loc['Pediatric ICU Cases']['Peak Hospital Census'] = LOS_model.LOS_Occupancy_df['mICU_P'].max()
 
-        MILD.loc['Adult Ward Cases']['Day of Peak Census'] = LOS_model.LOS_Occupancy_df['mW_A'].idxmax()
-        MILD.loc['Adult ICU Cases']['Day of Peak Census'] = LOS_model.LOS_Occupancy_df['mICU_A'].idxmax()
-        MILD.loc['Pediatric Ward Cases']['Day of Peak Census'] = LOS_model.LOS_Occupancy_df['mW_P'].idxmax()
-        MILD.loc['Pediatric ICU Cases']['Day of Peak Census'] = LOS_model.LOS_Occupancy_df['mICU_P'].idxmax()
+        MILD.loc['Adult Ward Cases']['Day of Peak Census'] = LOS_model.LOS_Occupancy_df['mW_A'].astype(float).idxmax()
+        MILD.loc['Adult ICU Cases']['Day of Peak Census'] = LOS_model.LOS_Occupancy_df['mICU_A'].astype(float).idxmax()
+        MILD.loc['Pediatric Ward Cases']['Day of Peak Census'] = LOS_model.LOS_Occupancy_df['mW_P'].astype(float).idxmax()
+        MILD.loc['Pediatric ICU Cases']['Day of Peak Census'] = LOS_model.LOS_Occupancy_df['mICU_P'].astype(float).idxmax()
         
         MILD.loc['Adult Ward Cases']['Total Deaths'] = LOS_model.LOS_Deaths_df['mW_A'].sum()
         MILD.loc['Adult ICU Cases']['Total Deaths'] = LOS_model.LOS_Deaths_df['mICU_A'].sum()
@@ -733,9 +733,9 @@ class c4(QDialog):
         tab1.setModel(THR_mod)
         THR_mod.resizeColumnToContents()
         
-        tab2 = QTableView(None)
-        MILD = QStandardItemModel()
-        tab2.setModel(MILD)
+        #tab2 = QTableView(None)
+        #MILD_mod = QStandardItemModel(MILD)
+        #tab2.setModel(MILD_mod)
         
         tab3 = QTableView(None)
         SEVERE = QStandardItemModel()
