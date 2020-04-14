@@ -616,12 +616,6 @@ class c4(QDialog):
         self.mainLayout.addWidget(self.pedPlot, 1, 3)
         self.mainLayout.update()
         self.setLayout(self.mainLayout)      
-        
-        #simulation run output above the plots 
-        self.results.deleteLater()
-        x, y = 100000, 12.5
-        self.results = QLabel("This simulation run created " + str(x) + " patients, representing " + str(y) + "% of the catchment area.")  
-        self.mainLayout.addWidget(self.results, 0, 2)
 
         #Total Hospitalizations Output
         THR = pd.DataFrame(columns=['Total Number Hospitalized', '% of Symptomatic Population', 'Hospitalized Case Fatality Ratio (HFR)',
@@ -821,6 +815,12 @@ class c4(QDialog):
         self.tableWidget.addTab(tab4, "Adult Ward Beds")
         self.tableWidget.addTab(tab5, "Adult ICU Beds and Ventilators")
         
+        #simulation run output above the plots 
+        self.results.deleteLater()
+        x, y = 100000, 12.5
+        self.results = QLabel("This simulation run created " + str("{:,}".format(round(numPx,0))[:-2]) + " patients, representing " + str(round(fracPx,3)*100) + "% of the catchment area.")  
+        self.mainLayout.addWidget(self.results, 0, 2)
+                
         reload(LOS_model)
         
 class TableModel(QAbstractTableModel):
