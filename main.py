@@ -21,6 +21,7 @@ import pyqtgraph as pg
 import pandas as pd
 import LOS_model
 import calc
+import numpy
 from imp import reload
 
 class c4(QDialog):
