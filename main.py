@@ -654,7 +654,7 @@ class c4(QDialog):
         #Mild Scenario Output
         MILD = pd.DataFrame(columns=["Total Number Admitted","Peak Daily Admissions","Day of Peak Admissions", 
                                      "Peak Hospital Census","Day of Peak Census", "Total Deaths", "Total Discharges"],
-    index=["Adult Ward Cases", "Adult ICU Cases", "Pediatric Ward Cases", "Pediatric ICU Cases"])
+                            index=["Adult Ward Cases", "Adult ICU Cases", "Pediatric Ward Cases", "Pediatric ICU Cases"])
         
         MILD.loc['Adult Ward Cases']['Total Number Admitted'] = LOS_model.LOS_Admissions_df['mW_A'].sum()
         MILD.loc['Adult ICU Cases']['Total Number Admitted'] = LOS_model.LOS_Admissions_df['mICU_A'].sum()
@@ -704,7 +704,7 @@ class c4(QDialog):
         #Severe Scenario Output
         SEVERE = pd.DataFrame(columns=["Total Number Admitted","Peak Daily Admissions","Day of Peak Admissions", 
                                      "Peak Hospital Census","Day of Peak Census", "Total Deaths", "Total Discharges"],
-    index=["Adult Ward Cases", "Adult ICU Cases", "Pediatric Ward Cases", "Pediatric ICU Cases"])
+                              index=["Adult Ward Cases", "Adult ICU Cases", "Pediatric Ward Cases", "Pediatric ICU Cases"])
         
         SEVERE.loc['Adult Ward Cases']['Total Number Admitted'] = LOS_model.LOS_Admissions_df['sW_A'].sum()
         SEVERE.loc['Adult ICU Cases']['Total Number Admitted'] = LOS_model.LOS_Admissions_df['sICU_A'].sum()
