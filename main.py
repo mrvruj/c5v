@@ -75,9 +75,6 @@ class c4(QDialog):
         QApplication.setStyle(QStyleFactory.create('Fusion'))
         QApplication.setPalette(QApplication.style().standardPalette())
         
-    def changeValue(self,value):
-        return value
-        
 ## INPUT ##
         
     def createTopLeftGroupBox(self):
