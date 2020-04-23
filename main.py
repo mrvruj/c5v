@@ -42,7 +42,7 @@ class c4(QDialog):
         advancedCheck.toggled.connect(self.bottomLeftTabWidget.setEnabled)
         
         runCalc = QPushButton("Calculate")
-        runCalc.clicked.connect(self.calc) 
+        runCalc.clicked.connect(self.testGetters) 
         printButton = QPushButton("Print")
         defaultButton = QPushButton("Default")
         instructions = QPushButton("Instructions")
@@ -511,13 +511,13 @@ class c4(QDialog):
     def getSymptomatic(self): #returns a decimal between 0 and 1
         return self.topLeftGroupBox.children()[2].value()/100
     def getPopDist(self): #returns an index
-        return self.topLeftGroupBox.children()[7].currentIndex()
+        return self.topLeftGroupBox.children()[6].currentIndex()
     def getPop(self): #returns an int
         return self.topLeftGroupBox.children()[0].value()
     def getShapeCurve(self): #returns index
-        return self.topLeftGroupBox.children()[11].currentIndex()
+        return self.topLeftGroupBox.children()[10].currentIndex()
     def getDayMax(self): #returns an int
-        index = self.topLeftGroupBox.children()[13].currentIndex()
+        index = self.topLeftGroupBox.children()[12].currentIndex()
         if index == 0:
             return 30
         if index == 1:
