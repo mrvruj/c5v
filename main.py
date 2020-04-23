@@ -16,7 +16,7 @@ from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComb
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, 
         QTabWidget, QTableView, 
-        QTextEdit, QVBoxLayout, QWidget, QHeaderView)
+        QTextEdit, QVBoxLayout, QWidget, QHeaderView, QMessageBox)
 from PyQt5.QtGui import QStandardItem, QStandardItemModel, QFontMetrics
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
@@ -46,6 +46,7 @@ class c4(QDialog):
         printButton = QPushButton("Print")
         defaultButton = QPushButton("Default")
         instructions = QPushButton("Instructions")
+        instructions.clicked.connect(self.instructions)
 
         self.topLayout = QHBoxLayout()
         self.topLayout.addWidget(instructions)
@@ -70,7 +71,7 @@ class c4(QDialog):
         self.mainLayout.setColumnStretch(3, 2)
         self.setLayout(self.mainLayout)
 
-        self.setWindowTitle("c4: Cornell COVID-19 Caseload Calculator")
+        self.setWindowTitle("C5V Modeling Tool: Cornell COVID-19 Caseload Calculator with Capacity and Ventilators")
         
         QApplication.setStyle(QStyleFactory.create('Fusion'))
         QApplication.setPalette(QApplication.style().standardPalette())
@@ -809,6 +810,9 @@ class c4(QDialog):
         self.mainLayout.addWidget(self.results, 0, 2)
                 
         reload(LOS_model)
+        
+    def instructions(self):
+        msg = QMessageBox()
         
 class TableModel(QAbstractTableModel):
 
