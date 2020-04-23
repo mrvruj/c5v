@@ -546,7 +546,6 @@ class c4(QDialog):
         symptomatic = self.getSymptomatic()
         dayOfPeak = self.getDayMax()
         peakedness = self.getShapeCurve()
-        dayOf = self.getDayOutput()
         totalP = self.getPop()
         populationType = self.getPopDist()
         CHR = self.getCHR()
@@ -565,22 +564,6 @@ class c4(QDialog):
         tICU_a = calc.tICU_adults(numICU) #total adult ICU cases
         tWard_p = calc.tWard_peds(WR) #total pediatric ward cases
         tWard_a = calc.tWard_adults(WR) #total adult ward cases
-        
-        #daily cases (for output tables @ given day)
-        dICU = calc.dailyICU(numICU, eC, dayOf) #daily ICU cases (by age)
-        dWard = calc.dailyWard(WR, eC, dayOf) #daily ward cases (by age)
-        dICU_p = calc.dICU_peds(dICU) #daily pediatric ICU cases
-        dICU_a = calc.dICU_adults(dICU) #daily adult ICU cases
-        dWard_p = calc.dWard_peds(dWard) #daily pediatric ward cases
-        dWard_a = calc.dWard_adults(dWard) #daily adult ward cases
-        
-        #calculate grand totals
-        totalWard = calc.getMaxes(WR) #sum total of all ward cases (mild AND severe scenarios)
-        totalICU = calc.getMaxes(numICU) #sum total of all ICU cases
-        mW = totalWard[0] #sum total of all ward cases in the mild scenario
-        sW = totalWard[1] #sum total of all ward cases in the severe scenario
-        mildICU = totalICU[0] #sum total of all ICU cases in the mild scenario
-        sevICU = totalICU[1] #sum total of all ICu cases in the severe scenario
     
         LOS_model.calc_LOS_Admissions(eC, tICU_p, tICU_a, tWard_p, tWard_a)
         LOS_model.calc_LOS_data(LOS)
