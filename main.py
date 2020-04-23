@@ -42,7 +42,7 @@ class c4(QDialog):
         advancedCheck.toggled.connect(self.bottomLeftTabWidget.setEnabled)
         
         runCalc = QPushButton("Calculate")
-        runCalc.clicked.connect(self.testGetters) 
+        runCalc.clicked.connect(self.calc) 
         printButton = QPushButton("Print")
         defaultButton = QPushButton("Default")
         instructions = QPushButton("Instructions")
