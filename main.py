@@ -123,16 +123,6 @@ class c4(QDialog):
         peakDayLabel.setBuddy(peakDay)
         peakDay.setCurrentIndex(1)
         
-        dayOutput = QDial(self.topLeftGroupBox)
-        dayOutput.setMinimum(1)
-        dayOutput.setMaximum(180)
-        dayOutput.setValue(60)
-        dayOutput.setNotchesVisible(True)
-        dayOutputLabel = QLabel("Day of Output:")
-        dayOutputLabel.setBuddy(dayOutput)
-        #dayCount = QLabel(str(dayOutput.valueChanged.connect(dayOutput.sliderMoved))) #Figure out how to display the current day as selected by slider
-        #dayCount.setBuddy(dayOutput)
-        
         layout = QVBoxLayout()
         layout.addWidget(tPopLabel)
         layout.addWidget(totalPop)
@@ -153,8 +143,6 @@ class c4(QDialog):
         layout.addWidget(peakDayLabel)
         layout.addWidget(peakDay)
         layout.addStretch(1)
-        layout.addWidget(dayOutputLabel)
-        layout.addWidget(dayOutput)
         layout.addStretch(1)
         self.topLeftGroupBox.setLayout(layout)    
 
@@ -535,8 +523,6 @@ class c4(QDialog):
             return 60
         if index == 2:
             return 90
-    def getDayOutput(self): #returns an int
-        return self.topLeftGroupBox.children()[3].value()
 
     def testGetters(self): #put this function in line 29 instead of calc to test the getters
         print(self.getCHR()) #CHR
@@ -550,7 +536,6 @@ class c4(QDialog):
         print(self.getPop()) #should be an int
         print(self.getShapeCurve()) #should be an index
         print(self.getDayMax()) #should be an int
-        print(self.getDayOutput()) #should be an int
 
 ## CALCULATE ##
     
