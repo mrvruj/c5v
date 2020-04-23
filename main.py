@@ -796,6 +796,7 @@ class c4(QDialog):
         
     def instructions(self):
         msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
         
 class TableModel(QAbstractTableModel):
 
