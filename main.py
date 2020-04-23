@@ -814,6 +814,9 @@ class c4(QDialog):
     def instructions(self):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Information)
+        msg.setText("")
+        msg.setInformativeText("")
+        msg.setWindowTitle("C5V Instructions")
         
 class TableModel(QAbstractTableModel):
 
