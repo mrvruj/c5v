@@ -600,8 +600,8 @@ class c4(QDialog):
         #Total Hospitalizations Output
         THR = pd.DataFrame(columns=['Total Number Hospitalized', '% of Symptomatic Population', 'Hospitalized Case Fatality Ratio (HFR)',
                                     'Overall Symptomatic Case Fatality Ratio (CFR)'], index=['Mild Scenario', 'Severe Scenario'])
-        numPx = totalP*attackRate*symptomatic
-        fracPx = numPx/totalP
+        numPx = totalP*attackRate*symptomatic*catchArea
+        fracPx = numPx/(totalP*catchArea)
         totMild = LOS_model.LOS_Admissions_df[['mW_A','mICU_A','mW_P','mICU_P']].values.sum()
         totSevere = LOS_model.LOS_Admissions_df[['sW_A','sICU_A','sW_P','sICU_P']].values.sum()
         fracMild = totMild/numPx
