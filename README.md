@@ -37,7 +37,7 @@ And:
     Mortality fraction in both locations
     Increase (>100%) or decrease (<100%) in LOS for those who die
 
-The distributed version is called “hypothetical” because I put in a purely fictional population.
+The distributed version is called “hypothetical” because we put in a purely fictional population.
 
 Modeling methodology
 
