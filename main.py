@@ -88,6 +88,12 @@ class c4(QDialog):
         tPopLabel = QLabel("&Total Population:")
         tPopLabel.setBuddy(totalPop)
         
+        catch = QDoubleSpinBox(self.topLeftGroupBox)
+        catch.setRange(0, 100)
+        catch.setValue(15)
+        catchLabel = QLabel("Hospital System Market Share (Catchment Area):")
+        catchLabel.setBuddy(catch)
+        
         popDist = QComboBox()
         popDist.addItems(('Young (Mali)', 'Young Adults (Bangladesh)', 'Middle-Aged (United States)', 'Old (Japan)'))
         popDistLabel = QLabel("Population Distribution:")
@@ -123,6 +129,9 @@ class c4(QDialog):
         layout = QVBoxLayout()
         layout.addWidget(tPopLabel)
         layout.addWidget(totalPop)
+        layout.addStretch(1)
+        layout.addWidget(catchLabel)
+        layout.addWidget(catch)
         layout.addStretch(1)
         layout.addWidget(popDistLabel)
         layout.addWidget(popDist)
@@ -503,17 +512,19 @@ class c4(QDialog):
         return df
     
     def getInfectionRate(self): #returns a decimal between 0 and 1
-        return self.topLeftGroupBox.children()[1].value()/100
-    def getSymptomatic(self): #returns a decimal between 0 and 1
         return self.topLeftGroupBox.children()[2].value()/100
+    def getSymptomatic(self): #returns a decimal between 0 and 1
+        return self.topLeftGroupBox.children()[3].value()/100
+    def getCatch(self): #returns a decimal between 0 and 1
+        return self.topLeftGroupBox.children()[1].value()/100
     def getPopDist(self): #returns an index
-        return self.topLeftGroupBox.children()[6].currentIndex()
+        return self.topLeftGroupBox.children()[8].currentIndex()
     def getPop(self): #returns an int
         return self.topLeftGroupBox.children()[0].value()
     def getShapeCurve(self): #returns index
-        return self.topLeftGroupBox.children()[10].currentIndex()
+        return self.topLeftGroupBox.children()[12].currentIndex()
     def getDayMax(self): #returns an int
-        index = self.topLeftGroupBox.children()[12].currentIndex()
+        index = self.topLeftGroupBox.children()[14].currentIndex()
         if index == 0:
             return 30
         if index == 1:
@@ -527,10 +538,11 @@ class c4(QDialog):
         print(self.getLOS()) #LOS
         print(self.getBeds()) #beds
         print(self.getNoVents()) #noVents
+        print(self.getPop()) #should be an int
+        print(self.getCatch()) #should be a decimal
+        print(self.getPopDist()) #should be an index
         print(self.getInfectionRate()) #inf
         print(self.getSymptomatic()) #symp
-        print(self.getPopDist()) #should be an index
-        print(self.getPop()) #should be an int
         print(self.getShapeCurve()) #should be an index
         print(self.getDayMax()) #should be an int
 
