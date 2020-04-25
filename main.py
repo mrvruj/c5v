@@ -14,7 +14,7 @@ from PyQt5.QtCore import QDateTime, Qt, QTimer, QAbstractTableModel
 from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComboBox, QDateTimeEdit,
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLCDNumber, QLabel, QLineEdit,
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
-        QSlider, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, 
+        QSlider, QDoubleSpinBox, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, 
         QTabWidget, QTableView, 
         QTextEdit, QVBoxLayout, QWidget, QHeaderView, QMessageBox)
 from PyQt5.QtGui import QStandardItem, QStandardItemModel, QFontMetrics
@@ -94,20 +94,16 @@ class c4(QDialog):
         popDistLabel.setBuddy(popDist)
         popDist.setCurrentIndex(2)
         
-        infRate = QSlider(Qt.Horizontal, self.topLeftGroupBox)
-        infRate.setTickInterval(10)
-        infRate.setTickPosition(QSlider.TicksBothSides)
+        infRate = QDoubleSpinBox(self.topLeftGroupBox)
+        infRate.setMaximum(100)
+        infRate.setMinimum(0)
         infRate.setValue(40)
         infRateLabel = QLabel("Infection Rate: ")
         infRateLabel.setBuddy(infRate)
-        def infRateVal(self,val):
-            infRateVal = QSpinBox(self.topLeftGroupBox)
-            infRateVal.setValue(val)
-        infRate.valueChanged.connect(infRateVal)
         
-        sympRate = QSlider(Qt.Horizontal, self.topLeftGroupBox)
-        sympRate.setTickInterval(10)
-        sympRate.setTickPosition(QSlider.TicksBothSides)
+        sympRate = QDoubleSpinBox(self.topLeftGroupBox)
+        sympRate.setMaximum(100)
+        sympRate.setMinimum(0)
         sympRate.setValue(40)
         sympRateLabel = QLabel("% Symptomatic: ")
         sympRateLabel.setBuddy(sympRate)
