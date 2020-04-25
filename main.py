@@ -16,7 +16,6 @@ from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog,
                              QStyleFactory, QTableWidget, QTableWidgetItem, 
                              QTabWidget, QTableView, QWidget, QHeaderView, 
                              QMessageBox)
-from pyqtgraph import PlotWidget, plot as pg
 from importlib import reload
 from pandas import DataFrame, ExcelWriter
 
