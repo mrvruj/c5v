@@ -44,6 +44,7 @@ class c4(QDialog):
         runCalc = QPushButton("Calculate")
         runCalc.clicked.connect(self.calc) 
         printButton = QPushButton("Print")
+        printButton.clicked.connect(self.printer)
         defaultButton = QPushButton("Default")
         instructions = QPushButton("Instructions")
         instructions.clicked.connect(self.instructions)
@@ -773,22 +774,27 @@ class c4(QDialog):
         tab1 = QTableView(None)
         THR_mod = TableModel(THR) #need to round the dataframes, also need to add vertical headers
         tab1.setModel(THR_mod)
+        tab1.resizeColumnsToContents()
 
         tab2 = QTableView(None)
         MILD_mod = TableModel(MILD)
         tab2.setModel(MILD_mod)
+        tab2.resizeColumnsToContents()
         
         tab3 = QTableView(None)
         SEVERE = TableModel(SEVERE)
         tab3.setModel(SEVERE)
+        tab3.resizeColumnsToContents()
         
         tab4 = QTableView(None)
         AWARD = TableModel(AWARD)
         tab4.setModel(AWARD)
+        tab4.resizeColumnsToContents()
         
         tab5 = QTableView(None)
         AICU = TableModel(AICU)
         tab5.setModel(AICU)
+        tab5.resizeColumnsToContents()
         
         self.tableWidget.addTab(tab1, "Total Hospitalizations")
         self.tableWidget.addTab(tab2, "Detailed Results of the MILD Scenario")
@@ -826,6 +832,13 @@ class c4(QDialog):
         msg.setWindowTitle("C5V Instructions")
         msg.exec()
         
+    def printer(self):
+        THR =       self.tableWidget.widget(0).model().getDf()
+        MILD_mod =  self.tableWidget.widget(1).model().getDf()
+        SEVERE =    self.tableWidget.widget(2).model().getDf()
+        AWARD =     self.tableWidget.widget(3).model().getDf()
+        AICU =      self.tableWidget.widget(4).model().getDf()
+        
 class TableModel(QAbstractTableModel):
 
     def __init__(self, data):
@@ -850,6 +863,9 @@ class TableModel(QAbstractTableModel):
 
             if orientation == Qt.Vertical:
                 return str(self._data.index[section])
+            
+    def getDf(self):
+        return self._data
 
 class MplCanvas(FigureCanvasQTAgg):
     def __init__(self, parent=None, width=5, height=4, dpi=100):
