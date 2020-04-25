@@ -4,9 +4,6 @@
 #import matplotlib.pyplot as plt
 from pandas import DataFrame
 from scipy.stats import gamma
-import pyqtgraph as pg
-from pyqtgraph.Qt import QtGui, QtCore
-from PyQt5.QtGui import QStandardItem, QStandardItemModel
 import main
 
 #################   GAMMA CALCS   #################   
