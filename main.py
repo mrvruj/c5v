@@ -463,7 +463,7 @@ class c4(QDialog):
         vent.setItem(1,1, QTableWidgetItem("10"))
         vent.setItem(2,1, QTableWidgetItem("95"))
         vent.setItem(3,1, QTableWidgetItem("5"))
-    def setDefaults(self, CHR, CCHF, bed, vent, LOS):
+    def setTabDefaults(self, CHR, CCHF, bed, vent, LOS):
         self.chrDefaults(CHR)
         self.cchfDefaults(CCHF)
         self.bedDefaults(bed)
