@@ -808,8 +808,8 @@ class c4(QDialog):
         msg.setText("C5V Modeling Tool: Instructions for running a COVID-19 caseload and capacity simulation.")
         msg.setInformativeText("On the left side of the screen are the user specified inputs. Once the data is entered, the user can "
                                "press the calculate button to produce the simulation output in the right side of the screen. More detailed "
-                               "instructions on running the model and specifics on each input/variable are available below under Show Details...")
-        msg.setDetailedText("On the left side of the screen are the user inputs, in which the user will define the size of the population, "
+                               "instructions on running the model and specifics on each input/variable are available below \n \n \n"
+                               "On the left side of the screen are the user inputs, in which the user will define the size of the population, "
                                "the catchment area which the hospital serves, select a type of population distribution, an infection and "
                                "symptomatic rate, and finally features of the epidemic curve such as the shape of the peak and the day of "
                                "maximum cases. \n \n "
