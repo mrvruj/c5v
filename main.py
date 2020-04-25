@@ -91,7 +91,7 @@ class c4(QDialog):
         catch = QDoubleSpinBox(self.topLeftGroupBox)
         catch.setRange(0, 100)
         catch.setValue(15)
-        catchLabel = QLabel("Hospital System Market Share (Catchment Area):")
+        catchLabel = QLabel("Hospital System Market Share (Catchment Area): (%)")
         catchLabel.setBuddy(catch)
         
         popDist = QComboBox()
@@ -559,6 +559,7 @@ class c4(QDialog):
         CHR = self.getCHR()
         CCHF = self.getCCHF()
         LOS = self.getLOS()   
+        catchArea = self.getCatch()
         
         #common dataframes
         ad = calc.ageDist(totalP, populationType) #age distribution based on inputs
