@@ -36,6 +36,11 @@ class c4(QDialog):
         self.createAdultPlot(x, x, x, x, x)
         self.createPedPlot(x, x, x, x, x)
         self.createTableWidget()
+        #CHR =       self.bottomLeftTabWidget.widget(0).children()[0].itemAtPosition(0,0)
+        #CCHF =      self.bottomLeftTabWidget.widget(1)
+        #capInputs = self.bottomLeftTabWidget.widget(2)
+        #noVent =    self.bottomLeftTabWidget.widget(3)
+        #LOS =       self.bottomLeftTabWidget.widget(4)
 
         advancedCheck = QCheckBox("Advanced Options")
         advancedCheck.setChecked(True)
@@ -46,6 +51,7 @@ class c4(QDialog):
         printButton = QPushButton("Print")
         printButton.clicked.connect(self.printer)
         defaultButton = QPushButton("Default")
+        #defaultButton.clicked.connect(self.setDefaults(CHR, CCHF, capInputs, noVent, LOS))
         instructions = QPushButton("Instructions")
         instructions.clicked.connect(self.instructions)
 
@@ -777,8 +783,8 @@ class c4(QDialog):
         tab1.resizeColumnsToContents()
 
         tab2 = QTableView(None)
-        MILD_mod = TableModel(MILD)
-        tab2.setModel(MILD_mod)
+        MILD = TableModel(MILD)
+        tab2.setModel(MILD)
         tab2.resizeColumnsToContents()
         
         tab3 = QTableView(None)
@@ -834,10 +840,15 @@ class c4(QDialog):
         
     def printer(self):
         THR =       self.tableWidget.widget(0).model().getDf()
-        MILD_mod =  self.tableWidget.widget(1).model().getDf()
+        MILD =  self.tableWidget.widget(1).model().getDf()
         SEVERE =    self.tableWidget.widget(2).model().getDf()
         AWARD =     self.tableWidget.widget(3).model().getDf()
         AICU =      self.tableWidget.widget(4).model().getDf()
+        print(THR)
+        print(MILD)
+        print(SEVERE)
+        print(AWARD)
+        print(AICU)
         
 class TableModel(QAbstractTableModel):
 
