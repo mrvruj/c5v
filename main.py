@@ -797,9 +797,25 @@ class c4(QDialog):
     def instructions(self):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Information)
-        msg.setText("")
-        msg.setInformativeText("")
+        msg.setText("C5V Modeling Tool: Instructions for running a COVID-19 caseload and capacity simulation.")
+        msg.setInformativeText("On the left side of the screen are the user specified inputs. Once the data is entered, the user can "
+                               "press the calculate button to produce the simulation output in the right side of the screen. More detailed "
+                               "instructions on running the model and specifics on each input/variable are available below under Show Details...")
+        msg.setDetailedText("On the left side of the screen are the user inputs, in which the user will define the size of the population, "
+                               "the catchment area which the hospital serves, select a type of population distribution, an infection and "
+                               "symptomatic rate, and finally features of the epidemic curve such as the shape of the peak and the day of "
+                               "maximum cases. \n \n "
+                               "In the bottom left panel, we have included Advanced Options (which can be toggled with the check "
+                               "button next to instructions). These are populated with current CDC data but can be updated as the user prefers. "
+                               "After defining the inputs, the user can press the calculate button to produce the output on the right side of the "
+                               "window, after which the inputs can be altered and outputs re-calculated as many times as one wishes. \n \n"
+                               "In the outputs, the first plot shows the hospital-apparent epidemic curve based on a gamma distribution fit "
+                               "to the inputs. The next two plots show the adult and pediatric daily census by location (ward or ICU) and by "
+                               "the type of scenario (mild or severe). These daily census data are calculated using a length of stay (LOS) model. \n \n"
+                               "Finally, the bottom right panel includes the numerical output, including detaild results of each scenario, adult "
+                               "census data, and ICU bed requirement (along with ventilator need).")
         msg.setWindowTitle("C5V Instructions")
+        msg.exec()
         
 class TableModel(QAbstractTableModel):
 
