@@ -8,7 +8,7 @@ Model created by **Nathaniel Hupert** MD, MPH, Weill Cornell Medicine,
 **Michael G. Klein** PhD, San Jose State University,
 **John A. (“Jack”) Muckstadt** PhD, Cornell University
 
-Implemented by Lior Shtayer & Vruj Patel, Weill Cornell Medical College 
+Implemented by **Lior Shtayer & Vruj Patel**, Weill Cornell Medical College 
 
 For physicians and other COVID-19 responders who would like a tool to help hospital leaders think about hospital caseload projections in a structured way, here is the latest version of one that we have been developing at Cornell (by Nathaniel Hupert at Weill Cornell Medicine with Peter L. Jackson at Singapore University of Technology and Design, Michael G. Klein at San Jose State University, and John A. (“Jack”) Muckstadt at Cornell University) since mid-January, 2020.
 
