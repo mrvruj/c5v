@@ -10,9 +10,12 @@ matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 from PyQt5.QtCore import Qt, QAbstractTableModel
-from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QVBoxLayout, QLabel,
-        QPushButton, QDoubleSpinBox, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, 
-        QTabWidget, QTableView, QWidget, QHeaderView, QMessageBox)
+from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog, 
+                             QGridLayout, QGroupBox, QHBoxLayout, QVBoxLayout, 
+                             QLabel, QPushButton, QDoubleSpinBox, QSpinBox, 
+                             QStyleFactory, QTableWidget, QTableWidgetItem, 
+                             QTabWidget, QTableView, QWidget, QHeaderView, 
+                             QMessageBox)
 from pyqtgraph import PlotWidget, plot as pg
 from imp import reload
 import pandas as pd
