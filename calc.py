@@ -2,7 +2,7 @@
 
 #import numpy as np
 #import matplotlib.pyplot as plt
-import pandas as pd
+from pandas import DataFrame
 from scipy.stats import gamma
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtGui, QtCore
@@ -28,7 +28,7 @@ def gamma_pdf(a,b):
         an 181x2 DataFrame one column for days (0-180) and the other for
         the values of the gamma pdf for each day
     """
-    df = pd.DataFrame(columns=['Day','Gamma_Values'])
+    df = DataFrame(columns=['Day','Gamma_Values'])
     for day in range(181):
         df = df.append({'Day': int(day), 'Gamma_Values': float(gamma.pdf(day,a,0,b))}, ignore_index=True)
     return df
@@ -111,7 +111,7 @@ def ageDist(totalPop, popCOM): #TODO: fix these
         ageDist = a dataframe with 5 elements representing the number of people 
                     in each age class
     """
-    ad = pd.DataFrame(columns=['proportions'])
+    ad = DataFrame(columns=['proportions'])
     if popCOM == 0: #Mali
         ad = ad.append({'proportions': 0.581199816264357}, ignore_index=True)
         ad = ad.append({'proportions': 0.305733679906714}, ignore_index=True)
@@ -161,7 +161,7 @@ def totalHosp(attackRate, symp, ad, CHR):
 
 def totalICUs(df, CCHR):
     tH = df.copy()
-    tICU = pd.DataFrame(columns = ['Mild','Severe'])
+    tICU = DataFrame(columns = ['Mild','Severe'])
     
     tICU['Mild'] =   tH['Mild']   * CCHR['Mild']
     tICU['Severe'] = tH['Severe'] * CCHR['Severe']
@@ -171,7 +171,7 @@ def totalICUs(df, CCHR):
 def totalWardCases(THR, TICUR):
     tH = THR.copy()
     tICU = TICUR.copy()
-    wards = pd.DataFrame(columns = ['Mild', 'Severe'])
+    wards = DataFrame(columns = ['Mild', 'Severe'])
     
     wards['Mild'] =   tH['Mild'] -   tICU['Mild']
     wards['Severe'] = tH['Severe'] - tICU['Severe']
@@ -184,7 +184,7 @@ def tICU_peds(df):
 def tICU_adults(df):
     di = df.copy()
     di = di[1:]
-    da = pd.DataFrame(columns = ['Mild', 'Severe'])
+    da = DataFrame(columns = ['Mild', 'Severe'])
     da.at[0,'Mild'] = di['Mild'].sum()
     da.at[0,'Severe'] = di['Severe'].sum()
     return da
@@ -195,14 +195,14 @@ def tWard_peds(df):
 def tWard_adults(df):
     di = df.copy()
     di = di[1:]
-    da = pd.DataFrame(columns = ['Mild', 'Severe'])
+    da = DataFrame(columns = ['Mild', 'Severe'])
     da.at[0,'Mild'] = di['Mild'].sum()
     da.at[0,'Severe'] = di['Severe'].sum()
     return da
 
 def dailyWard(df, epi_curve, day):
     tW = df.copy()
-    dW = pd.DataFrame(columns = ['Mild', 'Severe'])
+    dW = DataFrame(columns = ['Mild', 'Severe'])
     
     dW['Mild'] = tW['Mild'].apply(lambda x: x*epi_curve.loc[day][1])
     dW['Severe'] = tW['Severe'].apply(lambda x: x*epi_curve.loc[day][1])
@@ -211,7 +211,7 @@ def dailyWard(df, epi_curve, day):
 
 def dailyICU(df, epi_curve, day):
     tW = df.copy()
-    dICU = pd.DataFrame(columns = ['Mild', 'Severe'])
+    dICU = DataFrame(columns = ['Mild', 'Severe'])
     
     dICU['Mild'] = tW['Mild'].apply(lambda x: x*epi_curve.loc[day][1])
     dICU['Severe'] = tW['Severe'].apply(lambda x: x*epi_curve.loc[day][1])
@@ -224,7 +224,7 @@ def dICU_peds(df):
 def dICU_adults(df): 
     di = df.copy()
     di.drop(index=0, inplace=True)
-    da = pd.DataFrame(columns = ['Mild', 'Severe'])
+    da = DataFrame(columns = ['Mild', 'Severe'])
     da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
     return da
     
@@ -234,7 +234,7 @@ def dWard_peds(df):
 def dWard_adults(df):
     di = df.copy()
     di.drop(index=0, inplace=True)
-    da = pd.DataFrame(columns = ['Mild', 'Severe'])
+    da = DataFrame(columns = ['Mild', 'Severe'])
     da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
     return da
 

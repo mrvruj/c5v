@@ -16,13 +16,9 @@ from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog,
                              QStyleFactory, QTableWidget, QTableWidgetItem, 
                              QTabWidget, QTableView, QWidget, QHeaderView, 
                              QMessageBox)
-from imp import reload
-import pandas as pd
-
 import LOS_model
 import calc
 
-class c4(QDialog):
     def __init__(self, parent=None):
         super(c4, self).__init__(parent)
         
@@ -407,7 +403,7 @@ class c4(QDialog):
         dayMax.setCurrentIndex(1)
 
     def getCHR(self): 
-        df = pd.DataFrame(columns = ["Mild", "Severe"])
+        df = DataFrame(columns = ["Mild", "Severe"])
         CHR = self.bottomLeftTabWidget.widget(0).children()[3]
         df = df.append({'Mild': float(CHR.item(0,0).text())/100, 'Severe': float(CHR.item(0,1).text())/100}, ignore_index=True) #0-19
         df = df.append({'Mild': float(CHR.item(1,0).text())/100, 'Severe': float(CHR.item(1,1).text())/100}, ignore_index=True) #20-44
@@ -418,7 +414,7 @@ class c4(QDialog):
         df = df.append({'Mild': float(CHR.item(6,0).text())/100, 'Severe': float(CHR.item(6,1).text())/100}, ignore_index=True) #85+
         return df
     def getCCHF(self): 
-        df = pd.DataFrame(columns = ["Mild", "Severe"])
+        df = DataFrame(columns = ["Mild", "Severe"])
         CCHF = self.bottomLeftTabWidget.widget(1).children()[3]
         df = df.append({'Mild': float(CCHF.item(0,0).text())/100, 'Severe': float(CCHF.item(0,1).text())/100}, ignore_index=True) #0-19
         df = df.append({'Mild': float(CCHF.item(1,0).text())/100, 'Severe': float(CCHF.item(1,1).text())/100}, ignore_index=True) #20-44
@@ -429,7 +425,7 @@ class c4(QDialog):
         df = df.append({'Mild': float(CCHF.item(6,0).text())/100, 'Severe': float(CCHF.item(6,1).text())/100}, ignore_index=True) #85+
         return df
     def getLOS(self): 
-        df = pd.DataFrame(columns = ['Minimum LOS', 'Maximum LOS', 'Mortality Ratio', 'LOS Adjustment'])
+        df = DataFrame(columns = ['Minimum LOS', 'Maximum LOS', 'Mortality Ratio', 'LOS Adjustment'])
         LOS = self.bottomLeftTabWidget.widget(2).children()[3]
         df = df.append({'Minimum LOS': float(LOS.item(0,0).text()), 'Maximum LOS': float(LOS.item(0,1).text()), 'Mortality Ratio': float(LOS.item(0,2).text()), 'LOS Adjustment': float(LOS.item(0,3).text())}, ignore_index=True) #adult ward beds
         df = df.append({'Minimum LOS': float(LOS.item(1,0).text()), 'Maximum LOS': float(LOS.item(1,1).text()), 'Mortality Ratio': float(LOS.item(1,2).text()), 'LOS Adjustment': float(LOS.item(1,3).text())}, ignore_index=True) #adult icu beds
@@ -437,7 +433,7 @@ class c4(QDialog):
         df = df.append({'Minimum LOS': float(LOS.item(3,0).text()), 'Maximum LOS': float(LOS.item(3,1).text()), 'Mortality Ratio': float(LOS.item(3,2).text()), 'LOS Adjustment': float(LOS.item(3,3).text())}, ignore_index=True) #ped icu beds
         return df
     def getBeds(self):
-        df = pd.DataFrame(columns = ['Available Ward Beds', 'Available ICU Beds', 'Available Ventilators', 'Patients per Ventilator', 'Effective Ventilator Supply'])
+        df = DataFrame(columns = ['Available Ward Beds', 'Available ICU Beds', 'Available Ventilators', 'Patients per Ventilator', 'Effective Ventilator Supply'])
         beds = self.bottomLeftTabWidget.widget(3).children()[3]
         df = df.append({'Available Ward Beds': float(beds.item(0,0).text()), 
                         'Available ICU Beds': float(beds.item(0,1).text()), 
@@ -446,7 +442,7 @@ class c4(QDialog):
                         'Effective Ventilator Supply': float(beds.item(0,4).text())}, ignore_index=True)
         return df
     def getNoVents(self):
-        df = pd.DataFrame(columns = ['Mild', 'Severe'])
+        df = DataFrame(columns = ['Mild', 'Severe'])
         noVents = self.bottomLeftTabWidget.widget(4).children()[3]
         df = df.append({'Mild': float(noVents.item(0,0).text()), 'Severe': float(noVents.item(0,1).text())}, ignore_index=True) #Survivor Minimum LOS
         df = df.append({'Mild': float(noVents.item(1,0).text()), 'Severe': float(noVents.item(1,1).text())}, ignore_index=True) #Survivor Maximum LOS
@@ -542,7 +538,7 @@ class c4(QDialog):
         self.setLayout(self.mainLayout)      
 
         #Total Hospitalizations Output
-        THR = pd.DataFrame(columns=['Total Number Hospitalized', '% of Symptomatic Population', 'Hospitalized Case Fatality Ratio (HFR)',
+        THR = DataFrame(columns=['Total Number Hospitalized', '% of Symptomatic Population', 'Hospitalized Case Fatality Ratio (HFR)',
                                     'Overall Symptomatic Case Fatality Ratio (CFR)'], index=['Mild Scenario', 'Severe Scenario'])
         numPx = totalP*attackRate*symptomatic*catchArea
         fracPx = numPx/(totalP*catchArea)
@@ -570,7 +566,7 @@ class c4(QDialog):
         THR['Total Number Hospitalized'] = THR.apply(lambda x: "{:,}".format(x['Total Number Hospitalized'])[:-2], axis=1)
 
         #Mild Scenario Output
-        MILD = pd.DataFrame(columns=["Total Number Admitted","Peak Daily Admissions","Day of Peak Admissions", 
+        MILD = DataFrame(columns=["Total Number Admitted","Peak Daily Admissions","Day of Peak Admissions", 
                                      "Peak Hospital Census","Day of Peak Census", "Total Deaths", "Total Discharges"],
                             index=["Adult Ward Cases", "Adult ICU Cases", "Pediatric Ward Cases", "Pediatric ICU Cases"])
         
@@ -620,7 +616,7 @@ class c4(QDialog):
 
         
         #Severe Scenario Output
-        SEVERE = pd.DataFrame(columns=["Total Number Admitted","Peak Daily Admissions","Day of Peak Admissions", 
+        SEVERE = DataFrame(columns=["Total Number Admitted","Peak Daily Admissions","Day of Peak Admissions", 
                                      "Peak Hospital Census","Day of Peak Census", "Total Deaths", "Total Discharges"],
                               index=["Adult Ward Cases", "Adult ICU Cases", "Pediatric Ward Cases", "Pediatric ICU Cases"])
         
@@ -669,7 +665,7 @@ class c4(QDialog):
         SEVERE['Total Discharges'] = SEVERE.apply(lambda x: "{:,}".format(x['Total Discharges'])[:-2], axis=1)
 
         #Adult Ward Beds output
-        AWARD = pd.DataFrame(columns=["Total Medical Ward Patients", "Peak Simultaneous Ward Beds (Max Census)", "Day of Max Census",
+        AWARD = DataFrame(columns=["Total Medical Ward Patients", "Peak Simultaneous Ward Beds (Max Census)", "Day of Max Census",
                                        "Total Patient-Days for COVID Ward Patients"], index = ["Mild Scenario", "Severe Scenario"])
         AWARD.loc['Mild Scenario']['Total Medical Ward Patients'] = LOS_model.LOS_Admissions_df['mW_A'].sum()
         AWARD.loc['Severe Scenario']['Total Medical Ward Patients'] = LOS_model.LOS_Admissions_df['sW_A'].sum()
@@ -686,7 +682,7 @@ class c4(QDialog):
         AWARD['Total Patient-Days for COVID Ward Patients'] = AWARD.apply(lambda x: "{:,}".format(x['Total Patient-Days for COVID Ward Patients'])[:-2], axis=1)
         
         #Adult ICU Beds and Ventilators output
-        AICU = pd.DataFrame(columns=["Total ICU Patients", "Peak Simultaneous ICU Bed Requirement", "Day of Max Census", 
+        AICU = DataFrame(columns=["Total ICU Patients", "Peak Simultaneous ICU Bed Requirement", "Day of Max Census", 
                                      "Total Patient-Days for COVID ICU Patients", "Peak Ventilator Need (80% Ventilated Fraction)"], 
                                     index = ["Mild Scenario", "Severe Scenario"])
         AICU.loc['Mild Scenario']['Total ICU Patients'] = LOS_model.LOS_Admissions_df['mICU_A'].sum()
@@ -777,7 +773,7 @@ class c4(QDialog):
         msg.exec()
         
     def printer(self):
-        INPUTS = pd.DataFrame(columns=['Input Values'], index=['Total Population','Hospital System Market Share (Catchment Area): %', 'Population Distribution',
+        INPUTS = DataFrame(columns=['Input Values'], index=['Total Population','Hospital System Market Share (Catchment Area): %', 'Population Distribution',
                                        'Infection Rate (%)', 'Symptomatic Rate (%)', 'Shape of the Epidemic Curve', 'Day of Maximum Cases'])
         INPUTS.loc['Total Population']['Input Values'] = self.getPop()
         INPUTS.loc['Hospital System Market Share (Catchment Area): %']['Input Values'] = self.getCatch()
