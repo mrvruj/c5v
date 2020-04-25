@@ -1,9 +1,9 @@
 # c5v
 C5V Modeling Tool: Cornell COVID-19 Caseload Calculator with Capacity and Ventilators
 
-How to Use the Cornell COVID Caseload Calculator C5V (Desktop Version)
+How to Use the Cornell COVID Caseload Calculator C5V (Desktop Version):
 
-Created by Nathaniel Hupert MD, MPH, Weill Cornell Medicine with Peter L. Jackson PhD, Singapore University of Technology and Design, Michael G. Klein PhD, San Jose State University, and John A. (“Jack”) Muckstadt PhD, Cornell University
+Model created by Nathaniel Hupert MD, MPH, Weill Cornell Medicine with Peter L. Jackson PhD, Singapore University of Technology and Design, Michael G. Klein PhD, San Jose State University, and John A. (“Jack”) Muckstadt PhD, Cornell University
 
 Implemented by Lior Shtayer & Vruj Patel, Weill Cornell Medical College 
 
