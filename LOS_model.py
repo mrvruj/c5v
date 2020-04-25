@@ -6,19 +6,19 @@ Created on Sat Mar 28 20:46:41 2020
 @author: liorshtayer
 """
 
-import pandas as pd
+from pandas import DataFrame
 import calc
 
-LOS_data_df = pd.DataFrame(columns=['W_A','ICU_A','W_P','ICU_P'], 
+LOS_data_df = DataFrame(columns=['W_A','ICU_A','W_P','ICU_P'], 
                         index=['Survivor_min','Survivor_max','Survivor_share','Victim_min','Victim_max','Victim_share'])
 
-LOS_Admissions_df = pd.DataFrame(columns=['Day','mW_A','sW_A','mICU_A','sICU_A','mW_P','sW_P','mICU_P','sICU_P'])
+LOS_Admissions_df = DataFrame(columns=['Day','mW_A','sW_A','mICU_A','sICU_A','mW_P','sW_P','mICU_P','sICU_P'])
 
-LOS_Occupancy_df = pd.DataFrame(columns=['Day','mW_A','sW_A','mICU_A','sICU_A','mW_P','sW_P','mICU_P','sICU_P'])
+LOS_Occupancy_df = DataFrame(columns=['Day','mW_A','sW_A','mICU_A','sICU_A','mW_P','sW_P','mICU_P','sICU_P'])
 
-LOS_Deaths_df = pd.DataFrame(columns=['Day','mW_A','sW_A','mICU_A','sICU_A','mW_P','sW_P','mICU_P','sICU_P'])
+LOS_Deaths_df = DataFrame(columns=['Day','mW_A','sW_A','mICU_A','sICU_A','mW_P','sW_P','mICU_P','sICU_P'])
 
-LOS_Discharges_df = pd.DataFrame(columns=['Day','mW_A','sW_A','mICU_A','sICU_A','mW_P','sW_P','mICU_P','sICU_P'])
+LOS_Discharges_df = DataFrame(columns=['Day','mW_A','sW_A','mICU_A','sICU_A','mW_P','sW_P','mICU_P','sICU_P'])
 
 def calc_LOS_Admissions(df, tICU_p, tICU_a, tWard_p, tWard_a):
     """
