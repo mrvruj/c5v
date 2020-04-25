@@ -559,7 +559,7 @@ class c4(QDialog):
         CHR = self.getCHR()
         CCHF = self.getCCHF()
         LOS = self.getLOS()   
-        catchA = self.getCatch()
+        catchArea = self.getCatch()
         
         #common dataframes
         ad = calc.ageDist(totalP, populationType) #age distribution based on inputs
