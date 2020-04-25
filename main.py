@@ -269,6 +269,8 @@ class c4(QDialog):
         
         epiCurve = MplCanvas(self, width=3, height=2, dpi=100)
         epiCurve.axes.plot(x, y)
+        
+        epiCurve.axes.set_xlabel('Day')
     
         layout = QGridLayout()
         layout.addWidget(epiCurve)
@@ -756,8 +758,10 @@ class c4(QDialog):
         msg.setIcon(QMessageBox.Information)
         msg.setText("C5V Modeling Tool: Instructions for running a COVID-19 caseload and capacity simulation.")
         msg.setInformativeText("On the left side of the screen are the user specified inputs. Once the data is entered, the user can "
-                               "press the calculate button to produce the simulation output in the right side of the screen. More detailed "
-                               "instructions on running the model and specifics on each input/variable are available below: \n \n"
+                               "press the calculate button to produce the simulation output in the right side of the screen. Once satisfied with the input "
+                               "and output parameters, pressing the print button will output an excel sheet into the current directory that contains model "
+                               "inputs as well as all of the outputs. More detailed instructions on running the model and specifics on each input/variable "
+                               "are available below: \n \n"
                                "On the left side of the screen are the user inputs, in which the user will define the size of the population, "
                                "the catchment area which the hospital serves, select a type of population distribution, an infection and "
                                "symptomatic rate, and finally features of the epidemic curve such as the shape of the peak and the day of "
@@ -777,25 +781,40 @@ class c4(QDialog):
     def printer(self):
         INPUTS = pd.DataFrame(columns=['Input Values'], index=['Total Population','Hospital System Market Share (Catchment Area): %', 'Population Distribution',
                                        'Infection Rate (%)', 'Symptomatic Rate (%)', 'Shape of the Epidemic Curve', 'Day of Maximum Cases'])
-        INPUTS.loc['Total Po']
+        INPUTS.loc['Total Population']['Input Values'] = self.getPop()
+        INPUTS.loc['Hospital System Market Share (Catchment Area): %']['Input Values'] = self.getCatch()
+        pop_types = ['Young (Mali)', 'Young Adults (Bangladesh)', 'Middle-Aged (United States)', 'Old (Japan)']
+        INPUTS.loc['Population Distribution']['Input Values'] = pop_types[self.getPopDist()]
+        INPUTS.loc['Infection Rate (%)']['Input Values'] = self.getInfectionRate()
+        INPUTS.loc['Symptomatic Rate (%)']['Input Values'] = self.getSymptomatic()
+        peak_types = ['A-type: Broad', 'B-type: Somewhat Broad', 'C-type: A Bit Peaked', 'D-type: Very Peaked', 'E-type: Extremely Peaked']
+        INPUTS.loc['Shape of the Epidemic Curve']['Input Values'] = peak_types[self.getShapeCurve()]
+        INPUTS.loc['Day of Maximum Cases']['Input Values'] = self.getDayMax()
+        
         THR = self.tableWidget.widget(0).model().getDf()
         MILD = self.tableWidget.widget(1).model().getDf()
         SEVERE = self.tableWidget.widget(2).model().getDf()
         AWARD = self.tableWidget.widget(3).model().getDf()
         AICU = self.tableWidget.widget(4).model().getDf()
-        with pd.ExcelWriter('../output.xlsx') as writer:
-            #.to_excel(writer, sheet_name='C5V - Inputs')
+        
+        p1 = self.epiPlot.grab()
+        p1.save('epiCurve.jpg')
+        p2 = self.adultPlot.grab()
+        p2.save('adultCensus.jpg')
+        p3 = self.pedPlot.grab()
+        p3.save('pedsCensus.jpg')
+        
+        with pd.ExcelWriter('output.xlsx', engine='xlsxwriter') as writer:
+            INPUTS.to_excel(writer, sheet_name='C5V - Inputs')
             THR.to_excel(writer, sheet_name='Total Hospitalizations')
             MILD.to_excel(writer, sheet_name='MILD Scenario')
             SEVERE.to_excel(writer, sheet_name='SEVERE Scenario')
             AWARD.to_excel(writer, sheet_name='Adult Ward Beds')
             AICU.to_excel(writer, sheet_name='Adult ICU Beds and Ventilators')
-        
-        print(THR)
-        print(MILD)
-        print(SEVERE)
-        print(AWARD)
-        print(AICU)
+            plts = writer.sheets['C5V - Inputs']
+            plts.insert_image('A15', 'epiCurve.jpg')
+            plts.insert_image('K15', 'adultCensus.jpg')
+            plts.insert_image('T15', 'pedsCensus.jpg')
         
 class TableModel(QAbstractTableModel):
 
