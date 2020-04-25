@@ -9,14 +9,14 @@ import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
-from PyQt5.QtCore import QDateTime, Qt, QTimer, QAbstractTableModel
+from PyQt5.QtCore import QDateTime, Qt, QTimer, QAbstractTableModel, QSize
 from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComboBox, QDateTimeEdit,
         QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLCDNumber, QLabel, QLineEdit,
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
         QSlider, QDoubleSpinBox, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, 
         QTabWidget, QTableView, 
         QTextEdit, QVBoxLayout, QWidget, QHeaderView, QMessageBox)
-from PyQt5.QtGui import QStandardItem, QStandardItemModel, QFontMetrics
+from PyQt5.QtGui import QStandardItem, QStandardItemModel, QFontMetrics, QIcon
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 import pandas as pd
@@ -86,6 +86,7 @@ class c4(QDialog):
         self.setLayout(self.mainLayout)
 
         self.setWindowTitle("C5V Modeling Tool: Cornell COVID-19 Caseload Calculator with Capacity and Ventilators")
+        self.setWindowIcon(QIcon('icon1.png'))
         
         QApplication.setStyle(QStyleFactory.create('Fusion'))
         QApplication.setPalette(QApplication.style().standardPalette())
@@ -857,13 +858,7 @@ if __name__ == '__main__':
     window.showMaximized()
     window.show() ##TODO: add icon 
     """
-        app_icon = QtGui.QIcon()
-        app_icon.addFile('gui/icons/16x16.png', QtCore.QSize(16,16))
-        app_icon.addFile('gui/icons/24x24.png', QtCore.QSize(24,24))
-        app_icon.addFile('gui/icons/32x32.png', QtCore.QSize(32,32))
-        app_icon.addFile('gui/icons/48x48.png', QtCore.QSize(48,48))
-        app_icon.addFile('gui/icons/256x256.png', QtCore.QSize(256,256))
-        app.setWindowIcon(app_icon)
+
     """
     
     sys.exit(app.exec_()) 
