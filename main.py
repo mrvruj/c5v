@@ -836,5 +836,15 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = c4()
     window.showMaximized()
-    window.show()
+    window.show() ##TODO: add icon 
+    """
+        app_icon = QtGui.QIcon()
+        app_icon.addFile('gui/icons/16x16.png', QtCore.QSize(16,16))
+        app_icon.addFile('gui/icons/24x24.png', QtCore.QSize(24,24))
+        app_icon.addFile('gui/icons/32x32.png', QtCore.QSize(32,32))
+        app_icon.addFile('gui/icons/48x48.png', QtCore.QSize(48,48))
+        app_icon.addFile('gui/icons/256x256.png', QtCore.QSize(256,256))
+        app.setWindowIcon(app_icon)
+    """
+    
     sys.exit(app.exec_()) 
