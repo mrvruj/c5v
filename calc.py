@@ -4,9 +4,6 @@
 #import matplotlib.pyplot as plt
 from pandas import DataFrame
 from scipy.stats import gamma
-import pyqtgraph as pg
-from pyqtgraph.Qt import QtGui, QtCore
-from PyQt5.QtGui import QStandardItem, QStandardItemModel
 import main
 
 #################   GAMMA CALCS   #################   
@@ -72,31 +69,7 @@ def epi_curve(max,peakedness):
 
 #######################################################
 
-def getMaxes(df):
-    copy = df.copy()
-    dfa = copy.to_numpy()
-    
-    zero4m = dfa[0][0]
-    zero4s = dfa[0][1]
-    
-    five17m = dfa[1][0]
-    five17s = dfa[1][1]
-    
-    eighteen49m = dfa[2][0]
-    eighteen49s = dfa[2][1]
-    
-    fifty64m = dfa[3][0]
-    fifty64s = dfa[3][1]
-    
-    sixty5plusm = dfa[4][0]
-    sixty5pluss = dfa[4][1]
-    
-    sumSev = zero4s + five17s + eighteen49s + fifty64s + sixty5pluss
-    sumMild = zero4m + five17m + eighteen49m + fifty64m + sixty5plusm
-    
-    return (sumMild, sumSev)
-
-def ageDist(totalPop, popCOM): #TODO: fix these 
+def ageDist(totalPop, popCOM): 
     """
     Parameters:
         totalPop = total number of people
@@ -237,68 +210,3 @@ def dWard_adults(df):
     da = DataFrame(columns = ['Mild', 'Severe'])
     da.append({'Mild': da['Mild'].sum(), 'Severe': da['Severe'].sum()}, ignore_index=True)
     return da
-
-####################     PLOTS      ############################
-    
-def plot(epi_curve_df,LOS_occupancy_df):
-    """
-    Takes an input dataframe from epi_curve that contains days and gamma values
-    along wtih mild/severe ward/ICU data and returns a plot of the given gamma 
-    function and the scenario hospitalizations.  
-    
-    (...)
-    
-    Parameters:
-        df: Pandas DataFrame
-        
-    Output:
-        Window with all the outputted plots.
-    """
-    
-    app = QtGui.QApplication([])
-    view = pg.GraphicsView()
-    l = pg.GraphicsLayout(border=(100,100,100))
-    view.setCentralItem(l)
-    view.show()
-    view.setWindowTitle('C4 Output')
-    view.resize(800,600)
-    
-    text = """
-    These are the outputs (.........)
-    """
-    l.addLabel(text, col=0, colspan=2)
-    l.nextRow()
-    
-    ## Add 1 plots into the first row (automatic position)
-    p1 = l.addPlot(title="Possible COVID-19 Hospital-Apparent Epidemic Curves")
-    p1.showGrid(x=True,y=True)
-    p1.setLabel('left','Percentage of Total Hospitalizations by Day of Outbreak')
-    p1.setLabel('bottom','Day')
-    p1.plot(epi_curve_df['Day'],epi_curve_df['Gamma_Values'], pen=pg.mkPen('r',width=5))
-    l.nextRow()
-    
-    p2 = l.addPlot(title="Adult Patient Daily Census by Location and Scenario")
-    p3 = l.addPlot(title="Pediatric Patient Daily Census by Location and Scenario")
-    p2.showGrid(x=True,y=True)
-    p2.addLegend(size=None,offset=-50)
-    p2.setLabel('left','Daily Admissions')
-    p2.setLabel('bottom','Day')
-    p2.plot(LOS_occupancy_df['Day'],LOS_occupancy_df['mW_A'],pen=pg.mkPen('r',width=5), name='Adult Mild Ward')
-    p2.plot(LOS_occupancy_df['Day'],LOS_occupancy_df['sW_A'],pen=pg.mkPen('b',width=5), name='Adult Severe Ward')
-    p2.plot(LOS_occupancy_df['Day'],LOS_occupancy_df['mICU_A'],pen=pg.mkPen('g',width=5), name='Adult Mild ICU')
-    p2.plot(LOS_occupancy_df['Day'],LOS_occupancy_df['sICU_A'],pen=pg.mkPen('m',width=5), name='Adult Severe ICU')
-    p3.showGrid(x=True,y=True)
-    p3.addLegend(size=None,offset=-50)
-    p3.setLabel('left','Daily Admissions')
-    p3.setLabel('bottom','Day')
-    p3.plot(LOS_occupancy_df['Day'],LOS_occupancy_df['mW_P'],pen=pg.mkPen('r',width=5), name='Pediatric Mild Ward')
-    p3.plot(LOS_occupancy_df['Day'],LOS_occupancy_df['sW_P'],pen=pg.mkPen('b',width=5), name='Pediatric Severe Ward')
-    p3.plot(LOS_occupancy_df['Day'],LOS_occupancy_df['mICU_P'],pen=pg.mkPen('g',width=5), name='Pediatric Mild ICU')
-    p3.plot(LOS_occupancy_df['Day'],LOS_occupancy_df['sICU_P'],pen=pg.mkPen('m',width=5), name='Pediatric Severe ICU')
-    l.nextRow()
-    
-    #return QtGui.QApplication.instance().exec_()
-    if __name__ == '__main__':
-        import sys
-        if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-            QtGui.QApplication.instance().exec_()
