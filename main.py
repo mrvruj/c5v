@@ -18,7 +18,7 @@ from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog,
                              QMessageBox)
 from pyqtgraph import PlotWidget, plot as pg
 from importlib import reload
-from pandas import DataFrame
+from pandas import DataFrame, ExcelWriter
 
 import LOS_model
 import calc
@@ -804,7 +804,7 @@ class c4(QDialog):
         p3 = self.pedPlot.grab()
         p3.save('pedsCensus.jpg')
         
-        with pd.ExcelWriter('output.xlsx', engine='xlsxwriter') as writer:
+        with ExcelWriter('output.xlsx', engine='xlsxwriter') as writer:
             INPUTS.to_excel(writer, sheet_name='C5V - Inputs')
             THR.to_excel(writer, sheet_name='Total Hospitalizations')
             MILD.to_excel(writer, sheet_name='MILD Scenario')
