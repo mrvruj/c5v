@@ -746,8 +746,8 @@ class c4(QDialog):
         
         #simulation run output above the plots 
         self.results.deleteLater()
-        self.results = QLabel("This simulation run created " + str("{:,}".format(round(numPx,0))[:-2]) + " patients, representing " + str(round(fracPx,3)*100) + "% of the \n catchment area (which represents a population of " + str("{:,}".format(round(totalP*catchArea,0))[:-2]) +").")  
-        self.mainLayout.addWidget(self.results, 0, 2)
+        self.results = QLabel("This simulation run created " + str("{:,}".format(round(numPx,0))[:-2]) + " patients, representing " + str(round(fracPx,3)*100) + "% of the catchment area (which represents a population of " + str("{:,}".format(round(totalP*catchArea,0))[:-2]) +").")  
+        self.mainLayout.addWidget(self.results, 0, 1, 1, 3) #(row, column, rowspan, columnspan)
                 
         reload(LOS_model)
         
