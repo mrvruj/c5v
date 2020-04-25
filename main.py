@@ -91,7 +91,7 @@ class c4(QDialog):
         catch = QDoubleSpinBox(self.topLeftGroupBox)
         catch.setRange(0, 100)
         catch.setValue(15)
-        catchLabel = QLabel("Hospital System Market Share (Catchment Area): (%)")
+        catchLabel = QLabel("Hospital System Market Share (% of Catchment Area):")
         catchLabel.setBuddy(catch)
         
         popDist = QComboBox()
@@ -104,14 +104,14 @@ class c4(QDialog):
         infRate.setMaximum(100)
         infRate.setMinimum(0)
         infRate.setValue(40)
-        infRateLabel = QLabel("Infection Rate: ")
+        infRateLabel = QLabel("Infection Rate: (%)")
         infRateLabel.setBuddy(infRate)
         
         sympRate = QDoubleSpinBox(self.topLeftGroupBox)
         sympRate.setMaximum(100)
         sympRate.setMinimum(0)
         sympRate.setValue(40)
-        sympRateLabel = QLabel("% Symptomatic: ")
+        sympRateLabel = QLabel("Symptomatic Rate: (%) ")
         sympRateLabel.setBuddy(sympRate)
         
         peaked = QComboBox()
