@@ -36,11 +36,18 @@ class c4(QDialog):
         self.createAdultPlot(x, x, x, x, x)
         self.createPedPlot(x, x, x, x, x)
         self.createTableWidget()
-        #CHR =       self.bottomLeftTabWidget.widget(0).children()[0].itemAtPosition(0,0)
-        #CCHF =      self.bottomLeftTabWidget.widget(1)
-        #capInputs = self.bottomLeftTabWidget.widget(2)
-        #noVent =    self.bottomLeftTabWidget.widget(3)
-        #LOS =       self.bottomLeftTabWidget.widget(4)
+        CHR =       self.bottomLeftTabWidget.widget(0).children()[0].itemAtPosition(1,0).widget()
+        CCHF =      self.bottomLeftTabWidget.widget(1).children()[0].itemAtPosition(1,0).widget()
+        capInputs = self.bottomLeftTabWidget.widget(2).children()[0].itemAtPosition(1,0).widget()
+        noVent =    self.bottomLeftTabWidget.widget(3).children()[0].itemAtPosition(1,0).widget()
+        LOS =       self.bottomLeftTabWidget.widget(4).children()[0].itemAtPosition(1,0).widget()
+        totalPop = self.topLeftGroupBox.children()[0]
+        catch = self.topLeftGroupBox.children()[1]
+        popDist = self.topLeftGroupBox.children()[8]
+        infRate = self.topLeftGroupBox.children()[2]
+        sympRate = self.topLeftGroupBox.children()[3]
+        shapeCurve = self.topLeftGroupBox.children()[12]
+        dayMax = self.topLeftGroupBox.children()[14]
 
         advancedCheck = QCheckBox("Advanced Options")
         advancedCheck.setChecked(True)
@@ -51,7 +58,8 @@ class c4(QDialog):
         printButton = QPushButton("Print")
         printButton.clicked.connect(self.printer)
         defaultButton = QPushButton("Default")
-        #defaultButton.clicked.connect(self.setDefaults(CHR, CCHF, capInputs, noVent, LOS))
+        defaultButton.clicked.connect(lambda: self.setDefaults(CHR, CCHF, capInputs, noVent, LOS, 
+                                                               totalPop, catch, popDist, infRate, sympRate, shapeCurve, dayMax))
         instructions = QPushButton("Instructions")
         instructions.clicked.connect(self.instructions)
 
@@ -243,7 +251,7 @@ class c4(QDialog):
         header = noVent.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents) 
 
-        self.setDefaults(CHR, CCHF, capInputs, noVent, LOS)
+        self.setTabDefaults(CHR, CCHF, capInputs, noVent, LOS)
 
         self.bottomLeftTabWidget.addTab(tab1, "CHR")
         self.bottomLeftTabWidget.addTab(tab2, "CCHF")
@@ -468,7 +476,16 @@ class c4(QDialog):
         self.cchfDefaults(CCHF)
         self.bedDefaults(bed)
         self.ventDefaults(vent)
-        self.LOSDefaults(LOS)
+        self.LOSDefaults(LOS)    
+    def setDefaults(self, CHR, CCHF, bed, vent, LOS, totalPop, catch, popDist, infRate, sympRate, shapeCurve, dayMax):
+        self.setTabDefaults(CHR, CCHF, bed, vent, LOS)
+        totalPop.setValue(8398748)
+        catch.setValue(15)
+        popDist.setCurrentIndex(2)
+        infRate.setValue(40) 
+        sympRate.setValue(40) 
+        shapeCurve.setCurrentIndex(2) 
+        dayMax.setCurrentIndex(1)
 
     def getCHR(self): 
         df = pd.DataFrame(columns = ["Mild", "Severe"])
@@ -840,7 +857,7 @@ class c4(QDialog):
         
     def printer(self):
         THR =       self.tableWidget.widget(0).model().getDf()
-        MILD =  self.tableWidget.widget(1).model().getDf()
+        MILD =      self.tableWidget.widget(1).model().getDf()
         SEVERE =    self.tableWidget.widget(2).model().getDf()
         AWARD =     self.tableWidget.widget(3).model().getDf()
         AICU =      self.tableWidget.widget(4).model().getDf()
