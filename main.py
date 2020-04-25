@@ -123,7 +123,7 @@ class c4(QDialog):
         
         peaked = QComboBox()
         peaked.addItems(('A-type: Broad', 'B-type: Somewhat Broad', 'C-type: A Bit Peaked', 'D-type: Very Peaked', 'E-type: Extremely Peaked'))
-        peakedLabel = QLabel("Shape of the epidemic curve: ")
+        peakedLabel = QLabel("Shape of the Epidemic Curve: ")
         peakedLabel.setBuddy(peaked)
         peaked.setCurrentIndex(2)
         
@@ -810,7 +810,7 @@ class c4(QDialog):
         
         #simulation run output above the plots 
         self.results.deleteLater()
-        self.results = QLabel("This simulation run created " + str("{:,}".format(round(numPx,0))[:-2]) + " patients, representing " + str(round(fracPx,3)*100) + "% of the catchment area.")  
+        self.results = QLabel("This simulation run created " + str("{:,}".format(round(numPx,0))[:-2]) + " patients, representing " + str(round(fracPx,3)*100) + "% of the catchment area (which represents a population of " + str("{:,}".format(round(totalP*catchArea,0))[:-2]) +").")  
         self.mainLayout.addWidget(self.results, 0, 2)
                 
         reload(LOS_model)
@@ -839,11 +839,22 @@ class c4(QDialog):
         msg.exec()
         
     def printer(self):
-        THR =       self.tableWidget.widget(0).model().getDf()
-        MILD =  self.tableWidget.widget(1).model().getDf()
-        SEVERE =    self.tableWidget.widget(2).model().getDf()
-        AWARD =     self.tableWidget.widget(3).model().getDf()
-        AICU =      self.tableWidget.widget(4).model().getDf()
+        INPUTS = pd.DataFrame(columns=['Input Values'], index=['Total Population','Hospital System Market Share (Catchment Area): %', 'Population Distribution',
+                                       'Infection Rate (%)', 'Symptomatic Rate (%)', 'Shape of the Epidemic Curve', 'Day of Maximum Cases'])
+        INPUTS.loc['Total Po']
+        THR = self.tableWidget.widget(0).model().getDf()
+        MILD = self.tableWidget.widget(1).model().getDf()
+        SEVERE = self.tableWidget.widget(2).model().getDf()
+        AWARD = self.tableWidget.widget(3).model().getDf()
+        AICU = self.tableWidget.widget(4).model().getDf()
+        with pd.ExcelWriter('../output.xlsx') as writer:
+            #.to_excel(writer, sheet_name='C5V - Inputs')
+            THR.to_excel(writer, sheet_name='Total Hospitalizations')
+            MILD.to_excel(writer, sheet_name='MILD Scenario')
+            SEVERE.to_excel(writer, sheet_name='SEVERE Scenario')
+            AWARD.to_excel(writer, sheet_name='Adult Ward Beds')
+            AICU.to_excel(writer, sheet_name='Adult ICU Beds and Ventilators')
+        
         print(THR)
         print(MILD)
         print(SEVERE)
