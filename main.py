@@ -16,7 +16,7 @@ from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComb
         QSlider, QDoubleSpinBox, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, 
         QTabWidget, QTableView, 
         QTextEdit, QVBoxLayout, QWidget, QHeaderView, QMessageBox)
-from PyQt5.QtGui import QStandardItem, QStandardItemModel, QFontMetrics, QIcon
+from PyQt5.QtGui import QStandardItem, QStandardItemModel, QFontMetrics, QIcon, QPixmap
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 import pandas as pd
@@ -86,7 +86,9 @@ class c4(QDialog):
         self.setLayout(self.mainLayout)
 
         self.setWindowTitle("C5V Modeling Tool: Cornell COVID-19 Caseload Calculator with Capacity and Ventilators")
-        self.setWindowIcon(QIcon('icon1.png'))
+        icon = QIcon()
+        icon.addPixmap(QPixmap("icon2.png"),QIcon.Selected, QIcon.On)
+        self.setWindowIcon(icon)
         
         QApplication.setStyle(QStyleFactory.create('Fusion'))
         QApplication.setPalette(QApplication.style().standardPalette())
