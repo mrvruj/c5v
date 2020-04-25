@@ -5,7 +5,7 @@
 
 ## IMPORTS ##
 import sys
-import matplotlib
+import matplotlib   
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
@@ -854,7 +854,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = c4()
     window.showMaximized()
-    window.show() ##TODO: add icon 
+    window.show()
     """
 
     """
