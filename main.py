@@ -23,70 +23,70 @@ from pandas import DataFrame, ExcelWriter
 import LOS_model
 import calc
 
-    def __init__(self, parent=None):
-        super(c4, self).__init__(parent)
-        
-        x = [1, 2, 3, 4, 5]
-        self.createTopLeftGroupBox()
-        self.createBottomLeftTabWidget()
-        self.createEpiCurvePlot(x, x)
-        self.createAdultPlot(x, x, x, x, x)
-        self.createPedPlot(x, x, x, x, x)
-        self.createTableWidget()
-        CHR =       self.bottomLeftTabWidget.widget(0).children()[0].itemAtPosition(1,0).widget()
-        CCHF =      self.bottomLeftTabWidget.widget(1).children()[0].itemAtPosition(1,0).widget()
-        capInputs = self.bottomLeftTabWidget.widget(2).children()[0].itemAtPosition(1,0).widget()
-        noVent =    self.bottomLeftTabWidget.widget(3).children()[0].itemAtPosition(1,0).widget()
-        LOS =       self.bottomLeftTabWidget.widget(4).children()[0].itemAtPosition(1,0).widget()
-        totalPop = self.topLeftGroupBox.children()[0]
-        catch = self.topLeftGroupBox.children()[1]
-        popDist = self.topLeftGroupBox.children()[8]
-        infRate = self.topLeftGroupBox.children()[2]
-        sympRate = self.topLeftGroupBox.children()[3]
-        shapeCurve = self.topLeftGroupBox.children()[12]
-        dayMax = self.topLeftGroupBox.children()[14]
+def __init__(self, parent=None):
+    super(c4, self).__init__(parent)
+    
+    x = [1, 2, 3, 4, 5]
+    self.createTopLeftGroupBox()
+    self.createBottomLeftTabWidget()
+    self.createEpiCurvePlot(x, x)
+    self.createAdultPlot(x, x, x, x, x)
+    self.createPedPlot(x, x, x, x, x)
+    self.createTableWidget()
+    CHR =       self.bottomLeftTabWidget.widget(0).children()[0].itemAtPosition(1,0).widget()
+    CCHF =      self.bottomLeftTabWidget.widget(1).children()[0].itemAtPosition(1,0).widget()
+    capInputs = self.bottomLeftTabWidget.widget(2).children()[0].itemAtPosition(1,0).widget()
+    noVent =    self.bottomLeftTabWidget.widget(3).children()[0].itemAtPosition(1,0).widget()
+    LOS =       self.bottomLeftTabWidget.widget(4).children()[0].itemAtPosition(1,0).widget()
+    totalPop = self.topLeftGroupBox.children()[0]
+    catch = self.topLeftGroupBox.children()[1]
+    popDist = self.topLeftGroupBox.children()[8]
+    infRate = self.topLeftGroupBox.children()[2]
+    sympRate = self.topLeftGroupBox.children()[3]
+    shapeCurve = self.topLeftGroupBox.children()[12]
+    dayMax = self.topLeftGroupBox.children()[14]
 
-        advancedCheck = QCheckBox("Advanced Options")
-        advancedCheck.setChecked(True)
-        advancedCheck.toggled.connect(self.bottomLeftTabWidget.setEnabled)
-        
-        runCalc = QPushButton("Calculate")
-        runCalc.clicked.connect(self.calc) 
-        printButton = QPushButton("Print")
-        printButton.clicked.connect(self.printer)
-        defaultButton = QPushButton("Default")
-        defaultButton.clicked.connect(lambda: self.setDefaults(CHR, CCHF, capInputs, noVent, LOS, 
-                                                               totalPop, catch, popDist, infRate, sympRate, shapeCurve, dayMax))
-        instructions = QPushButton("Instructions")
-        instructions.clicked.connect(self.instructions)
+    advancedCheck = QCheckBox("Advanced Options")
+    advancedCheck.setChecked(True)
+    advancedCheck.toggled.connect(self.bottomLeftTabWidget.setEnabled)
+    
+    runCalc = QPushButton("Calculate")
+    runCalc.clicked.connect(self.calc) 
+    printButton = QPushButton("Print")
+    printButton.clicked.connect(self.printer)
+    defaultButton = QPushButton("Default")
+    defaultButton.clicked.connect(lambda: self.setDefaults(CHR, CCHF, capInputs, noVent, LOS, 
+                                                            totalPop, catch, popDist, infRate, sympRate, shapeCurve, dayMax))
+    instructions = QPushButton("Instructions")
+    instructions.clicked.connect(self.instructions)
 
-        self.topLayout = QHBoxLayout()
-        self.topLayout.addWidget(instructions)
-        self.topLayout.addWidget(advancedCheck)
-        self.topLayout.addWidget(defaultButton)
-        self.topLayout.addWidget(printButton)
-        self.topLayout.addWidget(runCalc) 
-        
-        self.results = QLabel() #placeholder so the deleteLater() in calc doesn't shit a brick
-                        
-        self.mainLayout = QGridLayout()
-        self.mainLayout.addLayout(self.topLayout, 0, 0)
-        self.mainLayout.addWidget(self.topLeftGroupBox, 1, 0)
-        self.mainLayout.addWidget(self.bottomLeftTabWidget, 2, 0)
-        self.mainLayout.addWidget(self.epiPlot, 1, 1)
-        self.mainLayout.addWidget(self.adultPlot, 1, 2)
-        self.mainLayout.addWidget(self.pedPlot, 1, 3)
-        self.mainLayout.addWidget(self.tableWidget, 2, 1, 1, 3) #the 3 is so it spans the length of 3 plots
-        self.mainLayout.setColumnStretch(0, 0) #ensures that the plots are larger than the input groupbox when window is stretched
-        self.mainLayout.setColumnStretch(1, 2) 
-        self.mainLayout.setColumnStretch(2, 2)
-        self.mainLayout.setColumnStretch(3, 2)
-        self.setLayout(self.mainLayout)
+    self.topLayout = QHBoxLayout()
+    self.topLayout.addWidget(instructions)
+    self.topLayout.addWidget(advancedCheck)
+    self.topLayout.addWidget(defaultButton)
+    self.topLayout.addWidget(printButton)
+    self.topLayout.addWidget(runCalc) 
+    
+    self.results = QLabel() #placeholder so the deleteLater() in calc doesn't shit a brick
+                    
+    self.mainLayout = QGridLayout()
+    self.mainLayout.addLayout(self.topLayout, 0, 0)
+    self.mainLayout.addWidget(self.topLeftGroupBox, 1, 0)
+    self.mainLayout.addWidget(self.bottomLeftTabWidget, 2, 0)
+    self.mainLayout.addWidget(self.epiPlot, 1, 1)
+    self.mainLayout.addWidget(self.adultPlot, 1, 2)
+    self.mainLayout.addWidget(self.pedPlot, 1, 3)
+    self.mainLayout.addWidget(self.tableWidget, 2, 1, 1, 3) #the 3 is so it spans the length of 3 plots
+    self.mainLayout.setColumnStretch(0, 0) #ensures that the plots are larger than the input groupbox when window is stretched
+    self.mainLayout.setColumnStretch(1, 2) 
+    self.mainLayout.setColumnStretch(2, 2)
+    self.mainLayout.setColumnStretch(3, 2)
+    self.setLayout(self.mainLayout)
 
-        self.setWindowTitle("C5V Modeling Tool: Cornell COVID-19 Caseload Calculator with Capacity and Ventilators")
+    self.setWindowTitle("C5V Modeling Tool: Cornell COVID-19 Caseload Calculator with Capacity and Ventilators")
 
-        QApplication.setStyle(QStyleFactory.create('Fusion'))
-        QApplication.setPalette(QApplication.style().standardPalette())
+    QApplication.setStyle(QStyleFactory.create('Fusion'))
+    QApplication.setPalette(QApplication.style().standardPalette())
         
 ## INPUT ##
         
