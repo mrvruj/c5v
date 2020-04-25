@@ -9,25 +9,22 @@ import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
-from PyQt5.QtCore import QDateTime, Qt, QTimer, QAbstractTableModel, QSize
-from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComboBox, QDateTimeEdit,
-        QDial, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QLCDNumber, QLabel, QLineEdit,
-        QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy,
-        QSlider, QDoubleSpinBox, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, 
-        QTabWidget, QTableView, 
-        QTextEdit, QVBoxLayout, QWidget, QHeaderView, QMessageBox)
-from PyQt5.QtGui import QStandardItem, QStandardItemModel, QFontMetrics, QIcon
-from pyqtgraph import PlotWidget, plot
-import pyqtgraph as pg
+from PyQt5.QtCore import Qt, QAbstractTableModel
+from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog, QGridLayout, QGroupBox, QHBoxLayout, QVBoxLayout, QLabel,
+        QPushButton, QDoubleSpinBox, QSpinBox, QStyleFactory, QTableWidget, QTableWidgetItem, 
+        QTabWidget, QTableView, QWidget, QHeaderView, QMessageBox)
+from pyqtgraph import PlotWidget, plot as pg
+from imp import reload
 import pandas as pd
+
 import LOS_model
 import calc
-from imp import reload
+
 
 class c4(QDialog):
     def __init__(self, parent=None):
         super(c4, self).__init__(parent)
-
+        
         x = [1, 2, 3, 4, 5]
         self.createTopLeftGroupBox()
         self.createBottomLeftTabWidget()
@@ -86,7 +83,6 @@ class c4(QDialog):
         self.setLayout(self.mainLayout)
 
         self.setWindowTitle("C5V Modeling Tool: Cornell COVID-19 Caseload Calculator with Capacity and Ventilators")
-        self.setWindowIcon(QIcon('icon1.png'))
         
         QApplication.setStyle(QStyleFactory.create('Fusion'))
         QApplication.setPalette(QApplication.style().standardPalette())
