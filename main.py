@@ -2,6 +2,7 @@
 #C4 Desktop Application by Vruj Patel & Lior Shtayer
 #############################################################################
 #pylint: disable=no-name-in-module
+# pylint: disable=abstract-class-instantiated
 
 ## IMPORTS ##
 import sys
