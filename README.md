@@ -33,6 +33,14 @@ And:
     Length of stay in both a medical/surgical and ICU bed defined by minimum and maximum days, with the model pulling a UNIFORM distribution from that (not optimal, but avoids having to use a macro)
     Mortality fraction in both locations
     Increase (>100%) or decrease (<100%) in LOS for those who die
+    
+The outputs are:
+    The possible COVID-19 Hospital-Apparent Epidemic Curve (based on a gamma distribution)
+    Adult patient daily census by location and scenario (based on LOS model)
+    Pediatric patient daily census by location and scenario (based on LOS model)
+    Numerical output of total hospitalizations, detailed results of MILD+SEVERE scenario, adult ward and ICU bed requirements (including ventilator requirement)
+    All these outputs can be copied into an excel sheet using the "Print" button.
+    
 
 The distributed version is called “hypothetical” because I put in a purely fictional population.
 
