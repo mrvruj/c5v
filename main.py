@@ -16,9 +16,9 @@ from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog,
                              QStyleFactory, QTableWidget, QTableWidgetItem, 
                              QTabWidget, QTableView, QWidget, QHeaderView, 
                              QMessageBox)
-from pyqtgraph import PlotWidget, plot as pg
 from importlib import reload
 from pandas import DataFrame, ExcelWriter
+from os import mkdir
 
 import LOS_model
 import calc
@@ -779,6 +779,11 @@ class c4(QDialog):
         msg.exec()
         
     def printer(self):
+        try:
+            mkdir('C5V_outputs')
+            mkdir('C5V_outputs/plots')
+        except:
+            pass
         INPUTS = DataFrame(columns=['Input Values'], index=['Total Population','Hospital System Market Share (Catchment Area): %', 'Population Distribution',
                                        'Infection Rate (%)', 'Symptomatic Rate (%)', 'Shape of the Epidemic Curve', 'Day of Maximum Cases'])
         INPUTS.loc['Total Population']['Input Values'] = self.getPop()
@@ -798,13 +803,13 @@ class c4(QDialog):
         AICU = self.tableWidget.widget(4).model().getDf()
         
         p1 = self.epiPlot.grab()
-        p1.save('epiCurve.jpg')
+        p1.save('C5V_outputs/plots/epiCurve.jpg')
         p2 = self.adultPlot.grab()
-        p2.save('adultCensus.jpg')
+        p2.save('C5V_outputs/plots/adultCensus.jpg')
         p3 = self.pedPlot.grab()
-        p3.save('pedsCensus.jpg')
+        p3.save('C5V_outputs/plots/pedsCensus.jpg')
         
-        with ExcelWriter('output.xlsx', engine='xlsxwriter') as writer:
+        with ExcelWriter('C5V_outputs/output.xlsx', engine='xlsxwriter') as writer:
             INPUTS.to_excel(writer, sheet_name='C5V - Inputs')
             THR.to_excel(writer, sheet_name='Total Hospitalizations')
             MILD.to_excel(writer, sheet_name='MILD Scenario')
@@ -812,9 +817,9 @@ class c4(QDialog):
             AWARD.to_excel(writer, sheet_name='Adult Ward Beds')
             AICU.to_excel(writer, sheet_name='Adult ICU Beds and Ventilators')
             plts = writer.sheets['C5V - Inputs']
-            plts.insert_image('A15', 'epiCurve.jpg')
-            plts.insert_image('K15', 'adultCensus.jpg')
-            plts.insert_image('T15', 'pedsCensus.jpg')
+            plts.insert_image('A15', 'C5V_outputs/plots/epiCurve.jpg')
+            plts.insert_image('K15', 'C5V_outputs/plots/adultCensus.jpg')
+            plts.insert_image('T15', 'C5V_outputs/plots/pedsCensus.jpg')
         
 class TableModel(QAbstractTableModel):
 
