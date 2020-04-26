@@ -281,10 +281,10 @@ class c4(QDialog):
         self.adultPlot = QGroupBox("Adult Patient Daily Census by Location and Scenario")    
         
         adult = MplCanvas(self, width=3, height=2, dpi=100)
-        adult.axes.plot(x, y_occ_mW_A, color='c', label='Adult Mild Ward')
-        adult.axes.plot(x, y_occ_sW_A, color='m', label='Adult Severe Ward')
-        adult.axes.plot(x, y_occ_mICU_A, color='b', label='Adult Mild ICU')
-        adult.axes.plot(x, y_occ_sICU_A, color='r', label='Adult Severe ICU')
+        adult.axes.plot(x, y_occ_mW_A, color='b', label='Adult Mild Ward')
+        adult.axes.plot(x, y_occ_sW_A, color='r', label='Adult Severe Ward')
+        adult.axes.plot(x, y_occ_mICU_A, color='b', linestyle='dashed', label='Adult Mild ICU')
+        adult.axes.plot(x, y_occ_sICU_A, color='r', linestyle='dashed', label='Adult Severe ICU')
         
         adult.axes.legend()
         adult.axes.set_xlabel('Day')
@@ -298,10 +298,10 @@ class c4(QDialog):
         self.pedPlot = QGroupBox("Pediatric Patient Daily Census by Location and Scenario")    
         
         ped = MplCanvas(self, width=3, height=2, dpi=100)
-        ped.axes.plot(x, y_occ_mW_P, color='c', label='Pediatric Mild Ward')
-        ped.axes.plot(x, y_occ_sW_P, color='m', label='Pediatric Severe Ward')
-        ped.axes.plot(x, y_occ_mICU_P, color='b', label='Pediatric Mild ICU')
-        ped.axes.plot(x, y_occ_sICU_P, color='r', label='Pediatric Severe ICU')
+        ped.axes.plot(x, y_occ_mW_P, color='b', label='Pediatric Mild Ward')
+        ped.axes.plot(x, y_occ_sW_P, color='r', label='Pediatric Severe Ward')
+        ped.axes.plot(x, y_occ_mICU_P, color='b', linestyle='dashed', label='Pediatric Mild ICU')
+        ped.axes.plot(x, y_occ_sICU_P, color='r', linestyle='dashed', label='Pediatric Severe ICU')
 
         ped.axes.legend()
         ped.axes.set_xlabel('Day')
