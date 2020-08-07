@@ -519,7 +519,8 @@ class c4(QDialog):
         tICU_a = calc.tICU_adults(numICU) #total adult ICU cases
         tWard_p = calc.tWard_peds(WR) #total pediatric ward cases
         tWard_a = calc.tWard_adults(WR) #total adult ward cases
-    
+
+        reload(LOS_model)
         LOS_model.calc_LOS_Admissions(eC, tICU_p, tICU_a, tWard_p, tWard_a)
         LOS_model.calc_LOS_data(LOS)
         LOS_model.calc_LOS_Deaths()
@@ -752,7 +753,7 @@ class c4(QDialog):
         self.results = QLabel("This simulation run created " + str("{:,}".format(round(numPx,0))[:-2]) + " patients, representing " + str(round(fracPx,3)*100) + "% of the catchment area (which represents a population of " + str("{:,}".format(round(totalP*catchArea,0))[:-2]) +").")  
         self.mainLayout.addWidget(self.results, 0, 1, 1, 3, Qt.AlignCenter) #(row, column, rowspan, columnspan)
                 
-        reload(LOS_model)
+        #reload(LOS_model)
         
     def instructions(self):
         msg = QMessageBox()
@@ -821,6 +822,12 @@ class c4(QDialog):
             plts.insert_image('A15', 'C5V_outputs/plots/epiCurve.jpg')
             plts.insert_image('K15', 'C5V_outputs/plots/adultCensus.jpg')
             plts.insert_image('T15', 'C5V_outputs/plots/pedsCensus.jpg')
+
+        LOS_model.LOS_Admissions_df.to_csv('C5V_outputs/LOS_Admissions.csv')
+        LOS_model.LOS_Occupancy_df.to_csv('C5V_outputs/LOS_Occupancy.csv')
+        LOS_model.LOS_Deaths_df.to_csv('C5V_outputs/LOS_Deaths.csv')
+        LOS_model.LOS_Discharges_df.to_csv('C5V_outputs/LOS_Discharges.csv')
+        ##Outputs the LOS data for benchmarking.
         
 class TableModel(QAbstractTableModel):
 
